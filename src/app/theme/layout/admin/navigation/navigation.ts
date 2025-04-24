@@ -80,6 +80,14 @@ export const NavigationItems: NavigationItem[] = [
         icon: 'ti ti-typography'
       },
       {
+        id: 'tiers',
+        title: 'Tiers',
+        type: 'item',
+        classes: 'nav-item',
+        url: '/tiers',
+        icon: 'ti ti-stack-push'
+      },
+      {
         id: 'color',
         title: 'Colors',
         type: 'item',

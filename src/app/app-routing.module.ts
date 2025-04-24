@@ -24,13 +24,20 @@ const routes: Routes = [
         canActivate: [authGuard]
       },
       {
+        path: 'tiers',
+        loadComponent: () =>
+          import('./demo/elements/tiers/tiers.component'),
+        canActivate: [authGuard]
+      },
+      {
         path: 'color',
         loadComponent: () => import('./demo/elements/element-color/element-color.component')
       },
       {
         path: 'sample-page',
         loadComponent: () => import('./demo/other/sample-page/sample-page.component')
-      }
+      },
+     
     ]
   },
   {

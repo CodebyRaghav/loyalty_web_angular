@@ -1,0 +1,154 @@
+<label class="fs-3">Tiers Creation</label>
+<div class="text-end m-3">
+    <button class="btn btn-primary " (click)="showPopup = true">Add Tier</button>
+</div>
+
+<div class="modal modal-lg fade show d-block" tabindex="-1" *ngIf="showPopup"
+    style="background-color: rgba(0,0,0,0.5);">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title fw-bold">Add Tier</h5>
+                <button type="button" class="btn-close" aria-label="Close" (click)="showPopup = false"></button>
+            </div>
+
+            <div class="modal-body ">
+                <form [formGroup]="tierDataForm" (ngSubmit)="onSubmit()" class="row">
+                    <div class="mb-3 col-6">
+                        <label class="form-label">Tier Name</label>
+                        <input type="text" class="form-control" formControlName="tierName">
+                    </div>
+                    <div class="mb-3 col-6">
+                        <label class="form-label">Rentals Qualifiction</label>
+                        <input type="number" class="form-control" formControlName="rentalsQualification">
+                    </div>
+
+                    <!-- </div> -->
+
+
+                    <div class="mb-3 col-6">
+                        <label class="form-label">Upgrades</label>
+                        <input type="text" class="form-control" formControlName="upgrades">
+                    </div>
+                    <div class="mb-3 col-6">
+                        <label class="form-label">Sequence</label>
+                        <input type="number" class="form-control" formControlName="sequence">
+                    </div>
+
+                    <div class="mb-3 col-6">
+                        <label class="form-label">Perks (Free Rental Day)</label>
+                        <input type="number" class="form-control" formControlName="perks">
+                    </div>
+
+                    <div class="mb-3 col-6">
+                        <label class="form-label">Perks</label>
+                        <div class="input-group">
+
+                            <input type="number" class="form-control rounded" formControlName="perksPointValue">
+                            <span class="input-group-text">Point</span>
+                        </div>
+                    </div>
+                    <div class="mb-3 col-6 border">
+                        <label class="form-label">Earning Rental Point Value</label>
+                        <div class="input-group">
+                            <span class="input-group-text">1 Point =</span>
+                            <input type="number" class="form-control rounded" formControlName="earningRentalpoint">
+                            <span class="input-group-text">AED</span>
+                        </div>
+                    </div>
+
+                    <div class="mb-3 col-6">
+                        <label class="form-label">Earning Non-Rental point value</label>
+                        <div class="input-group">
+                            <span class="input-group-text">1 Point =</span>
+                            <input type="number" class="form-control rounded" formControlName="earningNonRentalpoint">
+                            <span class="input-group-text">AED</span>
+                        </div>
+                    </div>
+                    <div class="mb-3 col-6 border">
+                        <label class="form-label">Rental Redeem Point Value </label>
+                        <div class="input-group">
+                            <span class="input-group-text">1 Point =</span>
+                            <input type="number" class="form-control rounded" formControlName="redeemPointValueRental">
+                            <span class="input-group-text">AED</span>
+                        </div>
+
+                    </div>
+                    <div class="mb-3 col-6">
+                        <label class="form-label"> Non-Rental Redeem Point Value</label>
+                        <div class="input-group">
+                            <span class="input-group-text">1 Point =</span>
+                            <input type="number" class="form-control rounded"
+                                formControlName="redeemPointValueNonRental">
+                            <span class="input-group-text">AED</span>
+                        </div>
+                    </div>
+
+                    <div class="mb-3 col-3 ms-2">
+                        <label class="form-label d-block">Status</label>
+                        <ui-switch size="small" color="#0d6efd" switchColor="#ffffff" formControlName="status">
+                        </ui-switch>
+                    </div>
+
+                    <div class="mb-3 col-3 ms-2">
+                        <label class="form-label d-block">Default Loyalty</label>
+                        <ui-switch size="small" formControlName="defaultLoyalty"></ui-switch>
+                    </div>
+
+                    <div class="text-end">
+                        <button type="submit" class="btn btn-primary" [disabled]="tierDataForm.invalid">Submit</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<div class="table-wrapper bg-purple-100">
+    <ngx-datatable class="material" [rows]="tierDataList" [columnMode]="ColumnMode.force" [headerHeight]="50"
+        [footerHeight]="50" rowHeight="auto" [limit]="10">
+        <!-- <ngx-datatable-column name="ID" prop="id">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+              {{ row.id }}
+            </ng-template>
+          </ngx-datatable-column> -->
+
+        <ngx-datatable-column class="border-top" name="Tier Name" prop="tierName">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.tierName }}
+            </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="Rentals Qualifiction" prop="rentalsQualification">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.rentalsQualification }}
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Sequence" >
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.sequence}}
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Status" >
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.status}}
+            </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="Actions" [sortable]="false">
+            <ng-template let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+                <button class="btn btn-sm btn-danger" (click)="deleteRow(rowIndex)">Delete</button>
+                <button class="btn btn-sm btn-warning ms-2" (click)="editRow(row, rowIndex)">Edit</button>
+            </ng-template>
+            <ng-template let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+                
+            </ng-template>
+        </ngx-datatable-column>
+
+    </ngx-datatable>
+
+
+</div>
