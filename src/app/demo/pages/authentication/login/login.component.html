@@ -25,26 +25,37 @@
             <span>or</span>
           </div> -->
           <!-- <h5 class="my-4 d-flex justify-content-center">Sign In</h5> -->
-          <div class="form-floating mb-3">
-            <input type="email" class="form-control" id="floatingInput" value="info@codedthemes.com" />
-            <label for="floatingInput">Username</label>
-          </div>
-          <div class="form-floating mb-3">
-            <input type="password" class="form-control" id="password" value="12345" />
-            <label for="password">Password</label>
-          </div>
-          <div class="d-flex mt-1 justify-content-between">
-            <!-- <div class="form-check">
-              <input class="form-check-input input-primary" type="checkbox" id="customCheckc1" checked="" />
-              <label class="form-check-label text-muted" for="customCheckc1">Remember me</label>
-            </div> -->
-            <!-- <h5 class="text-secondary">
-              <a href="javascript:">Forgot Password?</a>
-            </h5> -->
-          </div>
-          <div class="d-grid mt-4">
-            <button type="button" class="btn btn-secondary" (click)="onSubmitButton()">Sign In</button>
-          </div>
+          <form [formGroup]="loginForm" (ngSubmit)="onSubmitButton()">
+            <div class="form-floating mb-3">
+              <input type="email" class="form-control" formControlName="username" id="floatingInput" value="info@codedthemes.com" />
+              <label for="floatingInput">Username</label>
+              <div class="error" *ngIf="loginForm.get('username')?.invalid && loginForm.get('username')?.touched">
+                Username is required
+              </div>
+            </div>
+            <div class="form-floating mb-3">
+              <input type="password" class="form-control" formControlName="password" id="password" value="12345" />
+              <label for="password">Password</label>
+              <div class="error" *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+                Password is required
+              </div>
+            </div>
+    
+            <div class="d-flex mt-1 justify-content-between">
+              <!-- <div class="form-check">
+                <input class="form-check-input input-primary" type="checkbox" id="customCheckc1" checked="" />
+                <label class="form-check-label text-muted" for="customCheckc1">Remember me</label>
+              </div> -->
+              <!-- <h5 class="text-secondary">
+                <a href="javascript:">Forgot Password?</a>
+              </h5> -->
+            </div>
+            <div class="d-grid mt-4">
+              <button type="button" class="btn btn-secondary" (click)="onSubmitButton()">Sign In</button>
+            </div>
+          </form>
+          
+          
           <!-- <hr />
           <h5 class="d-flex justify-content-center">
             <a [routerLink]="['/guest/register']">Don't have an account?</a>
