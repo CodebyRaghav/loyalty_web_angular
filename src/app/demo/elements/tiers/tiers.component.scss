@@ -20,4 +20,21 @@
   .card-body input, .card-body .input-group {
     margin-bottom: 1rem;
   }
+  ::ng-deep .ngx-datatable .datatable-header-cell {
+    white-space: normal !important;
+    line-height: 1.2;
+    text-align: center;
+    font-weight: bold; 
+  }
+  ::ng-deep .datatable-header-cell,
+::ng-deep .datatable-body-cell {
+  text-align: center !important;   
+  vertical-align: middle;
+}
+::ng-deep .datatable-body-cell{
+    margin-top: 20px;
+    // margin-bottom: 5px;
+    // border-bottom: 1px solid;
+}
+
   

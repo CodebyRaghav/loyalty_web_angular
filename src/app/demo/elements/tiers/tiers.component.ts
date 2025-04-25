@@ -23,18 +23,18 @@ export default class TiersComponent implements OnInit {
 
   ColumnMode = ColumnMode;
   tierDataList: {
-    tierName: string;
-    rentalsQualification: number;
-    earningRentalpoint: number;
-    earningNonRentalpoint: number;
+    tier_name: string;
+    rental_qual: number;
+    rental_earn_pts_val: number;
+    access_earn_pts_val: number;
     upgrades: string;
-    redeemPointValueRental: number;
-    redeemPointValueNonRental: number;
-    perks: number;
-    perksPointValue: number;
+    rental_redeem_pts_val: number;
+    access_redeem_pts_val: number;
+    notable_perks: number;
+    perks_pts_val: number;
     sequence: number;
     status: boolean;
-    defaultLoyalty: boolean;
+    default_loyalty: boolean;
     
 
   }[] = [];
@@ -45,46 +45,46 @@ export default class TiersComponent implements OnInit {
   ngOnInit(): void {
     this.tierDataList = [
       {
-        tierName: 'Gold',
-        rentalsQualification: 1000,
-        earningRentalpoint: 10,
-        earningNonRentalpoint: 5,
+        tier_name: 'Gold',
+        rental_qual: 1000,
+        rental_earn_pts_val: 10,
+        access_earn_pts_val: 5,
         upgrades: 'Yes',
-        redeemPointValueRental: 100,
-        redeemPointValueNonRental: 50,
-        perks: 3,
-        perksPointValue: 20,
+        rental_redeem_pts_val: 100,
+        access_redeem_pts_val: 50,
+        notable_perks: 3,
+        perks_pts_val: 20,
         sequence: 1,
         status: true,
-        defaultLoyalty: true
+        default_loyalty: true
       },
       {
-        tierName: 'Silver',
-        rentalsQualification: 500,
-        earningRentalpoint: 5,
-        earningNonRentalpoint: 3,
+        tier_name: 'Silver',
+        rental_qual: 500,
+        rental_earn_pts_val: 5,
+        access_earn_pts_val: 3,
         upgrades: 'Yes',
-        redeemPointValueRental: 60,
-        redeemPointValueNonRental: 30,
-        perks: 2,
-        perksPointValue: 10,
+        rental_redeem_pts_val: 60,
+        access_redeem_pts_val: 30,
+        notable_perks: 2,
+        perks_pts_val: 10,
         sequence: 2,
         status: true,
-        defaultLoyalty: false
+        default_loyalty: false
       },
       {
-        tierName: 'Bronze',
-        rentalsQualification: 250,
-        earningRentalpoint: 3,
-        earningNonRentalpoint: 2,
+        tier_name: 'Bronze',
+        rental_qual: 250,
+        rental_earn_pts_val: 3,
+        access_earn_pts_val: 2,
         upgrades: 'No',
-        redeemPointValueRental: 40,
-        redeemPointValueNonRental: 20,
-        perks: 1,
-        perksPointValue: 5,
+        rental_redeem_pts_val: 40,
+        access_redeem_pts_val: 20,
+        notable_perks: 1,
+        perks_pts_val: 5,
         sequence: 3,
         status: false,
-        defaultLoyalty: false
+        default_loyalty: false
       }
     ];
   }
@@ -96,18 +96,18 @@ export default class TiersComponent implements OnInit {
 
   tierDataForm = this.fb.group({
     id:  "",
-    tierName: ['', [Validators.required]],
-    rentalsQualification: [0, [Validators.required, Validators.min(0)]],
-    earningRentalpoint: [0, [Validators.required, Validators.min(0)]],
-    earningNonRentalpoint: [0, [Validators.required, Validators.min(0)]],
+    tier_name: ['', [Validators.required]],
+    rental_qual: [0, [Validators.required, Validators.min(0)]],
+    rental_earn_pts_val: [0, [Validators.required, Validators.min(0)]],
+    access_earn_pts_val: [0, [Validators.required, Validators.min(0)]],
     upgrades: ['', [Validators.required]],
-    redeemPointValueRental: [0, [Validators.required, Validators.min(0)]],
-    redeemPointValueNonRental: [0, [Validators.required, Validators.min(0)]],
-    perks: [0, [Validators.required, Validators.min(0)]],
-    perksPointValue: [0, [Validators.required, Validators.min(0)]],
+    rental_redeem_pts_val: [0, [Validators.required, Validators.min(0)]],
+    access_redeem_pts_val: [0, [Validators.required, Validators.min(0)]],
+    notable_perks: [0, [Validators.required, Validators.min(0)]],
+    perks_pts_val: [0, [Validators.required, Validators.min(0)]],
     sequence: [0, [Validators.required, Validators.min(0)]],
     status: [false, [Validators.required]],
-    defaultLoyalty: [false, [Validators.required]],
+    default_loyalty: [false, [Validators.required]],
 
 
   });
@@ -118,7 +118,7 @@ export default class TiersComponent implements OnInit {
   //   const newTier = this.tierDataForm.value;
   //   this.tierDataList.push(newTier as {
   //     id: string;
-  //     tierName: string;
+  //     tier_name: string;
   //     rentalsQualification: number;
   //     earningRentalpoint: number;
   //     earningNonRentalpoint: number;
@@ -143,18 +143,18 @@ export default class TiersComponent implements OnInit {
   
     const updatedTier = {
       id: formValue.id || this.generateUniqueId(),
-      tierName: formValue.tierName!,
-      rentalsQualification: formValue.rentalsQualification!,
-      earningRentalpoint: formValue.earningRentalpoint!,
-      earningNonRentalpoint: formValue.earningNonRentalpoint!,
+      tier_name: formValue.tier_name!,
+      rental_qual: formValue.rental_qual!,
+      rental_earn_pts_val: formValue.rental_earn_pts_val!,
+      access_earn_pts_val: formValue.access_earn_pts_val!,
       upgrades: formValue.upgrades!,
-      redeemPointValueRental: formValue.redeemPointValueRental!,
-      redeemPointValueNonRental: formValue.redeemPointValueNonRental!,
-      perks: formValue.perks!,
-      perksPointValue: formValue.perksPointValue!,
+      rental_redeem_pts_val: formValue.rental_redeem_pts_val!,
+      access_redeem_pts_val: formValue.access_redeem_pts_val!,
+      notable_perks: formValue.notable_perks!,
+      perks_pts_val: formValue.perks_pts_val!,
       sequence: formValue.sequence!,
       status: formValue.status!,
-      defaultLoyalty: formValue.defaultLoyalty!
+      default_loyalty: formValue.default_loyalty!
     };
   
     if (this.editIndex !== null) {
@@ -178,8 +178,4 @@ editRow(row: any, index: number) {
   this.showPopup = true;
 }
 
-  deleteRow(index: number) {
-    this.tierDataList.splice(index, 1);
-    this.tierDataList = [...this.tierDataList];
-  }
 }

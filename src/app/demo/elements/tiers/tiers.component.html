@@ -17,11 +17,11 @@
                 <form [formGroup]="tierDataForm" (ngSubmit)="onSubmit()" class="row">
                     <div class="mb-3 col-6">
                         <label class="form-label">Tier Name</label>
-                        <input type="text" class="form-control" formControlName="tierName">
+                        <input type="text" class="form-control" formControlName="tier_name">
                     </div>
                     <div class="mb-3 col-6">
                         <label class="form-label">Rentals Qualifiction</label>
-                        <input type="number" class="form-control" formControlName="rentalsQualification">
+                        <input type="number" class="form-control" formControlName="rental_qual">
                     </div>
 
                     <!-- </div> -->
@@ -38,14 +38,14 @@
 
                     <div class="mb-3 col-6">
                         <label class="form-label">Perks (Free Rental Day)</label>
-                        <input type="number" class="form-control" formControlName="perks">
+                        <input type="number" class="form-control" formControlName="notable_perks">
                     </div>
 
                     <div class="mb-3 col-6">
                         <label class="form-label">Perks</label>
                         <div class="input-group">
 
-                            <input type="number" class="form-control rounded" formControlName="perksPointValue">
+                            <input type="number" class="form-control rounded" formControlName="perks_pts_val">
                             <span class="input-group-text">Point</span>
                         </div>
                     </div>
@@ -53,7 +53,7 @@
                         <label class="form-label">Earning Rental Point Value</label>
                         <div class="input-group">
                             <span class="input-group-text">1 Point =</span>
-                            <input type="number" class="form-control rounded" formControlName="earningRentalpoint">
+                            <input type="number" class="form-control rounded" formControlName="rental_earn_pts_val">
                             <span class="input-group-text">AED</span>
                         </div>
                     </div>
@@ -70,7 +70,7 @@
                         <label class="form-label">Rental Redeem Point Value </label>
                         <div class="input-group">
                             <span class="input-group-text">1 Point =</span>
-                            <input type="number" class="form-control rounded" formControlName="redeemPointValueRental">
+                            <input type="number" class="form-control rounded" formControlName="rental_redeem_pts_val">
                             <span class="input-group-text">AED</span>
                         </div>
 
@@ -80,7 +80,7 @@
                         <div class="input-group">
                             <span class="input-group-text">1 Point =</span>
                             <input type="number" class="form-control rounded"
-                                formControlName="redeemPointValueNonRental">
+                                formControlName="access_redeem_pts_val">
                             <span class="input-group-text">AED</span>
                         </div>
                     </div>
@@ -93,7 +93,7 @@
 
                     <div class="mb-3 col-3 ms-2">
                         <label class="form-label d-block">Default Loyalty</label>
-                        <ui-switch size="small" formControlName="defaultLoyalty"></ui-switch>
+                        <ui-switch size="small" formControlName="default_loyalty"></ui-switch>
                     </div>
 
                     <div class="text-end">
@@ -116,35 +116,61 @@
             </ng-template>
           </ngx-datatable-column> -->
 
-        <ngx-datatable-column class="border-top" name="Tier Name" prop="tierName">
+        <ngx-datatable-column class="border-top center-align" name="Tier Name" prop="tier_name">
             <ng-template let-row="row" ngx-datatable-cell-template>
-                {{ row.tierName }}
+                {{ row.tier_name }}
             </ng-template>
         </ngx-datatable-column>
-
-        <ngx-datatable-column name="Rentals Qualifiction" prop="rentalsQualification">
-            <ng-template let-row="row" ngx-datatable-cell-template>
-                {{ row.rentalsQualification }}
-            </ng-template>
-        </ngx-datatable-column>
-        <ngx-datatable-column name="Sequence" >
+    
+            <ngx-datatable-column name="Rentals Qualifiction" prop="rental_qual">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    {{ row.rental_qual }}
+                </ng-template>
+            </ngx-datatable-column>
+        
+        <ngx-datatable-column name="Sequence">
             <ng-template let-row="row" ngx-datatable-cell-template>
                 {{ row.sequence}}
             </ng-template>
         </ngx-datatable-column>
-        <ngx-datatable-column name="Status" >
+        <ngx-datatable-column name="Status">
             <ng-template let-row="row" ngx-datatable-cell-template>
-                {{ row.status}}
+                {{ row.status ? 'Active' : 'Inactive' }}
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column class="border" name="Earning Rental Point Value" prop="rental_earn_pts_val">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.rental_earn_pts_val}}
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Earning Non-Rental point value" prop="access_earn_pts_val">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.access_earn_pts_val}}
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Rental Redeem Point Value" prop="rental_redeem_pts_val">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.rental_redeem_pts_val}}
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Non-Rental Redeem Point Value" prop="access_redeem_pts_val">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.access_redeem_pts_val}}
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Default Loyalty" prop="default_loyalty">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.default_loyalty ? 'Yes' : 'No' }}
             </ng-template>
         </ngx-datatable-column>
 
         <ngx-datatable-column name="Actions" [sortable]="false">
             <ng-template let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
-                <button class="btn btn-sm btn-danger" (click)="deleteRow(rowIndex)">Delete</button>
+                <!-- <button class="btn btn-sm btn-danger" (click)="deleteRow(rowIndex)">Delete</button> -->
                 <button class="btn btn-sm btn-warning ms-2" (click)="editRow(row, rowIndex)">Edit</button>
             </ng-template>
             <ng-template let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
-                
+
             </ng-template>
         </ngx-datatable-column>
 
