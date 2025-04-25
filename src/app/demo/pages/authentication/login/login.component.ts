@@ -4,8 +4,6 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { Router, RouterModule } from '@angular/router';
 import { ToastrModule, ToastrService } from 'ngx-toastr';
 import { LoginService } from 'src/app/services/login-service/login.service';
-import { buildFormData } from 'src/app/utilities/FnUtilities';
-
 @Component({
   selector: 'app-login',
   imports: [RouterModule, ReactiveFormsModule, CommonModule, ToastrModule],
@@ -30,19 +28,20 @@ export default class LoginComponent {
     this.loginForm.markAllAsTouched();
     if(this.loginForm.valid){
       let formVal = this.loginForm.value;
-      let formData = new FormData();
-      buildFormData(formData, formVal);
-      this.loginSvc.AuthenticateUser(formData).subscribe({
+      this.loginSvc.AuthenticateUser(formVal).subscribe({
         next: (resp)=>{
           if(resp.status){
-            this.toastr.success('User Signed In Successfully!', 'Success');
             const accessToken = resp.token;
             localStorage.setItem('access_token', accessToken);
             localStorage.setItem('username', formVal.username);
+            this.toastr.success('User Signed In Successfully!', 'Success');
             this.navRoute.navigate(['/default']);
           }else{
             this.toastr.error(resp.message, 'Error');
           }
+        },
+        error: (err)=>{
+          this.toastr.error(err.error.message, 'Error');
         }
       })
     }

@@ -1,6 +1,7 @@
 <label class="fs-3">Tiers Creation</label>
 <div class="text-end m-3">
     <button class="btn btn-primary " (click)="showPopup = true">Add Tier</button>
+
 </div>
 
 <div class="modal modal-lg fade show d-block" tabindex="-1" *ngIf="showPopup"
@@ -18,10 +19,16 @@
                     <div class="mb-3 col-6">
                         <label class="form-label">Tier Name</label>
                         <input type="text" class="form-control" formControlName="tier_name">
+                        <div class="error" *ngIf="tierDataForm.get('tier_name')?.invalid && tierDataForm.get('tier_name')?.touched">
+                            Field is required (Max Char: 40)
+                          </div>
                     </div>
                     <div class="mb-3 col-6">
                         <label class="form-label">Rentals Qualifiction</label>
                         <input type="number" class="form-control" formControlName="rental_qual">
+                        <div class="error" *ngIf="tierDataForm.get('rental_qual')?.invalid && tierDataForm.get('rental_qual')?.touched">
+                            Field is required and accepts whole number only (Min: 0)
+                          </div>
                     </div>
 
                     <!-- </div> -->
@@ -30,15 +37,27 @@
                     <div class="mb-3 col-6">
                         <label class="form-label">Upgrades</label>
                         <input type="text" class="form-control" formControlName="upgrades">
+                        <div class="error" *ngIf="tierDataForm.get('upgrades')?.invalid && tierDataForm.get('upgrades')?.touched">
+                            Max Char(250)
+                          </div>
                     </div>
                     <div class="mb-3 col-6">
                         <label class="form-label">Sequence</label>
                         <input type="number" class="form-control" formControlName="sequence">
+                        <div class="error" *ngIf="tierDataForm.get('sequence')?.invalid && tierDataForm.get('sequence')?.touched">
+                            Field is required and accepts whole number only (Min: 1)
+                          </div>
+                          <div class="error" *ngIf="uniqueSequenceError">
+                            Sequence is not unique
+                          </div>
                     </div>
 
                     <div class="mb-3 col-6">
                         <label class="form-label">Perks (Free Rental Day)</label>
                         <input type="number" class="form-control" formControlName="notable_perks">
+                        <div class="error" *ngIf="tierDataForm.get('notable_perks')?.invalid && tierDataForm.get('notable_perks')?.touched">
+                            Accepts whole number only (Min: 0)
+                          </div>
                     </div>
 
                     <div class="mb-3 col-6">
@@ -48,6 +67,9 @@
                             <input type="number" class="form-control rounded" formControlName="perks_pts_val">
                             <span class="input-group-text">Point</span>
                         </div>
+                        <div class="error" *ngIf="tierDataForm.get('perks_pts_val')?.invalid && tierDataForm.get('perks_pts_val')?.touched">
+                            Accepts whole number only (Min: 0)
+                          </div>
                     </div>
                     <div class="mb-3 col-6 border">
                         <label class="form-label">Earning Rental Point Value</label>
@@ -56,15 +78,21 @@
                             <input type="number" class="form-control rounded" formControlName="rental_earn_pts_val">
                             <span class="input-group-text">AED</span>
                         </div>
+                        <div class="error" *ngIf="tierDataForm.get('rental_earn_pts_val')?.invalid && tierDataForm.get('rental_earn_pts_val')?.touched">
+                            Field is required and accepts whole number only (Min: 0)
+                          </div>
                     </div>
 
                     <div class="mb-3 col-6">
                         <label class="form-label">Earning Non-Rental point value</label>
                         <div class="input-group">
                             <span class="input-group-text">1 Point =</span>
-                            <input type="number" class="form-control rounded" formControlName="earningNonRentalpoint">
+                            <input type="number" class="form-control rounded" formControlName="access_earn_pts_val">
                             <span class="input-group-text">AED</span>
                         </div>
+                        <div class="error" *ngIf="tierDataForm.get('access_earn_pts_val')?.invalid && tierDataForm.get('access_earn_pts_val')?.touched">
+                            Field is required and accepts whole number only (Min: 0)
+                          </div>
                     </div>
                     <div class="mb-3 col-6 border">
                         <label class="form-label">Rental Redeem Point Value </label>
@@ -73,6 +101,9 @@
                             <input type="number" class="form-control rounded" formControlName="rental_redeem_pts_val">
                             <span class="input-group-text">AED</span>
                         </div>
+                        <div class="error" *ngIf="tierDataForm.get('rental_redeem_pts_val')?.invalid && tierDataForm.get('rental_redeem_pts_val')?.touched">
+                            Field is required and accepts whole number only (Min: 0)
+                          </div>
 
                     </div>
                     <div class="mb-3 col-6">
@@ -83,17 +114,20 @@
                                 formControlName="access_redeem_pts_val">
                             <span class="input-group-text">AED</span>
                         </div>
+                        <div class="error" *ngIf="tierDataForm.get('access_redeem_pts_val')?.invalid && tierDataForm.get('access_redeem_pts_val')?.touched">
+                            Field is required and accepts whole number only (Min: 0)
+                          </div>
                     </div>
 
                     <div class="mb-3 col-3 ms-2">
                         <label class="form-label d-block">Status</label>
-                        <ui-switch size="small" color="#0d6efd" switchColor="#ffffff" formControlName="status">
+                        <ui-switch size="small" (change)="onStatusSwitch($event)" color="#0d6efd" switchColor="#ffffff" [checked]="tierDataForm.value.status == 1 ? true: false">
                         </ui-switch>
                     </div>
 
                     <div class="mb-3 col-3 ms-2">
                         <label class="form-label d-block">Default Loyalty</label>
-                        <ui-switch size="small" formControlName="default_loyalty"></ui-switch>
+                        <ui-switch size="small" (change)="onDefaultLoyaltySwitch($event)" [checked]="tierDataForm.value.default_loyalty == 1 ? true: false"></ui-switch>
                     </div>
 
                     <div class="text-end">
@@ -138,26 +172,7 @@
                 {{ row.status ? 'Active' : 'Inactive' }}
             </ng-template>
         </ngx-datatable-column>
-        <ngx-datatable-column class="border" name="Earning Rental Point Value" prop="rental_earn_pts_val">
-            <ng-template let-row="row" ngx-datatable-cell-template>
-                {{ row.rental_earn_pts_val}}
-            </ng-template>
-        </ngx-datatable-column>
-        <ngx-datatable-column name="Earning Non-Rental point value" prop="access_earn_pts_val">
-            <ng-template let-row="row" ngx-datatable-cell-template>
-                {{ row.access_earn_pts_val}}
-            </ng-template>
-        </ngx-datatable-column>
-        <ngx-datatable-column name="Rental Redeem Point Value" prop="rental_redeem_pts_val">
-            <ng-template let-row="row" ngx-datatable-cell-template>
-                {{ row.rental_redeem_pts_val}}
-            </ng-template>
-        </ngx-datatable-column>
-        <ngx-datatable-column name="Non-Rental Redeem Point Value" prop="access_redeem_pts_val">
-            <ng-template let-row="row" ngx-datatable-cell-template>
-                {{ row.access_redeem_pts_val}}
-            </ng-template>
-        </ngx-datatable-column>
+        
         <ngx-datatable-column name="Default Loyalty" prop="default_loyalty">
             <ng-template let-row="row" ngx-datatable-cell-template>
                 {{ row.default_loyalty ? 'Yes' : 'No' }}
