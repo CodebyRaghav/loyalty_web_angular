@@ -22,6 +22,7 @@ export default class LoginComponent {
       password: ['', Validators.required]
     });
     if (localStorage.getItem('access_token')) {
+      this.toastr.success('User is already Logged In!', 'Success');
       this.navRoute.navigate(['/default']);
     }
   }
