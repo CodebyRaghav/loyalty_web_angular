@@ -27,7 +27,7 @@ const routes: Routes = [
         path: 'tiers',
         loadComponent: () =>
           import('./demo/elements/tiers/tiers.component'),
-        // canActivate: [authGuard]
+        canActivate: [authGuard]
       },
       {
         path: 'template',

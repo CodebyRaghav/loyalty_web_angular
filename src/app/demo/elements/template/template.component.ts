@@ -1,30 +1,36 @@
 import { Component } from '@angular/core';
 import { QuillModule } from 'ngx-quill';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { NgxDatatableModule } from '@swimlane/ngx-datatable';
-import { CommonModule } from '@angular/common'
+import { ColumnMode, NgxDatatableModule } from '@swimlane/ngx-datatable';
+import { CommonModule } from '@angular/common';
+import { NotificationsService } from 'src/app/services/notifications-service/notifications.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-template',
   standalone: true,
-  imports: [QuillModule, FormsModule, ReactiveFormsModule, NgxDatatableModule,CommonModule],
+  imports: [QuillModule, FormsModule, ReactiveFormsModule, NgxDatatableModule, CommonModule],
   templateUrl: './template.component.html',
   styleUrls: ['./template.component.scss']
 })
 export default class TemplateComponent {
   emailForm!: FormGroup;
-  selectedTemplate: string | null = null;
+  ColumnMode = ColumnMode;
+  showPopup: boolean = false;
+  uniqueTemplateTypeError: boolean = false;
+  editTemplateType: string;
+  // email = {
+  //   name: '',
+  //   whatsapp_name: '',
+  //   template_type: '',
+  //   subject: '',
+  //   body: '',
+  // };
 
-  email = {
-    name: '',
-    subject: '',
-    body: ''
-  };
-  templates = [
-    { key: 'welcome', name: 'Welcome Template' },
-    { key: 'reward', name: 'Reward Earned Template' },
-    { key: 'discount', name: 'Discount Offer Template' }
-  ];
+  templates = [];
+
+  templateTypesList = [ ];
+
   quillConfig = {
     toolbar: [
       ['bold', 'italic', 'underline'],
@@ -34,75 +40,123 @@ export default class TemplateComponent {
     ]
   };
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, private notificationSvc: NotificationsService, private toastr: ToastrService) {}
 
   ngOnInit(): void {
     this.emailForm = this.fb.group({
-      name: ['', Validators.required],
-      subject: ['', Validators.required],
+      id: [0],
+      email_template_name: ['', [Validators.required, Validators.maxLength(100)]],
+      whatsapp_template_name: ['', [Validators.required, Validators.maxLength(100)]],
+      template_type: [null, Validators.required],
+      subject: ['', [Validators.required, Validators.maxLength(250)]],
       body: ['', Validators.required]
     });
+
+    this.getNotificatificationsList();
+    this.getTemplateTypesList();
   }
 
-  selectTemplate(templateKey: string): void {
-    this.selectedTemplate = templateKey;
+  getNotificatificationsList(){
+    this.notificationSvc.GetNotificationList().subscribe({
+      next: (resp)=>{
+        if(resp.status){
+          this.templates = resp.data;
+        }else{
+          this.toastr.error(resp.message, "Error");
+        }
+      },
+      error: (err)=>{
+        this.toastr.error(err.error.message, "Error");
+      }
+    })
+  }
 
-    let name = '';
-    let subject = '';
-    let body = '';
+  getTemplateTypesList(){
+    this.notificationSvc.GetTemplateTypesList().subscribe({
+      next: (resp)=>{
+        if(resp.status){
+          this.templateTypesList = resp.data;
+        }else{
+          this.toastr.error(resp.message, "Error");
+        }
+      },
+      error: (err)=>{
+        this.toastr.error(err.error.message, "Error");
+      }
+    })
+  }
 
-    switch (templateKey) {
-      case 'welcome':
-        name = 'Welcome Template';
-        subject = 'Welcome to Our Service!';
-        body = `Dear Customer,
+  openModal(): void {
+    this.showPopup = true;
+    this.emailForm.reset();
+    this.editTemplateType = "";
+    // this.email = { name: '', whatsapp_name: '', template_type: '', subject: '', body: '' };
+  }
 
-Welcome to our service! We're excited to have you with us. Enjoy the benefits of our loyalty program.
-
-Best regards,
-The Team`;
-        break;
-
-      case 'reward':
-        name = 'Reward Earned Template';
-        subject = 'You’ve Earned a Reward!';
-        body = `Dear Customer,
-
-Congratulations! You've earned a reward for your loyalty. Keep up the great work, and enjoy the rewards!
-
-Best regards,
-The Team`;
-        break;
-
-      case 'discount':
-        name = 'Discount Offer Template';
-        subject = 'Special Discount Just for You!';
-        body = `Dear Customer,
-
-We’re offering a special discount just for you! Use code DISCOUNT2025 at checkout to claim your offer.
-
-Best regards,
-The Team`;
-        break;
-    }
-
-   
-    this.email = { name, subject, body };
-
-    this.emailForm.patchValue(this.email);
+  editRow(row: any, index: number): void {
+    this.editTemplateType = row.template_type;
+    this.emailForm.patchValue({
+      ...row
+    });
+    this.showPopup = true;
   }
 
   saveEmail(): void {
-    if (this.emailForm.valid) {
-      this.email = this.emailForm.value;
-      console.log('Saving Email:', this.email);
-      alert('Email Saved!');
+    this.emailForm.markAllAsTouched();
+    let formVal = this.emailForm.value;
+
+    for(const element of this.templates){
+      if(element.template_type == formVal.template_type &&
+      this.editTemplateType != formVal.template_type){
+        this.uniqueTemplateTypeError = true;
+        return;
+      }else{
+        this.uniqueTemplateTypeError = false;
+      }
+    }
+
+    if (this.emailForm.valid && !this.uniqueTemplateTypeError) {
+      if(formVal.id > 0){
+        this.notificationSvc.UpdateNotification(formVal.id, formVal).subscribe({
+          next: (resp)=>{
+            if(resp.status){
+              this.toastr.success(resp.message, "Success");
+              this.onTemplateModalClose();
+            }else{
+              this.toastr.error(resp.message, "Error");
+            }
+          },
+          error: (err)=>{
+            this.toastr.error(err.error.message, "Error");
+          }
+        })
+      }else{
+        this.notificationSvc.CreateNotification(formVal).subscribe({
+          next: (resp)=>{
+            if(resp.status == "success"){
+              this.toastr.success(resp.message, "Success");
+              this.onTemplateModalClose();
+            }else{
+              this.toastr.error(resp.message, "Error");
+            }
+          },
+          error: (err)=>{
+            this.toastr.error(err.error.message, "Error");
+          }
+        })
+      }
+      this.onTemplateModalClose();
+      // console.log('Saving Email:', formVal);
+      // alert('Email Saved!');
     } else {
       this.emailForm.markAllAsTouched();
     }
   }
 
-  editRow(row: any, index: number): void {
-    console.log('Editing row:', row, 'at index', index);
+  onTemplateModalClose(): void {
+    this.showPopup = false;
+    this.emailForm.reset();
+    this.getNotificatificationsList();
+    this.uniqueTemplateTypeError = false;
   }
 }

@@ -1,20 +1,116 @@
+.ql-editor {
+  min-height: 150px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 10px;
+}
+
+.ql-toolbar {
+  background-color: #f0f0f0;
+  border-radius: 6px 6px 0 0;
+  border: 1px solid #ddd;
+}
+
+.ql-container {
+  border: 1px solid #ced4da;
+  border-radius: 0 0 6px 6px;
+  background-color: #fff;
+  min-height: 150px;
+}
+
+button {
+  margin-top: 10px;
+}
+
+.table-wrapper {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-top: 1rem;
+  background-color: #f3e8ff;
+}
+
+// Modal styling
+.modal-content {
+  border-radius: 0.5rem;
+}
+
+.modal-header {
+  background-color: #f3e8ff;
+  border-bottom: 1px solid #ddd;
+}
+
+.modal-title {
+  font-weight: 600;
+}
+
+// Form styling inside modal
+.modal-body form .form-label {
+  font-weight: 600;
+}
+
+.modal-body form .form-control,
+.modal-body form .ql-container {
+  margin-bottom: 1.5rem;
+}
+
+.modal-body .btn {
+  padding: 0.5rem 1.25rem;
+  font-size: 1rem;
+}
+
+// ngx-datatable styling
+::ng-deep .datatable-header-cell {
+  white-space: normal !important;
+  line-height: 1.2;
+  text-align: center;
+  font-weight: bold;
+  background-color: #e0e7ff;
+  border: 1px solid #000 !important;
+  padding: 0.75rem 0.5rem;
+}
+
+::ng-deep .datatable-body-cell {
+  text-align: center !important;
+  vertical-align: middle;
+  border: 1px solid #ccc !important;
+  padding: 0.75rem 0.5rem;
+}
+
+.error {
+  color: red;
+}
+
+::ng-deep datatable-footer {
+  border-top: 2px solid #a78bfa;
+  background-color: #f3e8ff;
+  font-weight: 500;
+  font-size: 14px;
+  color: #4c1d95;
+}
+
+::ng-deep datatable-footer .page-count {
+  margin-left: auto;
+  padding-right: 20px;
+}
+
+.full-width-editor {
+  width: 100% !important;
+  display: block;
+}
+
+.quill-wrapper .ql-container {
+  min-height: 150px;
+  border: 1px solid #ced4da;
+  border-radius: 0 0 6px 6px;
+  width: 100% !important;
+}
+
+.quill-wrapper .ql-toolbar {
+  border: 1px solid #ced4da;
+  border-radius: 6px 6px 0 0;
+  background-color: #f8f9fa;
+  width: 100% !important;
+}
 
 
-  .ql-editor {
-    min-height: 50px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    padding: 10px;
-  }
-  
-  .ql-toolbar {
-    background-color: #f0f0f0;
-    border-radius: 4px;
-  }
-  
-  .ql-container {
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    min-height: 50px;
-  }
-  
