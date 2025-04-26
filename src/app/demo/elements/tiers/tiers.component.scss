@@ -22,51 +22,111 @@ button {
 }
 
 // Table header cells
-::ng-deep .ngx-datatable .datatable-header-cell {
-  white-space: normal !important;
-  line-height: 1.2;
-  text-align: center;
-  font-weight: bold;
-}
+// ::ng-deep .ngx-datatable .datatable-header-cell {
+//   white-space: normal !important;
+//   line-height: 1.2;
+//   text-align: center;
+//   font-weight: bold;
+// }
 
-// Center alignment & border for all table cells
-::ng-deep .datatable-header-cell{
-  text-align: center !important;
-  vertical-align: middle;
-  border-left: 1px solid #000000 !important;
-  border-top: 1px solid #000000 !important;
-  border-bottom: 1px solid #000000 !important;
-  padding: 0.75rem 0.5rem;
-  background-color: #e0e7ff; // soft blue
-}
+// // Center alignment & border for all table cells
+// ::ng-deep .datatable-header-cell{
+//   text-align: center !important;
+//   vertical-align: middle;
+// //   border-left: 1px solid gray !important;
+// //   border-top: 1px solid gray!important;
+// //   border-bottom: 1px solid gray !important;
+// //   border-bottom-left-radius: 18px;
+// //   border-bottom-right-radius: 18px;
+//   padding: 0.75rem 0.5rem;
+//   background-color: #e0e7ff; // soft blue
+// }
 
 
-::ng-deep .datatable-body-cell {
-  text-align: center !important;
-  vertical-align: middle;
-  border: 1px solid #ccc !important;
-}
+// ::ng-deep .datatable-body-cell {
+//   text-align: center !important;
+//   vertical-align: middle;
+// //   border: 1px solid #ccc !important;
+// }
 
-// Body cell spacing (you had margin-top which won't work here)
-::ng-deep .datatable-body-cell {
-  padding: 0.75rem 0.5rem;
-}
+// // Body cell spacing (you had margin-top which won't work here)
+// ::ng-deep .datatable-body-cell {
+//   padding: 0.75rem 0.5rem;
+// }
 
 // Error message
 .error {
   color: red;
 }
 
-// 📦 Prettified Footer Styling
-::ng-deep datatable-footer {
-  border-top: 2px solid #a78bfa; // soft purple
-  background-color: #f3e8ff;
-  font-weight: 500;
-  font-size: 14px;
-  color: #4c1d95;
-}
+// // 📦 Prettified Footer Styling
+// ::ng-deep datatable-footer {
+// //   border-top: 2px solid #a78bfa; // soft purple
+//   background-color: #f3e8ff;
+//   font-weight: 500;
+//   font-size: 14px;
+//   color: #4c1d95;
+// }
 
-::ng-deep datatable-footer .page-count {
-  margin-left: auto;
-  padding-right: 20px;
-}
+// ::ng-deep datatable-footer .page-count {
+//   margin-left: auto;
+//   padding-right: 20px;
+// }
+.table-wrapper {
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    overflow-x: auto;
+  }
+  
+  .custom-table ::ng-deep .datatable-header {
+    background-color: #f8f9fa;
+    padding-top: 10px;
+    padding-left: 10px;
+    font-weight: 600;
+    font-size: 16px;
+    color: #333;
+  }
+  
+  .custom-table ::ng-deep .datatable-body-cell {
+    padding: 12px;
+    vertical-align: middle;
+  }
+  
+  .custom-table ::ng-deep .datatable-row-odd {
+    background-color: #fafafa;
+  }
+  
+  .cell-text {
+    font-size: 14px;
+    color: #555;
+  }
+  
+  .badge {
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    text-align: center;
+    display: inline-block;
+  }
+  
+  .badge-success {
+    background-color: #d4edda;
+    color: #155724;
+  }
+  
+  .badge-danger {
+    background-color: #f8d7da;
+    color: #721c24;
+  }
+  
+  .badge-primary {
+    background-color: #cce5ff;
+    color: #004085;
+  }
+  
+  .badge-secondary {
+    background-color: #e2e3e5;
+    color: #383d41;
+  }
+  

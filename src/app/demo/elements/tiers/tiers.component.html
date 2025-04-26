@@ -121,14 +121,33 @@
 
                     <div class="mb-3 col-3 ms-2">
                         <label class="form-label d-block">Status</label>
-                        <ui-switch size="small" (change)="onStatusSwitch($event)" color="#0d6efd" switchColor="#ffffff" [checked]="tierDataForm.value.status == 1 ? true: false">
-                        </ui-switch>
-                    </div>
+                      
+                        <ui-switch 
+                          size="small" 
+                          (change)="onStatusSwitch($event)" 
+                          [checked]="tierDataForm.value.status == 1"
+                          color="#0d6efd" 
+                        ></ui-switch>
+                      
+                        <span class="ms-2" [ngClass]="tierDataForm.value.status == 1 ? 'text-success' : 'text-danger'">
+                          {{ tierDataForm.value.status == 1 ? 'Active' : 'Inactive' }}
+                        </span>
+                      </div>
 
                     <div class="mb-3 col-3 ms-2">
                         <label class="form-label d-block">Default Loyalty</label>
-                        <ui-switch size="small" (change)="onDefaultLoyaltySwitch($event)" [checked]="tierDataForm.value.default_loyalty == 1 ? true: false"></ui-switch>
-                    </div>
+                        
+                        <ui-switch 
+                          size="small" 
+                          (change)="onDefaultLoyaltySwitch($event)" 
+                          [checked]="tierDataForm.value.default_loyalty == 1"
+                          color="#0d6efd" 
+                        ></ui-switch>
+                      
+                        <span class="ms-2"  [ngClass]="tierDataForm.value.default_loyalty == 1 ? 'text-success' : 'text-danger'">
+                          {{ tierDataForm.value.default_loyalty == 1 ? 'Active' : 'Inactive' }}
+                        </span>
+                      </div>
 
                     <div class="text-end">
                         <button type="submit" class="btn btn-primary" [disabled]="tierDataForm.invalid">Submit</button>
@@ -141,43 +160,48 @@
 </div>
 
 
-<div class="table-wrapper bg-purple-100">
+
+  
+  <div class="table-wrapper p-4 bg-white rounded shadow-sm" class="material striped-table custom-table" >
     <ngx-datatable class="material" [rows]="tierDataList" [columnMode]="ColumnMode.force" [headerHeight]="50"
         [footerHeight]="50" rowHeight="auto" [limit]="10">
 
         <ngx-datatable-column class="border-top center-align" name="Tier Name" prop="tier_name">
             <ng-template let-row="row" ngx-datatable-cell-template>
-                {{ row.tier_name }}
+                <div class="cell-text">{{ row.tier_name }}</div>
             </ng-template>
         </ngx-datatable-column>
     
             <ngx-datatable-column name="Rentals Qualifiction" prop="rental_qual">
                 <ng-template let-row="row" ngx-datatable-cell-template>
-                    {{ row.rental_qual }}
+                <div class="cell-text">{{ row.rental_qual }}</div>
                 </ng-template>
             </ngx-datatable-column>
         
         <ngx-datatable-column name="Sequence">
             <ng-template let-row="row" ngx-datatable-cell-template>
-                {{ row.sequence}}
+               <div class="cell-text">{{ row.sequence }}</div>
             </ng-template>
         </ngx-datatable-column>
         <ngx-datatable-column name="Status">
             <ng-template let-row="row" ngx-datatable-cell-template>
-                {{ row.status == 1 ? 'Active' : 'Inactive' }}
-            </ng-template>
+          <div class="badge" [ngClass]="row.status == 1 ? 'badge-success' : 'badge-danger'">
+            {{ row.status == 1 ? 'Active' : 'Inactive' }}
+          </div>
+        </ng-template>
         </ngx-datatable-column>
         
         <ngx-datatable-column name="Default Loyalty" prop="default_loyalty">
-            <ng-template let-row="row" ngx-datatable-cell-template>
-                {{ row.default_loyalty == 1 ? 'Yes' : 'No' }}
-            </ng-template>
+           <ng-template let-row="row" ngx-datatable-cell-template>
+          <div class="badge" [ngClass]="row.default_loyalty == 1 ? 'badge-primary' : 'badge-secondary'">
+            {{ row.default_loyalty == 1 ? 'Yes' : 'No' }}
+          </div>
+        </ng-template>
         </ngx-datatable-column>
 
         <ngx-datatable-column name="Actions" [sortable]="false">
             <ng-template let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
-                <!-- <button class="btn btn-sm btn-danger" (click)="deleteRow(rowIndex)">Delete</button> -->
-                <button class="btn btn-sm btn-warning ms-2" (click)="editRow(row, rowIndex)">Edit</button>
+                                <button class="btn btn-sm btn-warning" (click)="editRow(row, rowIndex)">Edit</button>
             </ng-template>
             <ng-template let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
 

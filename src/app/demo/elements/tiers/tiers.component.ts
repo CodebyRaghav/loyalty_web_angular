@@ -74,7 +74,7 @@ export default class TiersComponent implements OnInit {
     upgrades: ['', [Validators.maxLength(250)]],
     rental_redeem_pts_val: [0, [Validators.required, Validators.min(0), Validators.pattern('^[0-9]*$')]],
     access_redeem_pts_val: [0, [Validators.required, Validators.min(0), Validators.pattern('^[0-9]*$')]],
-    notable_perks: [0, [ Validators.min(0)]],
+    notable_perks: [1, [ Validators.min(0)]],
     perks_pts_val: [0, [ Validators.min(0)]],
     sequence: [1, [Validators.required, Validators.min(1)]],
     status: [0, [Validators.required]],
