@@ -30,6 +30,12 @@ const routes: Routes = [
         // canActivate: [authGuard]
       },
       {
+        path: 'template',
+        loadComponent: () =>
+          import('./demo/elements/template/template.component'),
+        // canActivate: [authGuard]
+      },
+      {
         path: 'color',
         loadComponent: () => import('./demo/elements/element-color/element-color.component')
       },

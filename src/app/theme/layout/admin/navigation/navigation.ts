@@ -88,6 +88,14 @@ export const NavigationItems: NavigationItem[] = [
         icon: 'ti ti-stack-push'
       },
       {
+        id: 'template',
+        title: 'Template',
+        type: 'item',
+        classes: 'nav-item',
+        url: '/template',
+        icon: 'ti ti-template'
+      },
+      {
         id: 'color',
         title: 'Colors',
         type: 'item',
