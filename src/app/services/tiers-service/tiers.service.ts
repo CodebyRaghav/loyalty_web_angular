@@ -6,13 +6,15 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class TiersService {
+  accessToken: any =  localStorage.getItem('access_token');
+  username : any = localStorage.getItem('username');
 constructor(private http: HttpClient) {
     // this.apiUrl = environment.apiBaseUrl;
   }
   CreateTier(data: any): Observable<any> {
     const headers = new HttpHeaders({
       'my_key': 'abc123',
-      'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3NDU0ODgzNjUsImV4cCI6MTc0NjM1MjM2NSwiZGF0YSI6eyJpZCI6IjIwNDgiLCJlbWFpbCI6ImZyYWNAZ21haWwuY29tIn19.GXoojpCggewXU-eVs016YmdjHKvYscmuXD6hdRajnRk'
+      'Authorization': `Bearer ${this.accessToken}`,
     });
   
     return this.http.post<any>('http://loyaltyApi/index.php/api/Tier/createTier', data, {headers});
@@ -21,7 +23,7 @@ constructor(private http: HttpClient) {
   GetTierList(): Observable<any> {
     const headers = new HttpHeaders({
       'my_key': 'abc123',
-      'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3NDU0ODgzNjUsImV4cCI6MTc0NjM1MjM2NSwiZGF0YSI6eyJpZCI6IjIwNDgiLCJlbWFpbCI6ImZyYWNAZ21haWwuY29tIn19.GXoojpCggewXU-eVs016YmdjHKvYscmuXD6hdRajnRk'
+      'Authorization': `Bearer ${this.accessToken}`
     });
   
     return this.http.get<any>('http://loyaltyApi/index.php/api/Tier/getTierList', {headers});
@@ -30,7 +32,7 @@ constructor(private http: HttpClient) {
   UpdateTier(id:number, data: any): Observable<any> {
     const headers = new HttpHeaders({
       'my_key': 'abc123',
-      'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3NDU0ODgzNjUsImV4cCI6MTc0NjM1MjM2NSwiZGF0YSI6eyJpZCI6IjIwNDgiLCJlbWFpbCI6ImZyYWNAZ21haWwuY29tIn19.GXoojpCggewXU-eVs016YmdjHKvYscmuXD6hdRajnRk'
+      'Authorization': `Bearer ${this.accessToken}`
       // 'Content-Type': 'application/json'
     });
   

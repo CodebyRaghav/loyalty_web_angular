@@ -1,44 +1,72 @@
-// .user-form-group {
-//     margin-bottom: 20px;
-//     padding: 10px;
-//     border: 1px solid #ccc;
-//     border-radius: 8px;
-//   }
-  
-  button {
-    margin-top: 10px;
-  }
-  .table-wrapper {
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    padding: 1rem;
-    margin-top: 1rem;
-  }
-  .modal-content {
-    border-radius: 0.5rem;
-  }
-  .card-body input, .card-body .input-group {
-    margin-bottom: 1rem;
-  }
-  ::ng-deep .ngx-datatable .datatable-header-cell {
-    white-space: normal !important;
-    line-height: 1.2;
-    text-align: center;
-    font-weight: bold; 
-  }
-  ::ng-deep .datatable-header-cell,
-::ng-deep .datatable-body-cell {
-  text-align: center !important;   
-  vertical-align: middle;
-}
-::ng-deep .datatable-body-cell{
-    margin-top: 20px;
-    // margin-bottom: 5px;
-    // border-bottom: 1px solid;
+button {
+  margin-top: 10px;
 }
 
-.error{
+.table-wrapper {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-top: 1rem;
+  background-color: #f3e8ff; // Matches purple-100 vibe
+}
+
+// Modal styling
+.modal-content {
+  border-radius: 0.5rem;
+}
+
+// Input spacing inside card
+.card-body input,
+.card-body .input-group {
+  margin-bottom: 1rem;
+}
+
+// Table header cells
+::ng-deep .ngx-datatable .datatable-header-cell {
+  white-space: normal !important;
+  line-height: 1.2;
+  text-align: center;
+  font-weight: bold;
+}
+
+// Center alignment & border for all table cells
+::ng-deep .datatable-header-cell{
+  text-align: center !important;
+  vertical-align: middle;
+  border-left: 1px solid #000000 !important;
+  border-top: 1px solid #000000 !important;
+  border-bottom: 1px solid #000000 !important;
+  padding: 0.75rem 0.5rem;
+  background-color: #e0e7ff; // soft blue
+}
+
+
+::ng-deep .datatable-body-cell {
+  text-align: center !important;
+  vertical-align: middle;
+  border: 1px solid #ccc !important;
+}
+
+// Body cell spacing (you had margin-top which won't work here)
+::ng-deep .datatable-body-cell {
+  padding: 0.75rem 0.5rem;
+}
+
+// Error message
+.error {
   color: red;
 }
 
-  
+// 📦 Prettified Footer Styling
+::ng-deep datatable-footer {
+  border-top: 2px solid #a78bfa; // soft purple
+  background-color: #f3e8ff;
+  font-weight: 500;
+  font-size: 14px;
+  color: #4c1d95;
+}
+
+::ng-deep datatable-footer .page-count {
+  margin-left: auto;
+  padding-right: 20px;
+}

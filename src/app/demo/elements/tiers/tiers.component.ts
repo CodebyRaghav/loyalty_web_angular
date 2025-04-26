@@ -94,14 +94,34 @@ export default class TiersComponent implements OnInit {
     });
   }
 
+  onTierModalClose() {
+    this.showPopup = false;
+    this.tierDataForm.patchValue({
+      id :  0,
+      tier_name: '',
+      rental_qual: 0, 
+      rental_earn_pts_val: 0,
+      access_earn_pts_val: 0,
+      upgrades: '',
+      rental_redeem_pts_val: 0,
+      access_redeem_pts_val: 0,
+      notable_perks: 0,
+      perks_pts_val: 0,
+      sequence: 1,
+      status: 0,
+      default_loyalty: 0,
+    });
+  }
+
   onSubmit() {
     this.tierDataForm.markAllAsTouched();
     const formVal = this.tierDataForm.value;
 
     for(const element of this.tierDataList){
-      if(element.sequence === Number(formVal.sequence) &&
-      this.editSequence != Number(formVal.sequence)){
+      if(Number(element.sequence) === Number(formVal.sequence) &&
+      Number(this.editSequence) != Number(formVal.sequence)){
         this.uniqueSequenceError = true;
+        return;
       }else{
         this.uniqueSequenceError = false;
       }
@@ -113,9 +133,12 @@ export default class TiersComponent implements OnInit {
           next: (resp)=>{
             console.log("Response", resp);
             this.toastr.success(resp.message, "Success");
-            this.showPopup = false;
-            this.tierDataForm.reset();
+            this.onTierModalClose();
             this.getTiersList();
+          },
+          error: (err) =>{
+            console.log("Error", err);
+            this.toastr.error(err.error.message, "Error");
           }
         })
       }else{
@@ -123,14 +146,17 @@ export default class TiersComponent implements OnInit {
         this.tierSvc.CreateTier(formVal).subscribe({
           next: (resp)=>{
             console.log("Response", resp);
-            if(resp.success){
+            if(resp.status == 'success'){
               this.toastr.success(resp.message, "Success");
-              this.showPopup = false;
-              this.tierDataForm.reset();
+              this.onTierModalClose();
               this.getTiersList();
             }else{
               this.toastr.error(resp.message, "Error");
-            }
+            } 
+          },
+          error: (err) =>{
+            console.log("Error", err);
+            this.toastr.error(err.error.message, "Error");
           }
         })
       }
