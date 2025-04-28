@@ -77,6 +77,7 @@ button {
     border-radius: 10px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
     overflow-x: auto;
+    border: 1px solid rgb(232, 228, 228) !important;
   }
   
   .custom-table ::ng-deep .datatable-header {
@@ -86,6 +87,13 @@ button {
     font-weight: 600;
     font-size: 16px;
     color: #333;
+  }
+  .modal-body {
+    background-color: white !important;
+}
+.modal-header {
+    background-color: white;
+    border-bottom: 1px solid #ddd;
   }
   
   .custom-table ::ng-deep .datatable-body-cell {

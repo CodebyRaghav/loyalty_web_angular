@@ -4,7 +4,7 @@
 
 </div>
 
-<div class="modal modal-lg fade show d-block" tabindex="-1" *ngIf="showPopup"
+<div class="modal modal-lg fade show d-block rounded" tabindex="-1" *ngIf="showPopup"
     style="background-color: rgba(0,0,0,0.5);">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -14,7 +14,7 @@
                 <button type="button" class="btn-close" aria-label="Close" (click)="onTierModalClose()"></button>
             </div>
 
-            <div class="modal-body ">
+            <div class="modal-body rounded ">
                 <form [formGroup]="tierDataForm" (ngSubmit)="onSubmit()" class="row">
                     <div class="mb-3 col-6">
                         <label class="form-label">Tier Name</label>
@@ -71,7 +71,7 @@
                             Accepts whole number only (Min: 0)
                           </div>
                     </div>
-                    <div class="mb-3 col-6 border">
+                    <div class="mb-3 col-6">
                         <label class="form-label">Earning Rental Point Value</label>
                         <div class="input-group">
                             <span class="input-group-text">1 Point =</span>
@@ -94,7 +94,7 @@
                             Field is required and accepts whole number only (Min: 0)
                           </div>
                     </div>
-                    <div class="mb-3 col-6 border">
+                    <div class="mb-3 col-6">
                         <label class="form-label">Rental Redeem Point Value </label>
                         <div class="input-group">
                             <span class="input-group-text">1 Point =</span>
@@ -149,7 +149,7 @@
                         </span>
                       </div>
 
-                    <div class="text-end">
+                    <div class="text-end border-top p-0 m-0">
                         <button type="submit" class="btn btn-primary" [disabled]="tierDataForm.invalid">Submit</button>
                     </div>
                 </form>
@@ -158,12 +158,8 @@
         </div>
     </div>
 </div>
-
-
-
-  
-  <div class="table-wrapper p-4 bg-white rounded shadow-sm" class="material striped-table custom-table" >
-    <ngx-datatable class="material" [rows]="tierDataList" [columnMode]="ColumnMode.force" [headerHeight]="50"
+  <div class="table-wrapper p-4 bg-white rounded shadow-sm" >
+    <ngx-datatable class="material striped-table custom-table" [rows]="tierDataList" [columnMode]="ColumnMode.force" [headerHeight]="50"
         [footerHeight]="50" rowHeight="auto" [limit]="10">
 
         <ngx-datatable-column class="border-top center-align" name="Tier Name" prop="tier_name">

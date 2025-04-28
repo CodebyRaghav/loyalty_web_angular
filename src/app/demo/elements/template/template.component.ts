@@ -27,7 +27,22 @@ export default class TemplateComponent {
   //   body: '',
   // };
 
-  templates = [];
+  templates = [
+    {
+      email_template_name: 'Welcome',
+      whatsapp_template_name: 'Welcome',
+      template_type: null,
+      subject: "Test",
+      body: "Test"
+    },
+    {
+      email_template_name: 'Rentals Earned',
+      whatsapp_template_name: 'Welcome',
+      template_type: null,
+      subject: "Test",
+      body: "Test"
+    }
+  ];
 
   templateTypesList = [ ];
 

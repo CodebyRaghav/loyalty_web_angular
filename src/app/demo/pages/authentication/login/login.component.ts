@@ -34,7 +34,7 @@ export default class LoginComponent {
             const accessToken = resp.token;
             localStorage.setItem('access_token', accessToken);
             localStorage.setItem('username', formVal.username);
-            this.toastr.success('User Signed In Successfully!', 'Success');
+            this.toastr.success('User Logged In Successfully!', 'Success');
             this.navRoute.navigate(['/default']);
           }else{
             this.toastr.error(resp.message, 'Error');
