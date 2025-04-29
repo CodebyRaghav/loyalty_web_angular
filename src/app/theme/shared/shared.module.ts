@@ -10,6 +10,7 @@ import { NgScrollbarModule } from 'ngx-scrollbar';
 
 // bootstrap import
 import { NgbDropdownModule, NgbNavModule, NgbModule, NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 
 @NgModule({
   imports: [
@@ -21,7 +22,8 @@ import { NgbDropdownModule, NgbNavModule, NgbModule, NgbCollapseModule } from '@
     NgbNavModule,
     NgbModule,
     NgbCollapseModule,
-    NgScrollbarModule
+    NgScrollbarModule,
+    NgxDatatableModule
   ],
   exports: [
     CommonModule,

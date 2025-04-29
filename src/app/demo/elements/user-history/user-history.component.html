@@ -1,0 +1,195 @@
+<label class="fs-3 fw-normal">User History</label>
+ 
+<div class="container my-4">
+    <form [formGroup]="SearchHistoryForm">
+ 
+        <div class="row">
+ 
+            <!-- Transaction Type -->
+            <div class="form-group my-2 col-2">
+                <label for="tran_type" class="fw-bold">Transaction Type</label>
+                <select class="form-select" id="tran_type" formControlName="tran_type">
+                    <option [ngValue]="null" disabled selected>Select Transaction Type</option>
+                    <option *ngFor="let type of tranTypesList" [value]="type.key">{{ type.label }}</option>
+                </select>
+                <div class="error"
+                    *ngIf="SearchHistoryForm.get('tran_type')?.invalid && SearchHistoryForm.get('tran_type')?.touched">
+                    This field is required
+                </div>
+            </div>
+ 
+            <!-- Reference ID -->
+            <div class="form-group my-2 col-2">
+                <label for="referenceId" class="fw-bold">Reference ID</label>
+                <input type="number" class="form-control" id="referenceId" formControlName="referenceId"
+                    placeholder="Enter Reference ID">
+            </div>
+ 
+            <!-- Source -->
+            <div class="form-group my-2 col-2">
+                <label for="source" class="fw-bold">Source</label>
+                <select class="form-select" id="source" formControlName="source">
+                    <option [ngValue]="null" disabled>Select Source</option>
+                    <option *ngFor="let src of sourceList" [value]="src.key">{{ src.label }}</option>
+                </select>
+                <div class="error"
+                    *ngIf="SearchHistoryForm.get('source')?.invalid && SearchHistoryForm.get('source')?.touched">
+                    This field is required
+                </div>
+            </div>
+ 
+            <!-- Status -->
+            <div class="form-group my-2 col-2">
+                <label for="status" class="fw-bold">Status</label>
+                <select class="form-select" id="status" formControlName="status">
+                    <option [ngValue]="null" disabled>Select Status</option>
+                    <option *ngFor="let stat of statusList" [value]="stat.key">{{ stat.label }}</option>
+                </select>
+                <div class="error"
+                    *ngIf="SearchHistoryForm.get('status')?.invalid && SearchHistoryForm.get('status')?.touched">
+                    This field is required
+                </div>
+            </div>
+ 
+            <!-- Date From -->
+            <div class="form-group my-2 col-4">
+                <label for="date_from" class="fw-bold">Date From</label>
+                <input type="date" class="form-control" id="date_from" formControlName="date_from">
+            </div>
+ 
+            <!-- Date To -->
+            <div class="form-group my-2 col-4">
+                <label for="date_to" class="fw-bold">Date To</label>
+                <input type="date" class="form-control" id="date_to" formControlName="date_to">
+            </div>
+ 
+            <!-- Search -->
+            <!-- <div class="form-group my-2 col-3">
+          <label for="search" class="fw-bold">Search</label>
+          <input type="text" class="form-control" id="search" formControlName="search" placeholder="Search...">
+        </div> -->
+ 
+            <!-- Sort By -->
+            <div class="form-group my-2 col-2">
+                <label for="sort_by" class="fw-bold">Sort By</label>
+                <select class="form-select" id="sort_by" formControlName="sort_by">
+                    <option [ngValue]="null" disabled>Select Sort By</option>
+                    <option *ngFor="let sort of sortByList" [value]="sort.key">{{ sort.label }}</option>
+                </select>
+                <div class="error"
+                    *ngIf="SearchHistoryForm.get('soursort_byce')?.invalid && SearchHistoryForm.get('sort_by')?.touched">
+                    This field is required
+                </div>
+            </div>
+ 
+            <!-- Sort Direction -->
+            <div class="form-group my-2 col-2">
+                <label for="sort_dir" class="fw-bold">Sort Direction</label>
+                <select class="form-select" id="sort_dir" formControlName="sort_dir">
+                    <option [ngValue]="null" disabled>Select Sort Direction</option>
+                    <option *ngFor="let dir of sortDirectionList" [value]="dir.key">{{ dir.label }}</option>
+                </select>
+                <div class="error"
+                    *ngIf="SearchHistoryForm.get('sort_dir')?.invalid && SearchHistoryForm.get('sort_dir')?.touched">
+                    This field is required
+                </div>
+            </div>
+ 
+            <!-- Limit -->
+            <div class="form-group my-2 col-2">
+                <label for="limit" class="fw-bold">Limit</label>
+                <input type="number" class="form-control" id="limit" formControlName="limit" placeholder="Enter Limit">
+            </div>
+ 
+            <!-- User Hcode -->
+            <div class="form-group my-2 col-2">
+                <label for="user_hcode" class="fw-bold">User Hcode</label>
+                <input type="number" class="form-control" id="user_hcode" formControlName="user_hcode"
+                    placeholder="Enter User Hcode">
+            </div>
+ 
+        </div>
+ 
+        <div class="mt-4 d-flex ">
+            <button class="btn btn-primary ms-auto" (click)="onSearchButton()" type="submit">Search</button>
+        </div>
+ 
+    </form>
+</div>
+ 
+ 
+<div class="table-wrapper p-4 bg-white rounded shadow-sm">
+    <ngx-datatable class="material striped-table custom-table" [rows]="searchHistoryList"
+        [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50" rowHeight="auto" [limit]="10"
+       
+       
+        >
+        <ngx-datatable-column name="Transaction Type" prop="name">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <div class="cell-text">{{ row.tran_type }}</div>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Sourse">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <div class="cell-text">{{ row.source }}</div>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Status">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <div class="cell-text">{{ row.status }}</div>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Date From" prop="name">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <div class="cell-text">{{ row.created_at }}</div>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Date To" prop="name">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <div class="cell-text">{{ row.expires_at }}</div>
+            </ng-template>
+        </ngx-datatable-column>
+ 
+        <ngx-datatable-column name="Actions" [sortable]="false">
+            <ng-template let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+                <button class="btn btn-sm btn-warning" (click)="openPopup(row)">View</button>
+            </ng-template>
+        </ngx-datatable-column>
+    </ngx-datatable>
+ 
+    <!-- <div class="pagination-controls d-flex justify-content-between mt-3">
+        <span>
+          Rows per page:
+          <select [(ngModel)]="pageLimit" (change)="onPageLimitChange()">
+            <option *ngFor="let option of limitOptions" [value]="option">{{ option }}</option>
+          </select>
+        </span>
+        <span>
+          Page {{ currentPage }} of {{ totalPages }}
+        </span>
+      </div> -->
+   
+</div>
+  
+<div class="modal-backdrop" *ngIf="showPopup">
+    <div class="modal-content">
+      <h5 class="mb-3">User History Details</h5>
+      <table class="table table-bordered">
+        <tr><th>ID</th><td>{{ selectedRow?.id }}</td></tr>
+        <tr><th>User Hcode</th><td>{{ selectedRow?.user_hcode }}</td></tr>
+        <tr><th>Transaction Type</th><td>{{ selectedRow?.tran_type }}</td></tr>
+        <tr><th>Points</th><td>{{ selectedRow?.points }}</td></tr>
+        <tr><th>Source</th><td>{{ selectedRow?.source }}</td></tr>
+        <tr><th>Reference Id</th><td>{{ selectedRow?.reference_id }}</td></tr>
+        <tr><th>Description</th><td>{{ selectedRow?.description }}</td></tr>
+ 
+        <tr><th>Date From</th><td>{{ selectedRow?.created_at }}</td></tr>
+        <tr><th>Date To</th><td>{{ selectedRow?.expires_at }}</td></tr>
+        <tr><th>Status</th><td>{{ selectedRow?.status }}</td></tr>
+        <tr><th>Expired</th><td>{{ selectedRow?.is_expired }}</td></tr>
+        <tr><th>Reference Amount</th><td>{{ selectedRow?.reference_amount }}</td></tr>
+     
+      </table>
+      <button class="btn btn-primary mt-2 ms-auto" (click)="closePopup()">Close</button>
+    </div>
+  </div>

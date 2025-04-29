@@ -116,35 +116,6 @@
   background-color: #f8f9fa;
   width: 100% !important;
 }
-.table-wrapper {
-    background: #ffffff;
-    border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-    overflow-x: auto;
-    border: 1px solid rgb(232, 228, 228);
-    // border: 2px gray;
-  }
-  
-  .custom-table ::ng-deep .datatable-header {
-    background-color: #f8f9fa;
-    padding-top: 10px;
-    padding-left: 10px;
-    font-weight: 600;
-    font-size: 16px;
-    color: #333;
-  }
-  
-  .custom-table ::ng-deep .datatable-body-cell {
-    padding: 12px;
-    vertical-align: middle;
-  }
-  
-  .custom-table ::ng-deep .datatable-row-odd {
-    background-color: #fafafa;
-  }
-  .cell-text {
-    font-size: 14px;
-    color: #555;
-  }
+
 
 

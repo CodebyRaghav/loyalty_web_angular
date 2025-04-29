@@ -27,7 +27,7 @@
     "@angular/router": "19.0.5",
     "@ng-bootstrap/ng-bootstrap": "18.0.0",
     "@popperjs/core": "2.11.8",
-    "@swimlane/ngx-datatable": "^21.0.0-alpha.1",
+    "@swimlane/ngx-datatable": "^20.0.0",
     "apexcharts": "3.49.2",
     "bootstrap": "5.3.3",
     "moment": "^2.30.1",

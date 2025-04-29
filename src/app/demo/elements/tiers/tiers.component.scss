@@ -2,13 +2,6 @@ button {
   margin-top: 10px;
 }
 
-.table-wrapper {
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  padding: 1rem;
-  margin-top: 1rem;
-  background-color: #f3e8ff; // Matches purple-100 vibe
-}
 
 // Modal styling
 .modal-content {
@@ -72,22 +65,7 @@ button {
 //   margin-left: auto;
 //   padding-right: 20px;
 // }
-.table-wrapper {
-    background: #ffffff;
-    border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-    overflow-x: auto;
-    border: 1px solid rgb(232, 228, 228) !important;
-  }
-  
-  .custom-table ::ng-deep .datatable-header {
-    background-color: #f8f9fa;
-    padding-top: 10px;
-    padding-left: 10px;
-    font-weight: 600;
-    font-size: 16px;
-    color: #333;
-  }
+
   .modal-body {
     background-color: white !important;
 }
@@ -96,19 +74,7 @@ button {
     border-bottom: 1px solid #ddd;
   }
   
-  .custom-table ::ng-deep .datatable-body-cell {
-    padding: 12px;
-    vertical-align: middle;
-  }
-  
-  .custom-table ::ng-deep .datatable-row-odd {
-    background-color: #fafafa;
-  }
-  
-  .cell-text {
-    font-size: 14px;
-    color: #555;
-  }
+
   
   .badge {
     padding: 4px 8px;

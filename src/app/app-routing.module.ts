@@ -16,7 +16,8 @@ const routes: Routes = [
       },
       {
         path: 'default',
-        loadComponent: () => import('./demo/dashboard/default/default.component').then((c) => c.DefaultComponent)
+        loadComponent: () => import('./demo/dashboard/default/default.component').then((c) => c.DefaultComponent),
+        canActivate: [authGuard]
       },
       {
         path: 'typography',
@@ -27,13 +28,26 @@ const routes: Routes = [
         path: 'tiers',
         loadComponent: () =>
           import('./demo/elements/tiers/tiers.component'),
-        // canActivate: [authGuard]
+        canActivate: [authGuard]
       },
       {
         path: 'template',
         loadComponent: () =>
           import('./demo/elements/template/template.component'),
-        // canActivate: [authGuard]
+        canActivate: [authGuard]
+      },
+      {
+        path: 'master-user',
+        loadComponent: () =>
+          import('./demo/elements/master-user/master-user.component').then(m => m.MasterUserComponent),
+        canActivate: [authGuard]
+      },
+ 
+      {
+        path: 'user-history',
+        loadComponent: () =>
+          import('./demo/elements/user-history/user-history.component').then(m => m.UserHistoryComponent),
+        canActivate: [authGuard]
       },
       {
         path: 'color',

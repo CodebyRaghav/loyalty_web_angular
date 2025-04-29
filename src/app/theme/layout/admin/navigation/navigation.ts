@@ -95,6 +95,14 @@ export const NavigationItems: NavigationItem[] = [
         url: '/template',
         icon: 'ti ti-template'
       },
+      {
+        id: 'master-user',
+        title: 'master-user',
+        type: 'item',
+        classes: 'nav-item',
+        url: '/master-user',
+        icon: 'ti ti-user'
+      },
       // {
       //   id: 'color',
       //   title: 'Colors',

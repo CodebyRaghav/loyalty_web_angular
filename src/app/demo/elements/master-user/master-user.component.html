@@ -1,0 +1,38 @@
+<div class="table-wrapper p-4 bg-white rounded shadow-sm">
+    <ngx-datatable class="material striped-table custom-table" [rows]="searchHistoryList"
+        [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50" rowHeight="auto"  [limit]="10"
+        >
+        <ngx-datatable-column name="Transaction Type" prop="name">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <div class="cell-text">{{ row.tran_type }}</div>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Sourse">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <div class="cell-text">{{ row.source }}</div>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Status">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <div class="cell-text">{{ row.status }}</div>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Date From" prop="name">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <div class="cell-text">{{ row.created_at }}</div>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Date To" prop="name">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <div class="cell-text">{{ row.expires_at }}</div>
+            </ng-template>
+        </ngx-datatable-column>
+ 
+        <ngx-datatable-column name="Actions" [sortable]="false">
+            <ng-template let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+                <button class="btn btn-sm btn-warning" (click)="openPopup(row)">View</button>
+            </ng-template>
+        </ngx-datatable-column>
+    </ngx-datatable>
+   
+</div>
