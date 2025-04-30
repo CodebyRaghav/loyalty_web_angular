@@ -4,6 +4,7 @@ import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angu
 import { ColumnMode, NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { ToastrService } from 'ngx-toastr';
 import { UserHistoryService } from 'src/app/services/user-history-service/user-history.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-user-history',
@@ -16,6 +17,7 @@ export class UserHistoryComponent {
   ColumnMode = ColumnMode;
   showPopup: boolean = false;
   selectedRow: any = null;
+  datesError: boolean = false;
   searchHistoryList = [];
   tranTypesList = [{key: "earn", label:"Earn"}, {key: "redeem", label: "Redeem"}];
   sourceList = [{key: "purchase", label: "Purchase"}, {key: "referal", label: "Referal"}, {key: "manual", label: "Manual"}];
@@ -57,13 +59,27 @@ export class UserHistoryComponent {
 
     onSearchButton(){
       let formVal = this.SearchHistoryForm.value;
-      this.searchSvc.GetUsersHistory(formVal).subscribe({
-        next: (resp) => {
-          if(resp.status){
-            this.searchHistoryList = resp.data;
+
+      if(formVal.date_from && formVal.date_to){
+            const dateFrom = moment(formVal.date_from);
+            const dateTo = moment(formVal.date_to);
+      
+            if (dateFrom.isBefore(dateTo)) {
+              this.datesError = false;
+            } else {
+              this.datesError = true;
+            }
           }
-        }
-      })
+
+      if(!this.datesError){
+        this.searchSvc.GetUsersHistory(formVal).subscribe({
+          next: (resp) => {
+            if(resp.status){
+              this.searchHistoryList = resp.data;
+            }
+          }
+        })
+      }
     }
 
     openPopup(row: any): void {

@@ -12,10 +12,6 @@
                     <option [ngValue]="null" disabled selected>Select Transaction Type</option>
                     <option *ngFor="let type of tranTypesList" [value]="type.key">{{ type.label }}</option>
                 </select>
-                <div class="error"
-                    *ngIf="SearchHistoryForm.get('tran_type')?.invalid && SearchHistoryForm.get('tran_type')?.touched">
-                    This field is required
-                </div>
             </div>
  
             <!-- Reference ID -->
@@ -32,10 +28,6 @@
                     <option [ngValue]="null" disabled>Select Source</option>
                     <option *ngFor="let src of sourceList" [value]="src.key">{{ src.label }}</option>
                 </select>
-                <div class="error"
-                    *ngIf="SearchHistoryForm.get('source')?.invalid && SearchHistoryForm.get('source')?.touched">
-                    This field is required
-                </div>
             </div>
  
             <!-- Status -->
@@ -45,10 +37,6 @@
                     <option [ngValue]="null" disabled>Select Status</option>
                     <option *ngFor="let stat of statusList" [value]="stat.key">{{ stat.label }}</option>
                 </select>
-                <div class="error"
-                    *ngIf="SearchHistoryForm.get('status')?.invalid && SearchHistoryForm.get('status')?.touched">
-                    This field is required
-                </div>
             </div>
  
             <!-- Date From -->
@@ -76,10 +64,6 @@
                     <option [ngValue]="null" disabled>Select Sort By</option>
                     <option *ngFor="let sort of sortByList" [value]="sort.key">{{ sort.label }}</option>
                 </select>
-                <div class="error"
-                    *ngIf="SearchHistoryForm.get('soursort_byce')?.invalid && SearchHistoryForm.get('sort_by')?.touched">
-                    This field is required
-                </div>
             </div>
  
             <!-- Sort Direction -->
@@ -89,16 +73,6 @@
                     <option [ngValue]="null" disabled>Select Sort Direction</option>
                     <option *ngFor="let dir of sortDirectionList" [value]="dir.key">{{ dir.label }}</option>
                 </select>
-                <div class="error"
-                    *ngIf="SearchHistoryForm.get('sort_dir')?.invalid && SearchHistoryForm.get('sort_dir')?.touched">
-                    This field is required
-                </div>
-            </div>
- 
-            <!-- Limit -->
-            <div class="form-group my-2 col-2">
-                <label for="limit" class="fw-bold">Limit</label>
-                <input type="number" class="form-control" id="limit" formControlName="limit" placeholder="Enter Limit">
             </div>
  
             <!-- User Hcode -->
@@ -107,6 +81,8 @@
                 <input type="number" class="form-control" id="user_hcode" formControlName="user_hcode"
                     placeholder="Enter User Hcode">
             </div>
+
+            <div class="error row col-6" *ngIf="datesError">"Date From" field must be smaller than "Date To" field</div>
  
         </div>
  

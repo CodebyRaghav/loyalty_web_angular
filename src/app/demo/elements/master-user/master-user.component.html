@@ -1,15 +1,64 @@
+<div>
+    <form [formGroup]="filterUsersForm" class="p-3">
+ 
+        <div class="row mb-3 ms-1">
+ 
+            <div class="col-md mb-2">
+                <label class="form-label">Username</label>
+                <input class="form-control" type="text" formControlName="username" placeholder="Username">
+            </div>
+ 
+            <div class="col-md mb-2">
+                <label class="form-label">Tier Name</label>
+                <select class="form-select" formControlName="current_tier_name">
+                    <option value="">Select Tier Name</option>
+                    <option *ngFor="let tier of tierList" [value]="tier.tier_name">{{ tier.tier_name }}</option>
+                </select>
+            </div>
+ 
+ 
+            <div class="col-md mb-2">
+                <label class="form-label">Date From (Tier updation)</label>
+                <input class="form-control" type="date" formControlName="date_from" placeholder="From Date">
+            </div>
+ 
+ 
+            <div class="col-md mb-2">
+                <label class="form-label">Date to (Tier updation)</label>
+                <input class="form-control" type="date" formControlName="date_to" placeholder="To Date">
+            </div>
+ 
+            <div class="col-md mb-2">
+                <label class="form-label">Status</label>
+                <select class="form-select" formControlName="status">
+                    <option value="">Select Status</option>
+                    <option *ngFor="let status of statusList" [value]="status.key">{{ status.label }}</option>
+                </select>
+            </div>
+            
+            <div class="error row" *ngIf="datesError">"Date From" field must be smaller than "Date To" field</div>
+         
+            <div class="mt-2 ms-auto text-end">
+                <button class="btn btn-primary d-flex ms-auto" (click)="onSearchButton()">Search</button>
+            </div>
+        </div>
+    </form>
+</div>
+ 
+ 
+ 
+ 
 <div class="table-wrapper p-4 bg-white rounded shadow-sm">
     <ngx-datatable class="material striped-table custom-table" [rows]="searchHistoryList"
-        [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50" rowHeight="auto"  [limit]="10"
-        >
-        <ngx-datatable-column name="Transaction Type" prop="name">
+        [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50" rowHeight="auto" [limit]="10">
+        <ngx-datatable-column name="User Name" prop="name">
             <ng-template let-row="row" ngx-datatable-cell-template>
-                <div class="cell-text">{{ row.tran_type }}</div>
+                <div class="cell-text">{{ row.username }}</div>
             </ng-template>
         </ngx-datatable-column>
-        <ngx-datatable-column name="Sourse">
+        <ngx-datatable-column name="Hcode">
             <ng-template let-row="row" ngx-datatable-cell-template>
-                <div class="cell-text">{{ row.source }}</div>
+                <div class="cell-text">{{ row.user_hcode }}</div>
             </ng-template>
         </ngx-datatable-column>
         <ngx-datatable-column name="Status">
@@ -17,14 +66,14 @@
                 <div class="cell-text">{{ row.status }}</div>
             </ng-template>
         </ngx-datatable-column>
-        <ngx-datatable-column name="Date From" prop="name">
+        <ngx-datatable-column name="Tier" prop="name">
             <ng-template let-row="row" ngx-datatable-cell-template>
-                <div class="cell-text">{{ row.created_at }}</div>
+                <div class="cell-text">{{ row.current_tier_name }}</div>
             </ng-template>
         </ngx-datatable-column>
-        <ngx-datatable-column name="Date To" prop="name">
+        <ngx-datatable-column name="Points Balance" prop="name">
             <ng-template let-row="row" ngx-datatable-cell-template>
-                <div class="cell-text">{{ row.expires_at }}</div>
+                <div class="cell-text">{{ row.current_points_balance }}</div>
             </ng-template>
         </ngx-datatable-column>
  
@@ -34,5 +83,55 @@
             </ng-template>
         </ngx-datatable-column>
     </ngx-datatable>
-   
+ 
 </div>
+ 
+<div class="modal-backdrop" *ngIf="showPopup" id="editUserModal" tabindex="-1" aria-labelledby="editUserModalLabel" aria-hidden="true" >
+    <div class="modal-dialog modal-lg" >
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title my-2" id="editUserModalLabel">Update User Details</h3>
+          <button type="button" class="btn-close ms-auto" (click)="closePopup()"  aria-label="Close"></button>
+        </div>
+ 
+        <form [formGroup]="editUserForm" (ngSubmit)="onSubmitEditForm()">
+            <div class="modal-body row g-3 px-3">
+         
+              <div class="col-md-6">
+                <label class="form-label">Tier Name</label>
+                <select class="form-select" formControlName="current_tier_name">
+                  <option value="" disabled>Select Tier</option>
+                  <option *ngFor="let tier of tierList" [value]="tier.tier_name">{{ tier.tier_name}}</option>
+                </select>
+              </div>
+         
+              <div class="col-md-6">
+                <label class="form-label">Status</label>
+                <select class="form-select" formControlName="status">
+                  <option value="" disabled>Select Status</option>
+                  <option *ngFor="let s of statusList" [value]="s.key">{{ s.label }}</option>
+                </select>
+              </div>
+         
+              <div class="col-md-6">
+                <label class="form-label">Add Points</label>
+                <input type="number" class="form-control" formControlName="add_points" />
+              </div>
+         
+              <div class="col-md-6">
+                <label class="form-label">Deduct Points</label>
+                <input type="number" class="form-control" formControlName="deduct_points" />
+              </div>
+
+              <div class="error" *ngIf="bothFieldsError">You can only fill either "Add Points" or "Deduct Points", not both.</div>
+         
+            </div>
+         
+            <div class="modal-footer mt-3 me-3">
+              <button type="button" class="btn btn-secondary me-2 " (click)="closePopup()">Close</button>
+              <button type="submit" class="btn btn-primary" [disabled]="editUserForm.invalid">Submit</button>
+            </div>
+          </form>
+      </div>
+    </div>
+  </div>

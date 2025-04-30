@@ -17,6 +17,12 @@
 
       </div>
 
+      <div class="error row justify-content-end " *ngIf="datesError">
+        <div class="error col-6">
+          "Date From" field must be smaller than "Date To" field
+        </div>
+      </div>
+
       <div class="mt-4 d-flex ">
           <button class="btn btn-primary ms-auto" (click)="onSearchButton()" type="submit">Search</button>
       </div>

@@ -25,6 +25,7 @@ export class DefaultComponent implements OnInit {
   monthsList = [];
   totalEarned: number;
   totalRedeemed: number;
+  datesError: boolean= false;
   constructor(private fb: FormBuilder, private navRoute: Router, private analyticsSvc: UserHistoryService){}
 
   SearchDashboardForm = this.fb.group({
@@ -60,16 +61,33 @@ export class DefaultComponent implements OnInit {
 
   onSearchButton(){
     let formVal = this.SearchDashboardForm.value;
-    formVal.start_date = moment(formVal.start_date).format('YYYY-MM-DD');
-    formVal.end_date = moment(formVal.end_date).format('YYYY-MM-DD');
-    console.log("FormVal: ", formVal);
-    this.analyticsSvc.GetAnalytics(formVal).subscribe({
-      next: (resp)=>{
-        if(resp.status){
-          this.topUsersList = resp.data.top_users
-        }
+
+
+    if(formVal.start_date && formVal.end_date){
+      const startDate = moment(formVal.start_date);
+      const endDate = moment(formVal.end_date);
+
+      if (startDate.isBefore(endDate)) {
+        this.datesError = false;
+      } else {
+        this.datesError = true;
       }
-    })
+    }
+
+    if(!this.datesError){
+      formVal.start_date = moment(formVal.start_date).format('YYYY-MM-DD');
+      formVal.end_date = moment(formVal.end_date).format('YYYY-MM-DD');
+      console.log("FormVal: ", formVal);
+      this.analyticsSvc.GetAnalytics(formVal).subscribe({
+        next: (resp)=>{
+          if(resp.status){
+            this.topUsersList = resp.data.top_users
+          }
+        }
+      })
+    }
+
+    
   }
 
   // public method
