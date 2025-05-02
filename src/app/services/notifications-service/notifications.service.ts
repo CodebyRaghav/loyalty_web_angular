@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { LoaderService } from '../loader-service/loader.service';
 
 @Injectable({
   providedIn: 'root'
@@ -8,10 +9,11 @@ import { Observable } from 'rxjs';
 export class NotificationsService {
   accessToken: any =  localStorage.getItem('access_token');
   username : any = localStorage.getItem('username');
-constructor(private http: HttpClient) {
+constructor(private http: HttpClient, private loaderService: LoaderService) {
     // this.apiUrl = environment.apiBaseUrl;
   }
   CreateNotification(data: any): Observable<any> {
+    this.loaderService.show();
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.accessToken}`,
       'my_key': 'abc123',
@@ -21,6 +23,7 @@ constructor(private http: HttpClient) {
   }
 
   GetNotificationList(): Observable<any> {
+    this.loaderService.show();
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.accessToken}`,
       'my_key': 'abc123'
@@ -30,6 +33,7 @@ constructor(private http: HttpClient) {
   }
 
   GetTemplateTypesList(): Observable<any> {
+    this.loaderService.show();
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.accessToken}`,
       'my_key': 'abc123'
@@ -39,6 +43,7 @@ constructor(private http: HttpClient) {
   }
 
   UpdateNotification(id:number, data: any): Observable<any> {
+    this.loaderService.show();
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.accessToken}`,
       'my_key': 'abc123'

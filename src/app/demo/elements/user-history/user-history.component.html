@@ -17,8 +17,9 @@
             <!-- Reference ID -->
             <div class="form-group my-2 col-2">
                 <label for="referenceId" class="fw-bold">Reference ID</label>
-                <input type="number" class="form-control" id="referenceId" formControlName="referenceId"
+                <input type="text" class="form-control" id="referenceId" formControlName="reference_id"
                     placeholder="Enter Reference ID">
+                    <div class="error" *ngIf="SearchHistoryForm.get('reference_id')?.invalid && SearchHistoryForm.get('reference_id')?.touched">Max Length(20)</div>
             </div>
  
             <!-- Source -->
@@ -80,6 +81,7 @@
                 <label for="user_hcode" class="fw-bold">User Hcode</label>
                 <input type="number" class="form-control" id="user_hcode" formControlName="user_hcode"
                     placeholder="Enter User Hcode">
+                    <div class="error" *ngIf="SearchHistoryForm.get('user_hcode')?.invalid && SearchHistoryForm.get('user_hcode')?.touched">Max Length(11)</div>
             </div>
 
             <div class="error row col-6" *ngIf="datesError">"Date From" field must be smaller than "Date To" field</div>
@@ -117,12 +119,12 @@
         </ngx-datatable-column>
         <ngx-datatable-column name="Date From" prop="name">
             <ng-template let-row="row" ngx-datatable-cell-template>
-                <div class="cell-text">{{ row.created_at }}</div>
+                <div class="cell-text">{{ row.created_at | date:'MMM d, y' }}</div>
             </ng-template>
         </ngx-datatable-column>
         <ngx-datatable-column name="Date To" prop="name">
             <ng-template let-row="row" ngx-datatable-cell-template>
-                <div class="cell-text">{{ row.expires_at }}</div>
+                <div class="cell-text">{{ row.expires_at | date:'MMM d, y' }}</div>
             </ng-template>
         </ngx-datatable-column>
  

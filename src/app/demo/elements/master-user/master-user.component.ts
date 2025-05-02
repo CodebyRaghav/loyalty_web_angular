@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ColumnMode, NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MasterUserService } from 'src/app/services/master-user-service/master-user.service';
 import { ToastrService } from 'ngx-toastr';
 import * as moment from 'moment';
+import { LoaderService } from 'src/app/services/loader-service/loader.service';
 
 @Component({
   selector: 'app-master-user',
@@ -25,7 +26,7 @@ export class MasterUserComponent implements OnInit {
   datesError: boolean = false;
 
 
-  constructor(private fb: FormBuilder, private masterUserSvc: MasterUserService, private toastr: ToastrService){}
+  constructor(private fb: FormBuilder, private masterUserSvc: MasterUserService, private toastr: ToastrService, private loaderService: LoaderService){}
   
   filterUsersForm = this.fb.group({
     status: [""],
@@ -39,9 +40,9 @@ export class MasterUserComponent implements OnInit {
     id: [0],
     current_tier_name: [""],
     status: [""],
-    add_points: [0],
-    deduct_points: [0],
-    user_hcode: [0]
+    add_points: [0, [Validators.min(0), Validators.max(99999999999)]],
+    deduct_points: [0, [Validators.min(0), Validators.max(99999999999)]],
+    user_hcode: [null]
   })
   
 
@@ -53,6 +54,7 @@ export class MasterUserComponent implements OnInit {
   getTierList(){
     this.masterUserSvc.GetTiersList().subscribe({
       next: (resp)=>{
+        this.loaderService.hide();
         this.tierList = resp.data;
         console.log("Tier List: ", this.tierList);
       }
@@ -62,9 +64,19 @@ export class MasterUserComponent implements OnInit {
   getHistoryList(formVal:any){
     this.masterUserSvc.GetUserList(formVal).subscribe({
       next: (resp)=>{
-        if(resp.status){
+        this.loaderService.hide();
+        if(resp.status && resp.data){
           this.searchHistoryList = resp.data;
+        }else{
+          this.searchHistoryList = [];
+          this.toastr.error(resp.message, "Error");
         }
+      },
+      error: (err)=>{
+        this.loaderService.hide();
+        // console.log("Error: ", err);
+        this.searchHistoryList = [];
+        this.toastr.error(err.error.message, "Error");
       }
     })
   }
@@ -122,6 +134,7 @@ export class MasterUserComponent implements OnInit {
     if (this.editUserForm.valid && !this.bothFieldsError) {
       this.masterUserSvc.UpdateUserInfo(formVal).subscribe({
         next: (resp)=>{
+          this.loaderService.hide();
           if(resp.status){
             this.toastr.success(resp.message, "Success");
             this.closePopup();
@@ -130,6 +143,7 @@ export class MasterUserComponent implements OnInit {
           }
         },
         error: (err)=>{
+          this.loaderService.hide();
           this.toastr.error(err.error.message, "Error");
         }
       })

@@ -1,15 +1,17 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { LoaderService } from '../loader-service/loader.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MasterUserService {
   accessToken: any =  localStorage.getItem('access_token');
-constructor(private http: HttpClient) {  }
+constructor(private http: HttpClient, private loaderService: LoaderService) {  }
 
   GetUserList(data: any): Observable<any> {
+    this.loaderService.show();
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.accessToken}`,
       'my_key': 'abc123'
@@ -29,6 +31,7 @@ constructor(private http: HttpClient) {  }
 
 
   GetTiersList(): Observable<any> {
+    this.loaderService.show();
     const headers = new HttpHeaders({
       'my_key': 'abc123',
       'Authorization': `Bearer ${this.accessToken}`
@@ -39,6 +42,7 @@ constructor(private http: HttpClient) {  }
 
 
   UpdateUserInfo(data: any): Observable<any> {
+    this.loaderService.show();
     const headers = new HttpHeaders({
       'my_key': 'abc123',
       'Authorization': `Bearer ${this.accessToken}`

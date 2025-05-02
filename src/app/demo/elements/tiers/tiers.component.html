@@ -27,7 +27,7 @@
                         <label class="form-label">Number of Rentals for Qualification</label>
                         <input type="number" class="form-control" formControlName="rental_qual">
                         <div class="error" *ngIf="tierDataForm.get('rental_qual')?.invalid && tierDataForm.get('rental_qual')?.touched">
-                            Field is required and accepts whole number only (Min: 0)
+                            Field is required (Min: 0, Max: 11 and decimals not allowed)
                           </div>
                     </div>
 
@@ -45,7 +45,7 @@
                         <label class="form-label">Sequence</label>
                         <input type="number" class="form-control" formControlName="sequence">
                         <div class="error" *ngIf="tierDataForm.get('sequence')?.invalid && tierDataForm.get('sequence')?.touched">
-                            Field is required and accepts whole number only (Min: 1)
+                          Field is required (Min: 0, Max: 11 and decimals not allowed)
                           </div>
                           <div class="error" *ngIf="uniqueSequenceError">
                             Sequence is not unique
@@ -56,7 +56,7 @@
                         <label class="form-label">Perks (Free Rental Day)</label>
                         <input type="number" class="form-control" formControlName="notable_perks">
                         <div class="error" *ngIf="tierDataForm.get('notable_perks')?.invalid && tierDataForm.get('notable_perks')?.touched">
-                            Accepts whole number only (Min: 0)
+                          (Min: 0, Max: 11 and decimals not allowed)
                           </div>
                     </div>
 
@@ -68,7 +68,7 @@
                             <span class="input-group-text">Point</span>
                         </div>
                         <div class="error" *ngIf="tierDataForm.get('perks_pts_val')?.invalid && tierDataForm.get('perks_pts_val')?.touched">
-                            Accepts whole number only (Min: 0)
+                          (Min: 0, Max: 11 and decimals not allowed)
                           </div>
                     </div>
                     <div class="mb-3 col-6">
@@ -79,7 +79,7 @@
                             <span class="input-group-text">AED</span>
                         </div>
                         <div class="error" *ngIf="tierDataForm.get('rental_earn_pts_val')?.invalid && tierDataForm.get('rental_earn_pts_val')?.touched">
-                            Field is required and accepts whole number only (Min: 0)
+                          Field is required (Min: 0, Max: 11 and decimals not allowed)
                           </div>
                     </div>
 
@@ -91,7 +91,7 @@
                             <span class="input-group-text">AED</span>
                         </div>
                         <div class="error" *ngIf="tierDataForm.get('access_earn_pts_val')?.invalid && tierDataForm.get('access_earn_pts_val')?.touched">
-                            Field is required and accepts whole number only (Min: 0)
+                          Field is required (Min: 0, Max: 11 and decimals not allowed)
                           </div>
                     </div>
                     <div class="mb-3 col-6">
@@ -102,7 +102,7 @@
                             <span class="input-group-text">AED</span>
                         </div>
                         <div class="error" *ngIf="tierDataForm.get('rental_redeem_pts_val')?.invalid && tierDataForm.get('rental_redeem_pts_val')?.touched">
-                            Field is required and accepts whole number only (Min: 0)
+                          Field is required (Min: 0, Max: 11 and decimals not allowed)
                           </div>
 
                     </div>
@@ -115,7 +115,7 @@
                             <span class="input-group-text">AED</span>
                         </div>
                         <div class="error" *ngIf="tierDataForm.get('access_redeem_pts_val')?.invalid && tierDataForm.get('access_redeem_pts_val')?.touched">
-                            Field is required and accepts whole number only (Min: 0)
+                          Field is required (Min: 0, Max: 11 and decimals not allowed)
                           </div>
                     </div>
 

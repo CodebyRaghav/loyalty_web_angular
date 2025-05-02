@@ -1,10 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ColumnMode, NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { ToastrService } from 'ngx-toastr';
 import { UserHistoryService } from 'src/app/services/user-history-service/user-history.service';
 import * as moment from 'moment';
+import { LoaderService } from 'src/app/services/loader-service/loader.service';
 
 @Component({
   selector: 'app-user-history',
@@ -13,7 +14,7 @@ import * as moment from 'moment';
   templateUrl: './user-history.component.html',
   styleUrl: './user-history.component.scss'
 })
-export class UserHistoryComponent {
+export class UserHistoryComponent implements OnInit {
   ColumnMode = ColumnMode;
   showPopup: boolean = false;
   selectedRow: any = null;
@@ -26,11 +27,11 @@ export class UserHistoryComponent {
   sortDirectionList = [{key: "asc", label: "Ascending"}, {key: "desc", label: "Descending"}]
 
 
-  constructor(private fb: FormBuilder, private toastr: ToastrService, private searchSvc: UserHistoryService) { }
+  constructor(private fb: FormBuilder, private toastr: ToastrService, private searchSvc: UserHistoryService, private loaderService: LoaderService) { }
   
     SearchHistoryForm = this.fb.group({
       tran_type: [null],
-      referenceId:  [0],
+      reference_id:  ["", Validators.maxLength(20)],
       source: [null],
       status: [null], 
       date_from: [''],
@@ -38,7 +39,7 @@ export class UserHistoryComponent {
       sort_by: [null],
       sort_dir: [null],
       limit: [''],
-      user_hcode: [0]
+      user_hcode: [null, Validators.max(99999999999)]
   
     });
 
@@ -57,6 +58,30 @@ export class UserHistoryComponent {
       reference_amount: [""]
     })
 
+    ngOnInit(): void {
+      this.getUserHistory(this.SearchHistoryForm.value);
+    }
+
+    getUserHistory(formVal: any){
+      this.searchSvc.GetUsersHistory(formVal).subscribe({
+        next: (resp) => {
+          this.loaderService.hide();
+          if(resp.status && resp.data){
+            this.searchHistoryList = resp.data;
+          }else{
+            this.searchHistoryList = [];
+            this.toastr.error(resp.message, "Error");
+          }
+        },
+        error: (err)=>{
+          this.loaderService.hide();
+          // console.log("Error: ", err);
+          this.searchHistoryList = [];
+          this.toastr.error(err.error.message, "Error");
+        }
+      })
+    }
+
     onSearchButton(){
       let formVal = this.SearchHistoryForm.value;
 
@@ -72,13 +97,7 @@ export class UserHistoryComponent {
           }
 
       if(!this.datesError){
-        this.searchSvc.GetUsersHistory(formVal).subscribe({
-          next: (resp) => {
-            if(resp.status){
-              this.searchHistoryList = resp.data;
-            }
-          }
-        })
+        this.getUserHistory(formVal);
       }
     }
 

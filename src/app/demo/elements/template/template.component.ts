@@ -5,6 +5,7 @@ import { ColumnMode, NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { CommonModule } from '@angular/common';
 import { NotificationsService } from 'src/app/services/notifications-service/notifications.service';
 import { ToastrService } from 'ngx-toastr';
+import { LoaderService } from 'src/app/services/loader-service/loader.service';
 
 @Component({
   selector: 'app-template',
@@ -40,7 +41,7 @@ export default class TemplateComponent {
     ]
   };
 
-  constructor(private fb: FormBuilder, private notificationSvc: NotificationsService, private toastr: ToastrService) {}
+  constructor(private fb: FormBuilder, private notificationSvc: NotificationsService, private toastr: ToastrService, private loaderService: LoaderService) {}
 
   ngOnInit(): void {
     this.emailForm = this.fb.group({
@@ -59,6 +60,7 @@ export default class TemplateComponent {
   getNotificatificationsList(){
     this.notificationSvc.GetNotificationList().subscribe({
       next: (resp)=>{
+        this.loaderService.hide();
         if(resp.status){
           this.templates = resp.data;
         }else{
@@ -66,6 +68,7 @@ export default class TemplateComponent {
         }
       },
       error: (err)=>{
+        this.loaderService.hide();
         this.toastr.error(err.error.message, "Error");
       }
     })
@@ -74,6 +77,7 @@ export default class TemplateComponent {
   getTemplateTypesList(){
     this.notificationSvc.GetTemplateTypesList().subscribe({
       next: (resp)=>{
+        this.loaderService.hide();
         if(resp.status){
           this.templateTypesList = resp.data;
         }else{
@@ -81,6 +85,7 @@ export default class TemplateComponent {
         }
       },
       error: (err)=>{
+        this.loaderService.hide();
         this.toastr.error(err.error.message, "Error");
       }
     })
@@ -119,6 +124,7 @@ export default class TemplateComponent {
       if(formVal.id > 0){
         this.notificationSvc.UpdateNotification(formVal.id, formVal).subscribe({
           next: (resp)=>{
+            this.loaderService.hide();
             if(resp.status){
               this.toastr.success(resp.message, "Success");
               this.onTemplateModalClose();
@@ -127,12 +133,14 @@ export default class TemplateComponent {
             }
           },
           error: (err)=>{
+            this.loaderService.hide();
             this.toastr.error(err.error.message, "Error");
           }
         })
       }else{
         this.notificationSvc.CreateNotification(formVal).subscribe({
           next: (resp)=>{
+            this.loaderService.hide();
             if(resp.status == "success"){
               this.toastr.success(resp.message, "Success");
               this.onTemplateModalClose();
@@ -141,6 +149,7 @@ export default class TemplateComponent {
             }
           },
           error: (err)=>{
+            this.loaderService.hide();
             this.toastr.error(err.error.message, "Error");
           }
         })

@@ -116,11 +116,17 @@
               <div class="col-md-6">
                 <label class="form-label">Add Points</label>
                 <input type="number" class="form-control" formControlName="add_points" />
+                <div class="error" *ngIf="editUserForm.get('add_points')?.invalid && editUserForm.get('add_points')?.touched">
+                    (Min: 0, Max: 11)
+                    </div>
               </div>
          
               <div class="col-md-6">
                 <label class="form-label">Deduct Points</label>
                 <input type="number" class="form-control" formControlName="deduct_points" />
+                <div class="error" *ngIf="editUserForm.get('deduct_points')?.invalid && editUserForm.get('deduct_points')?.touched">
+                    (Min: 0, Max: 11)
+                    </div>
               </div>
 
               <div class="error" *ngIf="bothFieldsError">You can only fill either "Add Points" or "Deduct Points", not both.</div>

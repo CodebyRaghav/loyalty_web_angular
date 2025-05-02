@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 import { UserHistoryService } from 'src/app/services/user-history-service/user-history.service';
 import { FormBuilder } from '@angular/forms';
 import * as moment from 'moment';
+import { LoaderService } from 'src/app/services/loader-service/loader.service';
 
 @Component({
   selector: 'app-default',
@@ -26,7 +27,7 @@ export class DefaultComponent implements OnInit {
   totalEarned: number;
   totalRedeemed: number;
   datesError: boolean= false;
-  constructor(private fb: FormBuilder, private navRoute: Router, private analyticsSvc: UserHistoryService){}
+  constructor(private fb: FormBuilder, private navRoute: Router, private analyticsSvc: UserHistoryService, private loaderService: LoaderService){}
 
   SearchDashboardForm = this.fb.group({
     start_date: [''],
@@ -43,6 +44,7 @@ export class DefaultComponent implements OnInit {
     }
     this.analyticsSvc.GetAnalytics(formVal).subscribe({
       next: (resp)=>{
+        this.loaderService.hide();
         if(resp.status){
           this.totalEarned = resp.data.summary.total_earned;
           this.totalRedeemed = resp.data.summary.total_redeemed;
@@ -80,6 +82,7 @@ export class DefaultComponent implements OnInit {
       console.log("FormVal: ", formVal);
       this.analyticsSvc.GetAnalytics(formVal).subscribe({
         next: (resp)=>{
+          this.loaderService.hide();
           if(resp.status){
             this.topUsersList = resp.data.top_users
           }

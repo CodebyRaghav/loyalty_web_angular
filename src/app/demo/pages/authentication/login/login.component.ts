@@ -21,7 +21,7 @@ export default class LoginComponent {
     });
     if (localStorage.getItem('access_token')) {
       this.toastr.success('User is already Logged In!', 'Success');
-      this.navRoute.navigate(['/default']);
+      this.navRoute.navigate(['/dashboard']);
     }
   }
   onSubmitButton() {
@@ -35,7 +35,7 @@ export default class LoginComponent {
             localStorage.setItem('access_token', accessToken);
             localStorage.setItem('username', formVal.username);
             this.toastr.success('User Logged In Successfully!', 'Success');
-            this.navRoute.navigate(['/default']);
+            this.navRoute.navigate(['/dashboard']);
           }else{
             this.toastr.error(resp.message, 'Error');
           }

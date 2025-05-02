@@ -4,6 +4,7 @@ import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { NgxDatatableModule, ColumnMode } from '@swimlane/ngx-datatable';
 import { ToastrModule, ToastrService } from 'ngx-toastr';
 import { UiSwitchModule } from 'ngx-ui-switch';
+import { LoaderService } from 'src/app/services/loader-service/loader.service';
 import { TiersService } from 'src/app/services/tiers-service/tiers.service';
 
 @Component({
@@ -20,6 +21,12 @@ import { TiersService } from 'src/app/services/tiers-service/tiers.service';
   styleUrl: './tiers.component.scss'
 })
 export default class TiersComponent implements OnInit {
+  
+  constructor(private fb: FormBuilder, private tierSvc: TiersService, private toastr: ToastrService, private loaderService: LoaderService) { }
+  
+  ngOnInit(): void {
+    this.getTiersList();
+  }
 
   showPopup = false;
   editIndex: number | null = null;
@@ -40,43 +47,41 @@ export default class TiersComponent implements OnInit {
     sequence: number;
     status: number;
     default_loyalty: number;
-    
-
   }[] = [];
-
-  ngOnInit(): void {
-    this.getTiersList();
-  }
 
 
   getTiersList(){
     this.tierSvc.GetTierList().subscribe({
       next: (resp)=>{
+        this.loaderService.hide();
           console.log("Response: ", resp);
           if(resp.status == 'success'){
             this.tierDataList = resp.data;
           }else{
-            this.toastr.error("API request Failed", 'Error');
+            this.toastr.error(resp.message, 'Error');
           }
+      },
+      error: (err)=>{
+        this.loaderService.hide();
+        this.toastr.error(err.error.message, "Error");
       }
     })
   }
 
 
-  constructor(private fb: FormBuilder, private tierSvc: TiersService, private toastr: ToastrService) { }
 
   tierDataForm = this.fb.group({
     id:  [0],
     tier_name: ['', [Validators.required, Validators.maxLength(40)]],
-    rental_qual: [0, [Validators.required, Validators.min(0), Validators.pattern('^[0-9]*$')]], 
-    rental_earn_pts_val: [0, [Validators.required, Validators.min(0), Validators.pattern('^[0-9]*$')]],
-    access_earn_pts_val: [0, [Validators.required, Validators.min(0), Validators.pattern('^[0-9]*$')]],
+    rental_qual: [0, [Validators.required, Validators.min(0), Validators.pattern('^[0-9]*$'), Validators.max(99999999999)]], 
+    rental_earn_pts_val: [0, [Validators.required, Validators.min(0), Validators.pattern('^[0-9]*$'), Validators.max(99999999999)]],
+    access_earn_pts_val: [0, [Validators.required, Validators.min(0), Validators.pattern('^[0-9]*$'), Validators.max(99999999999)]],
     upgrades: ['', [Validators.maxLength(250)]],
-    rental_redeem_pts_val: [0, [Validators.required, Validators.min(0), Validators.pattern('^[0-9]*$')]],
-    access_redeem_pts_val: [0, [Validators.required, Validators.min(0), Validators.pattern('^[0-9]*$')]],
-    notable_perks: [1, [ Validators.min(0)]],
-    perks_pts_val: [0, [ Validators.min(0)]],
-    sequence: [1, [Validators.required, Validators.min(1)]],
+    rental_redeem_pts_val: [0, [Validators.required, Validators.min(0), Validators.pattern('^[0-9]*$'), Validators.max(99999999999)]],
+    access_redeem_pts_val: [0, [Validators.required, Validators.min(0), Validators.pattern('^[0-9]*$'), Validators.max(99999999999)]],
+    notable_perks: [1, [ Validators.min(0), Validators.max(99999999999)]],
+    perks_pts_val: [0, [ Validators.min(0), Validators.max(99999999999)]],
+    sequence: [1, [Validators.required, Validators.min(1), Validators.max(99999999999)]],
     status: [0, [Validators.required]],
     default_loyalty: [0, [Validators.required]],
 
@@ -131,13 +136,15 @@ export default class TiersComponent implements OnInit {
       if(formVal.id > 0){
         this.tierSvc.UpdateTier(formVal.id, formVal).subscribe({
           next: (resp)=>{
-            console.log("Response", resp);
+            this.loaderService.hide();
+            // console.log("Response", resp);
             this.toastr.success(resp.message, "Success");
             this.onTierModalClose();
             this.getTiersList();
           },
           error: (err) =>{
-            console.log("Error", err);
+            this.loaderService.hide();
+            // console.log("Error", err);
             this.toastr.error(err.error.message, "Error");
           }
         })
@@ -145,7 +152,8 @@ export default class TiersComponent implements OnInit {
         
         this.tierSvc.CreateTier(formVal).subscribe({
           next: (resp)=>{
-            console.log("Response", resp);
+            this.loaderService.hide();
+            // console.log("Response", resp);
             if(resp.status == 'success'){
               this.toastr.success(resp.message, "Success");
               this.onTierModalClose();
@@ -155,7 +163,8 @@ export default class TiersComponent implements OnInit {
             } 
           },
           error: (err) =>{
-            console.log("Error", err);
+            this.loaderService.hide();
+            // console.log("Error", err);
             this.toastr.error(err.error.message, "Error");
           }
         })
