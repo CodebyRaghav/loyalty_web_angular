@@ -24,7 +24,7 @@
                           </div>
                     </div>
                     <div class="mb-3 col-6">
-                        <label class="form-label">Rentals Qualification</label>
+                        <label class="form-label">Number of Rentals for Qualification</label>
                         <input type="number" class="form-control" formControlName="rental_qual">
                         <div class="error" *ngIf="tierDataForm.get('rental_qual')?.invalid && tierDataForm.get('rental_qual')?.touched">
                             Field is required and accepts whole number only (Min: 0)
@@ -168,7 +168,7 @@
             </ng-template>
         </ngx-datatable-column>
     
-            <ngx-datatable-column name="Rentals Qualifiction" prop="rental_qual">
+            <ngx-datatable-column name="Rentals Qualification" prop="rental_qual">
                 <ng-template let-row="row" ngx-datatable-cell-template>
                 <div class="cell-text">{{ row.rental_qual }}</div>
                 </ng-template>

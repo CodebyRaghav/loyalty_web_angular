@@ -11,11 +11,11 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: '/default',
+        redirectTo: '/dashboard',
         pathMatch: 'full'
       },
       {
-        path: 'default',
+        path: 'dashboard',
         loadComponent: () => import('./demo/dashboard/default/default.component').then((c) => c.DefaultComponent),
         canActivate: [authGuard]
       },
