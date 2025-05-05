@@ -141,7 +141,7 @@ export default class TemplateComponent {
         this.notificationSvc.CreateNotification(formVal).subscribe({
           next: (resp)=>{
             this.loaderService.hide();
-            if(resp.status == "success"){
+            if(resp.status){
               this.toastr.success(resp.message, "Success");
               this.onTemplateModalClose();
             }else{
@@ -157,8 +157,6 @@ export default class TemplateComponent {
       this.onTemplateModalClose();
       // console.log('Saving Email:', formVal);
       // alert('Email Saved!');
-    } else {
-      this.emailForm.markAllAsTouched();
     }
   }
 

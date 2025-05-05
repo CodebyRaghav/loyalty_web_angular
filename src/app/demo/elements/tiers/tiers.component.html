@@ -17,17 +17,17 @@
             <div class="modal-body rounded ">
                 <form [formGroup]="tierDataForm" (ngSubmit)="onSubmit()" class="row">
                     <div class="mb-3 col-6">
-                        <label class="form-label">Tier Name</label>
+                        <label class="form-label">Tier Name <span class="error">*</span></label>
                         <input type="text" class="form-control" formControlName="tier_name">
                         <div class="error" *ngIf="tierDataForm.get('tier_name')?.invalid && tierDataForm.get('tier_name')?.touched">
-                            Field is required (Max Char: 40)
+                            Required (Max Char: 40)
                           </div>
                     </div>
                     <div class="mb-3 col-6">
-                        <label class="form-label">Number of Rentals for Qualification</label>
+                        <label class="form-label">Number of Rentals for Qualification <span class="error">*</span></label>
                         <input type="number" class="form-control" formControlName="rental_qual">
                         <div class="error" *ngIf="tierDataForm.get('rental_qual')?.invalid && tierDataForm.get('rental_qual')?.touched">
-                            Field is required (Min: 0, Max: 11 and decimals not allowed)
+                            Required (Min: 0, Max-Length: 11 and decimals not allowed)
                           </div>
                     </div>
 
@@ -42,10 +42,10 @@
                           </div>
                     </div>
                     <div class="mb-3 col-6">
-                        <label class="form-label">Sequence</label>
+                        <label class="form-label">Sequence <span class="error">*</span></label>
                         <input type="number" class="form-control" formControlName="sequence">
                         <div class="error" *ngIf="tierDataForm.get('sequence')?.invalid && tierDataForm.get('sequence')?.touched">
-                          Field is required (Min: 0, Max: 11 and decimals not allowed)
+                          Required (Min: 0, Max-Length: 11 and decimals not allowed)
                           </div>
                           <div class="error" *ngIf="uniqueSequenceError">
                             Sequence is not unique
@@ -56,7 +56,7 @@
                         <label class="form-label">Perks (Free Rental Day)</label>
                         <input type="number" class="form-control" formControlName="notable_perks">
                         <div class="error" *ngIf="tierDataForm.get('notable_perks')?.invalid && tierDataForm.get('notable_perks')?.touched">
-                          (Min: 0, Max: 11 and decimals not allowed)
+                          (Min: 0, Max-Length: 11 and decimals not allowed)
                           </div>
                     </div>
 
@@ -68,46 +68,46 @@
                             <span class="input-group-text">Point</span>
                         </div>
                         <div class="error" *ngIf="tierDataForm.get('perks_pts_val')?.invalid && tierDataForm.get('perks_pts_val')?.touched">
-                          (Min: 0, Max: 11 and decimals not allowed)
+                          (Min: 0, Max-Length: 11 and decimals not allowed)
                           </div>
                     </div>
                     <div class="mb-3 col-6">
-                        <label class="form-label">Earning Rental Point Value</label>
+                        <label class="form-label">Earning Rental Point Value <span class="error">*</span></label>
                         <div class="input-group">
                             <span class="input-group-text">1 Point =</span>
                             <input type="number" class="form-control rounded" formControlName="rental_earn_pts_val">
                             <span class="input-group-text">AED</span>
                         </div>
                         <div class="error" *ngIf="tierDataForm.get('rental_earn_pts_val')?.invalid && tierDataForm.get('rental_earn_pts_val')?.touched">
-                          Field is required (Min: 0, Max: 11 and decimals not allowed)
+                          Required (Min: 0, Max-Length: 11 and decimals not allowed)
                           </div>
                     </div>
 
                     <div class="mb-3 col-6">
-                        <label class="form-label">Earning Non-Rental point value</label>
+                        <label class="form-label">Earning Non-Rental point value <span class="error">*</span></label>
                         <div class="input-group">
                             <span class="input-group-text">1 Point =</span>
                             <input type="number" class="form-control rounded" formControlName="access_earn_pts_val">
                             <span class="input-group-text">AED</span>
                         </div>
                         <div class="error" *ngIf="tierDataForm.get('access_earn_pts_val')?.invalid && tierDataForm.get('access_earn_pts_val')?.touched">
-                          Field is required (Min: 0, Max: 11 and decimals not allowed)
+                          Required (Min: 0, Max-Length: 11 and decimals not allowed)
                           </div>
                     </div>
                     <div class="mb-3 col-6">
-                        <label class="form-label">Rental Redeem Point Value </label>
+                        <label class="form-label">Rental Redeem Point Value <span class="error">*</span> </label>
                         <div class="input-group">
                             <span class="input-group-text">1 Point =</span>
                             <input type="number" class="form-control rounded" formControlName="rental_redeem_pts_val">
                             <span class="input-group-text">AED</span>
                         </div>
                         <div class="error" *ngIf="tierDataForm.get('rental_redeem_pts_val')?.invalid && tierDataForm.get('rental_redeem_pts_val')?.touched">
-                          Field is required (Min: 0, Max: 11 and decimals not allowed)
+                          Required (Min: 0, Max-Length: 11 and decimals not allowed)
                           </div>
 
                     </div>
                     <div class="mb-3 col-6">
-                        <label class="form-label"> Non-Rental Redeem Point Value</label>
+                        <label class="form-label"> Non-Rental Redeem Point Value <span class="error">*</span></label>
                         <div class="input-group">
                             <span class="input-group-text">1 Point =</span>
                             <input type="number" class="form-control rounded"
@@ -115,7 +115,7 @@
                             <span class="input-group-text">AED</span>
                         </div>
                         <div class="error" *ngIf="tierDataForm.get('access_redeem_pts_val')?.invalid && tierDataForm.get('access_redeem_pts_val')?.touched">
-                          Field is required (Min: 0, Max: 11 and decimals not allowed)
+                          Required (Min: 0, Max-Length: 11 and decimals not allowed)
                           </div>
                     </div>
 
@@ -150,7 +150,7 @@
                       </div>
 
                     <div class="text-end border-top p-0 m-0">
-                        <button type="submit" class="btn btn-primary" [disabled]="tierDataForm.invalid">Submit</button>
+                        <button type="submit" class="btn btn-primary" >Submit</button>
                     </div>
                 </form>
             </div>

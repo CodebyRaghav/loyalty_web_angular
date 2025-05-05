@@ -1,15 +1,17 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { LoaderService } from '../loader-service/loader.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserHistoryService {
   accessToken: any =  localStorage.getItem('access_token');
-constructor(private http: HttpClient) {  }
+constructor(private http: HttpClient, private loaderService: LoaderService) {  }
 
   GetUsersHistory(data: any): Observable<any> {
+    this.loaderService.show();
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.accessToken}`,
       'my_key': 'abc123'
@@ -29,6 +31,7 @@ constructor(private http: HttpClient) {  }
 
 
   GetAnalytics(data: any): Observable<any> {
+    this.loaderService.show();
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.accessToken}`,
       'my_key': 'abc123'
@@ -44,5 +47,18 @@ constructor(private http: HttpClient) {  }
     return this.http.get<any>('http://loyaltyApi/index.php/api/LoyaltyHistory/analytics', {
       params: params,
       headers: headers});
+  }
+
+  
+
+  UpdateExpiry(id:number, data: any): Observable<any> {
+    this.loaderService.show();
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.accessToken}`,
+      'my_key': 'abc123'
+      // 'Content-Type': 'application/json'
+    });
+  
+    return this.http.put<any>(`http://loyaltyApi/index.php/api/LoyaltyHistory/${id}`, data, {headers});
   }
 }

@@ -16,7 +16,11 @@ if (environment.production) {
 bootstrapApplication(AppComponent, {
   providers: [
     provideHttpClient(),
-    importProvidersFrom(ToastrModule.forRoot()),                          
+    importProvidersFrom(ToastrModule.forRoot({
+      positionClass: 'toast-bottom-right', 
+      timeOut: 3000,                       
+      closeButton: true                     
+    })),                          
     importProvidersFrom(AppRoutingModule),        
     provideAnimations()                           
   ]

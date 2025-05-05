@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ColumnMode, NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { ToastrService } from 'ngx-toastr';
@@ -17,7 +17,8 @@ import { LoaderService } from 'src/app/services/loader-service/loader.service';
 export class UserHistoryComponent implements OnInit {
   ColumnMode = ColumnMode;
   showPopup: boolean = false;
-  selectedRow: any = null;
+  isFutureDate: boolean = true;
+  // selectedRow: any = null;
   datesError: boolean = false;
   searchHistoryList = [];
   tranTypesList = [{key: "earn", label:"Earn"}, {key: "redeem", label: "Redeem"}];
@@ -25,6 +26,8 @@ export class UserHistoryComponent implements OnInit {
   statusList = [{key: "approved", label: "Approved"}, {key :"pending", label: "Pending"}, {key: "reversal", label: "Reversal"}];
   sortByList = [{key: "date", label: "Date"}];
   sortDirectionList = [{key: "asc", label: "Ascending"}, {key: "desc", label: "Descending"}]
+  @Input() isMasterUser: boolean = false;
+  @Input() userHcode: number = null;
 
 
   constructor(private fb: FormBuilder, private toastr: ToastrService, private searchSvc: UserHistoryService, private loaderService: LoaderService) { }
@@ -44,7 +47,7 @@ export class UserHistoryComponent implements OnInit {
     });
 
     viewSummaryForm = this.fb.group({
-      id: [""],
+      id: [null],
       user_hcode: [""],
       tran_type: [""],
       points: [""],
@@ -59,7 +62,13 @@ export class UserHistoryComponent implements OnInit {
     })
 
     ngOnInit(): void {
-      this.getUserHistory(this.SearchHistoryForm.value);
+      if(this.isMasterUser){
+        let formVal = {user_hcode : this.userHcode};
+        // formVal.;
+        this.getUserHistory(formVal);
+      }else{
+        this.getUserHistory(this.SearchHistoryForm.value);
+      }
     }
 
     getUserHistory(formVal: any){
@@ -70,7 +79,7 @@ export class UserHistoryComponent implements OnInit {
             this.searchHistoryList = resp.data;
           }else{
             this.searchHistoryList = [];
-            this.toastr.error(resp.message, "Error");
+            // this.toastr.error(resp.message, "Error");
           }
         },
         error: (err)=>{
@@ -102,13 +111,48 @@ export class UserHistoryComponent implements OnInit {
     }
 
     openPopup(row: any): void {
-      this.selectedRow = row;
+      // this.selectedRow = row;
+
+      this.viewSummaryForm.patchValue({
+        ...row,
+        expires_at: moment(row.expires_at).format('YYYY-MM-DD'),
+        created_at: moment(row.created_at).format('YYYY-MM-DD')
+      })
+      console.log("Expires At: ", this.viewSummaryForm.value)
       this.showPopup = true;
     }
      
     closePopup(): void {
       this.showPopup = false;
-      this.selectedRow = null;
+      this.viewSummaryForm.reset();
+      // this.selectedRow = null;
+    }
+
+    onUpdateButton(){
+      let formVal = this.viewSummaryForm.value;
+
+      if(!moment(formVal.expires_at).isAfter(moment(), 'day')){
+
+        this.isFutureDate = false;
+      }
+      this.viewSummaryForm.markAllAsTouched();
+      if(this.viewSummaryForm.valid && this.isFutureDate){
+        this.searchSvc.UpdateExpiry(formVal.id, formVal).subscribe({
+          next: (resp)=>{
+            this.loaderService.hide();
+            if(resp.status){
+              this.toastr.success(resp.message, "Success");
+              this.closePopup();
+            }else{
+              this.toastr.error(resp.message, "Error");
+            }
+          },
+          error: (err)=>{
+            this.loaderService.hide();
+            this.toastr.error(err.error.message, "Error");
+          }
+        })
+      }
     }
 
 }

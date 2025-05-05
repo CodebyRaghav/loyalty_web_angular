@@ -11,6 +11,7 @@ import { NgScrollbarModule } from 'ngx-scrollbar';
 // bootstrap import
 import { NgbDropdownModule, NgbNavModule, NgbModule, NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+import { MatDatepicker, MatDatepickerModule } from '@angular/material/datepicker';
 
 @NgModule({
   imports: [
@@ -34,7 +35,8 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
     NgbDropdownModule,
     NgbNavModule,
     NgbCollapseModule,
-    NgScrollbarModule
+    NgScrollbarModule,
+    MatDatepickerModule
   ],
   declarations: []
 })

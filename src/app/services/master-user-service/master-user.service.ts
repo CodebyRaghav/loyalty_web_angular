@@ -51,4 +51,14 @@ constructor(private http: HttpClient, private loaderService: LoaderService) {  }
   
     return this.http.put<any>(`http://loyaltyApi/index.php/api/Template/`, data, {headers});
   }
+
+  AddTransaction(data: any): Observable<any> {
+    this.loaderService.show();
+    const headers = new HttpHeaders({
+      'my_key': 'abc123',
+      'Authorization': `Bearer ${this.accessToken}`,
+    });
+  
+    return this.http.post<any>('http://loyaltyApi/index.php/api/LoyaltyHistory', data, {headers});
+  }
 }

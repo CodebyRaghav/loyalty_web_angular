@@ -1,0 +1,99 @@
+<form [formGroup]="newTransactionForm" (ngSubmit)="onSubmitTransactionForm()" class="p-3 row">
+    <!-- <label class="fs-3 fw-normal mb-3">User Transaction</label> -->
+ 
+    <div class="mb-3 col-3">
+      <label class="form-label ms-1">User HCode <span class="error">*</span></label>
+      <input type="number" class="form-control" formControlName="user_hcode" />
+      <small class="error" *ngIf="newTransactionForm.get('user_hcode')?.touched && newTransactionForm.get('user_hcode')?.invalid">
+       <p class="fs-5">Required (Min: 0, Max-Length: 11)</p>
+      </small>
+    </div>
+ 
+    <div class="mb-3 col-3">
+      <label class="form-label ms-1">Transaction Type <span class="error">*</span></label>
+      <select class="form-select" formControlName="tran_type">
+        <option value="">-- No Selection --</option>
+        <option *ngFor="let type of tranTypesList" [value]="type.key">{{ type.label }}</option>
+      </select>
+      <small class="error" *ngIf="newTransactionForm.get('tran_type')?.touched && newTransactionForm.get('tran_type')?.invalid">
+        <p class="fs-5"> Required</p>
+      </small>
+    </div>
+ 
+    <div class="mb-3 col-3">
+      <label class="form-label ms-1">Expires At <span class="error">*</span></label>
+      <input id="datepicker" type="date" class="form-control" formControlName="expires_at" />
+      <!-- <mat-form-field>
+        <input class="form-control" matInput type="date"
+            formControlName="expires_at">
+    </mat-form-field> -->
+      <small class="error" *ngIf="newTransactionForm.get('expires_at')?.touched && newTransactionForm.get('expires_at')?.invalid">
+        <p class="fs-5"> Required</p>
+      </small>
+    </div>
+
+    
+ 
+    <div class="mb-3 col-3">
+      <label class="form-label ms-1">Points <span class="error">*</span></label>
+      <input type="number" class="form-control" formControlName="points" />
+      <small class="error" *ngIf="newTransactionForm.get('points')?.touched && newTransactionForm.get('points')?.invalid">
+        <p class="fs-5"> Required (Min: 0, Max-Length: 11)</p>
+      </small>
+    </div>
+ 
+    <div class="mb-3 col-3">
+      <label class="form-label ms-1">Source <span class="error">*</span></label>
+      <select class="form-select" formControlName="source">
+        <option value="">-- No Selection --</option>
+        <option *ngFor="let s of sourceList" [value]="s.key">{{ s.label }}</option>
+      </select>
+      <small class="error" *ngIf="newTransactionForm.get('source')?.touched && newTransactionForm.get('source')?.invalid">
+        <p class="fs-5"> Required</p>
+      </small>
+    </div>
+ 
+    <div class="mb-3 col-3">
+      <label class="form-label ms-1">Reference ID <span class="error">*</span></label>
+      <input type="text" class="form-control" placeholder="Enter Reference ID" formControlName="reference_id" />
+      <small class="error" *ngIf="newTransactionForm.get('reference_id')?.touched && newTransactionForm.get('reference_id')?.invalid">
+        <p class="fs-5"> Required (Max-Length: 20)</p>
+      </small>
+    </div>
+ 
+    <div class="mb-3 col-3">
+      <label class="form-label ms-1">Status <span class="error">*</span></label>
+      <select class="form-select" formControlName="status">
+        <option value="">-- No Selection --</option>
+        <option *ngFor="let st of statusList" [value]="st.key">{{ st.label }}</option>
+      </select>
+      <small class="error" *ngIf="newTransactionForm.get('status')?.touched && newTransactionForm.get('status')?.invalid">
+        <p class="fs-5"> Required</p>
+      </small>
+    </div>
+ 
+    <div class="mb-3 col-3">
+      <label class="form-label ms-1">Reference Amount <span class="error">*</span></label>
+      <input type="number" class="form-control" formControlName="reference_amount" />
+      <small class="error" *ngIf="newTransactionForm.get('reference_amount')?.touched && newTransactionForm.get('reference_amount')?.invalid">
+        <p class="fs-5"> Required (Min: 0, Max-Length: 11)</p>
+      </small>
+    </div>
+ 
+    <div class="mb-3 col">
+      <label class="form-label ms-1">Description <span class="error">*</span></label>
+      <textarea class="form-control" rows="3" formControlName="description"></textarea>
+      <small class="error" *ngIf="newTransactionForm.get('description')?.touched && newTransactionForm.get('description')?.invalid">
+        <p class="fs-5"> Required</p>
+      </small>
+    </div>
+    <div class="error" *ngIf="!isFutureDate">Date must be in the future and cannot be today or a past date.</div>
+ 
+    <div class="d-flex">
+      <button type="submit" class="btn btn-primary ms-auto mt-2">
+        Submit
+      </button>
+    </div>
+  </form>
+ 
+ 

@@ -25,7 +25,7 @@
             <span>or</span>
           </div> -->
           <!-- <h5 class="my-4 d-flex justify-content-center">Sign In</h5> -->
-          <form [formGroup]="loginForm" (ngSubmit)="onSubmitButton()">
+          <form [formGroup]="loginForm">
             <div class="form-floating mb-3">
               <input type="email" class="form-control" formControlName="username" id="floatingInput" value="info@codedthemes.com" />
               <label for="floatingInput">Username</label>
@@ -51,7 +51,7 @@
               </h5> -->
             </div>
             <div class="d-grid mt-4">
-              <button type="button" class="btn btn-secondary" (click)="onSubmitButton()">Log In</button>
+              <button type="submit" class="btn btn-secondary" (click)="onSubmitButton()">Log In</button>
             </div>
           </form>
           

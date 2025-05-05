@@ -26,6 +26,8 @@ export class DefaultComponent implements OnInit {
   monthsList = [];
   totalEarned: number;
   totalRedeemed: number;
+  total_earning: number;
+  total_redemption: number;
   datesError: boolean= false;
   constructor(private fb: FormBuilder, private navRoute: Router, private analyticsSvc: UserHistoryService, private loaderService: LoaderService){}
 
@@ -48,6 +50,8 @@ export class DefaultComponent implements OnInit {
         if(resp.status){
           this.totalEarned = resp.data.summary.total_earned;
           this.totalRedeemed = resp.data.summary.total_redeemed;
+          this.total_earning = resp.data.summary.total_earning;
+          this.total_redemption = resp.data.summary.total_redemption;
           this.topUsersList = resp.data.top_users;
           resp.data.monthly_trend.forEach((element: any) => {
             this.earnedList.push(Number(element.earned));
@@ -65,15 +69,17 @@ export class DefaultComponent implements OnInit {
     let formVal = this.SearchDashboardForm.value;
 
 
-    if(formVal.start_date && formVal.end_date){
-      const startDate = moment(formVal.start_date);
-      const endDate = moment(formVal.end_date);
-
-      if (startDate.isBefore(endDate)) {
-        this.datesError = false;
+    if (formVal.start_date && formVal.end_date) {
+      const startDate = moment(formVal.start_date, 'YYYY-MM-DD', true);
+      const endDate = moment(formVal.end_date, 'YYYY-MM-DD', true);
+    
+      if (startDate.isValid() && endDate.isValid()) {
+        this.datesError = !startDate.isBefore(endDate);
       } else {
-        this.datesError = true;
+        this.datesError = false; 
       }
+    } else {
+      this.datesError = false; 
     }
 
     if(!this.datesError){

@@ -6,11 +6,13 @@ import { MasterUserService } from 'src/app/services/master-user-service/master-u
 import { ToastrService } from 'ngx-toastr';
 import * as moment from 'moment';
 import { LoaderService } from 'src/app/services/loader-service/loader.service';
-
+import { UserHistoryComponent } from "../user-history/user-history.component";
+import { AddTransactionComponent } from '../add-Transaction/add-transaction/add-transaction.component';
+ 
 @Component({
   selector: 'app-master-user',
-  standalone:true ,
-  imports: [NgxDatatableModule,CommonModule,FormsModule, ReactiveFormsModule],
+  standalone: true,
+  imports: [NgxDatatableModule, CommonModule, FormsModule, ReactiveFormsModule, UserHistoryComponent, AddTransactionComponent],
   templateUrl: './master-user.component.html',
   styleUrl: './master-user.component.scss'
 })
@@ -18,16 +20,24 @@ export class MasterUserComponent implements OnInit {
  
   ColumnMode = ColumnMode;
   showPopup: boolean = false;
-  selectedRow: any = null;
-  searchHistoryList = [];
-  statusList = [{key: "active", label: "Active"}, {key: "inactive", label: "Inactive"}, {key: "suspended", label: "Suspended"}];
-  tierList = [];
-  bothFieldsError: boolean = false;
-  datesError: boolean = false;
-
-
-  constructor(private fb: FormBuilder, private masterUserSvc: MasterUserService, private toastr: ToastrService, private loaderService: LoaderService){}
+  showViewHistoryModal = false;
+  showAddTransactionModal = false;
+  userHcode: number;
   
+ 
+  // selectedRow: any = null;
+  searchHistoryList = [];
+  statusList = [{ key: "active", label: "Active" }, { key: "inactive", label: "Inactive" }, { key: "suspended", label: "Suspended" }];
+  tierList = [];
+  // bothFieldsError: boolean = false;
+  datesError: boolean = false;
+ 
+ 
+  constructor(private fb: FormBuilder,
+ 
+    private masterUserSvc: MasterUserService,
+    private toastr: ToastrService, private loaderService: LoaderService) { }
+ 
   filterUsersForm = this.fb.group({
     status: [""],
     current_tier_name: [""],
@@ -35,44 +45,47 @@ export class MasterUserComponent implements OnInit {
     date_to: [""],
     username: [""]
   })
-
+ 
   editUserForm = this.fb.group({
     id: [0],
     current_tier_name: [""],
     status: [""],
-    add_points: [0, [Validators.min(0), Validators.max(99999999999)]],
-    deduct_points: [0, [Validators.min(0), Validators.max(99999999999)]],
+    // add_points: [0, [Validators.min(0), Validators.max(99999999999)]],
+    // deduct_points: [0, [Validators.min(0), Validators.max(99999999999)]],
     user_hcode: [null]
   })
-  
-
+ 
+ 
   ngOnInit(): void {
-   this.getTierList();
-   this.getHistoryList(this.filterUsersForm.value); 
+    this.getTierList();
+    this.getHistoryList(this.filterUsersForm.value);
   }
-
-  getTierList(){
+ 
+  getTierList() {
     this.masterUserSvc.GetTiersList().subscribe({
-      next: (resp)=>{
+      next: (resp) => {
         this.loaderService.hide();
         this.tierList = resp.data;
         console.log("Tier List: ", this.tierList);
       }
     })
   }
-
-  getHistoryList(formVal:any){
+ 
+ 
+ 
+ 
+  getHistoryList(formVal: any) {
     this.masterUserSvc.GetUserList(formVal).subscribe({
-      next: (resp)=>{
+      next: (resp) => {
         this.loaderService.hide();
-        if(resp.status && resp.data){
+        if (resp.status && resp.data) {
           this.searchHistoryList = resp.data;
-        }else{
+        } else {
           this.searchHistoryList = [];
           this.toastr.error(resp.message, "Error");
         }
       },
-      error: (err)=>{
+      error: (err) => {
         this.loaderService.hide();
         // console.log("Error: ", err);
         this.searchHistoryList = [];
@@ -80,26 +93,28 @@ export class MasterUserComponent implements OnInit {
       }
     })
   }
-
-  onSearchButton(){
+ 
+ 
+ 
+  onSearchButton() {
     this.filterUsersForm.markAllAsTouched();
-    if(this.filterUsersForm.value.date_from && this.filterUsersForm.value.date_to){
+    if (this.filterUsersForm.value.date_from && this.filterUsersForm.value.date_to) {
       const fromDate = moment(this.filterUsersForm.value.date_from);
       const toDate = moment(this.filterUsersForm.value.date_to);
-
+ 
       if (fromDate.isBefore(toDate)) {
         this.datesError = false;
       } else {
         this.datesError = true;
       }
     }
-    if(this.filterUsersForm.valid && !this.datesError){
-      this.getHistoryList(this.filterUsersForm.value); 
+    if (this.filterUsersForm.valid && !this.datesError) {
+      this.getHistoryList(this.filterUsersForm.value);
     }
   }
-
+ 
   openPopup(row: any): void {
-    this.selectedRow = row;
+    // this.selectedRow = row;
     this.getTierList();
     this.editUserForm.patchValue({
       id: row.id,
@@ -113,36 +128,38 @@ export class MasterUserComponent implements OnInit {
  
   closePopup(): void {
     this.showPopup = false;
+    this.showAddTransactionModal = false;
+    this.showViewHistoryModal = false;
     this.editUserForm.reset({
       id: 0,
       current_tier_name: "",
       status: "",
-      add_points: 0,
-      deduct_points: 0
+      // add_points: 0,
+      // deduct_points: 0
     });
-    this.selectedRow = null;
+    // this.selectedRow = null;
   }
-
+ 
   onSubmitEditForm(): void {
     this.editUserForm.markAllAsTouched();
     let formVal = this.editUserForm.value;
-    if(formVal.add_points != null && formVal.deduct_points != null){
-      this.bothFieldsError = true;
-    }else{
-      this.bothFieldsError = false;
-    }
-    if (this.editUserForm.valid && !this.bothFieldsError) {
+    // if (formVal.add_points != null && formVal.deduct_points != null) {
+    //   this.bothFieldsError = true;
+    // } else {
+    //   this.bothFieldsError = false;
+    // }
+    if (this.editUserForm.valid ) {
       this.masterUserSvc.UpdateUserInfo(formVal).subscribe({
-        next: (resp)=>{
+        next: (resp) => {
           this.loaderService.hide();
-          if(resp.status){
+          if (resp.status) {
             this.toastr.success(resp.message, "Success");
             this.closePopup();
-          }else{
+          } else {
             this.toastr.error(resp.message, "Error");
           }
         },
-        error: (err)=>{
+        error: (err) => {
           this.loaderService.hide();
           this.toastr.error(err.error.message, "Error");
         }
@@ -150,5 +167,18 @@ export class MasterUserComponent implements OnInit {
     }
   }
  
+  openAddTransactionModal(row:any) {
+    this.userHcode = row.user_hcode;
+    this.showAddTransactionModal = true;
+  }
+ 
+  openViewHistoryModal(row: any) {
+    // this.selectedRow = row;
+    this.userHcode = row.user_hcode;
+    console.log("user HCODE", this.userHcode);
+    if(this.userHcode){
+
+      this.showViewHistoryModal = true;
+    }
+  }
 }
-  
