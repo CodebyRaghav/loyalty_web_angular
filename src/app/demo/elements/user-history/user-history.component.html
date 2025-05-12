@@ -165,13 +165,13 @@
         <tr><th>Reference Id</th><td>{{ viewSummaryForm.value.reference_id }}</td></tr>
         <tr><th>Description</th><td>{{ viewSummaryForm.value.description }}</td></tr>
  
-        <tr><th>Date From</th><td>{{ viewSummaryForm.value.created_at }}</td></tr>
+        <tr><th>Creation Date</th><td>{{ viewSummaryForm.value.created_at }}</td></tr>
         <!-- <tr><th>Date To</th><td>{{ viewSummaryForm.value.expires_at }}</td></tr> -->
         <tr><th>Status</th><td>{{ viewSummaryForm.value.status }}</td></tr>
-        <tr><th>Expired</th><td>{{ viewSummaryForm.value.is_expired }}</td></tr>
+        <!-- <tr><th>Expired</th><td>{{ viewSummaryForm.value.is_expired === '1' ? 'Yes' : 'No' }}</td></tr> -->
         <tr><th>Reference Amount</th><td>{{ viewSummaryForm.value.reference_amount }}</td></tr>
 
-        <tr><th>Date To</th><td> <input type="date" class="form-control" formControlName="expires_at"><div class="error" *ngIf="viewSummaryForm.get('expires_at')?.invalid && viewSummaryForm.get('expires_at')?.touched">This field is required</div></td></tr>
+        <tr><th>Expiry Date</th><td> <input type="date" class="form-control" formControlName="expires_at"><div class="error" *ngIf="viewSummaryForm.get('expires_at')?.invalid && viewSummaryForm.get('expires_at')?.touched">This field is required</div></td></tr>
       </table>
       <div class="error" *ngIf="!isFutureDate">Date must be in the future and cannot be today or a past date.</div>
       <button class="btn btn-primary mt-2 ms-auto" (click)="onUpdateButton()">Update</button>

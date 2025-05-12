@@ -23,7 +23,7 @@ export class UserHistoryComponent implements OnInit {
   searchHistoryList = [];
   tranTypesList = [{key: "earn", label:"Earn"}, {key: "redeem", label: "Redeem"}];
   sourceList = [{key: "purchase", label: "Purchase"}, {key: "referal", label: "Referal"}, {key: "manual", label: "Manual"}];
-  statusList = [{key: "approved", label: "Approved"}, {key :"pending", label: "Pending"}, {key: "reversal", label: "Reversal"}];
+  statusList = [{key: "approved", label: "Approved"}, {key :"pending", label: "Pending"}];
   sortByList = [{key: "date", label: "Date"}];
   sortDirectionList = [{key: "asc", label: "Ascending"}, {key: "desc", label: "Descending"}]
   @Input() isMasterUser: boolean = false;

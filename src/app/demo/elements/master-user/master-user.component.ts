@@ -27,7 +27,7 @@ export class MasterUserComponent implements OnInit {
  
   // selectedRow: any = null;
   searchHistoryList = [];
-  statusList = [{ key: "active", label: "Active" }, { key: "inactive", label: "Inactive" }, { key: "suspended", label: "Suspended" }];
+  statusList = [{ key: "active", label: "Active" }, { key: "inactive", label: "Inactive" }];
   tierList = [];
   // bothFieldsError: boolean = false;
   datesError: boolean = false;

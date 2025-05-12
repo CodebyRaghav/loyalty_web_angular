@@ -54,8 +54,7 @@ export class AddTransactionComponent implements OnInit {
  
   statusList = [
     { key: "approved", label: "Approved" },
-    { key: "pending", label: "Pending" },
-    { key: "reversal", label: "Reversal" }
+    { key: "pending", label: "Pending" }
   ];
  
  
