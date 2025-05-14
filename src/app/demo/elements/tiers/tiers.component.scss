@@ -2,7 +2,6 @@ button {
   margin-top: 10px;
 }
 
-
 // Modal styling
 .modal-content {
   border-radius: 0.5rem;
@@ -35,7 +34,6 @@ button {
 //   background-color: #e0e7ff; // soft blue
 // }
 
-
 // ::ng-deep .datatable-body-cell {
 //   text-align: center !important;
 //   vertical-align: middle;
@@ -66,41 +64,57 @@ button {
 //   padding-right: 20px;
 // }
 
-  .modal-body {
-    background-color: white !important;
+.modal-body {
+  background-color: white !important;
 }
 .modal-header {
-    background-color: white;
-    border-bottom: 1px solid #ddd;
-  }
-  
+  background-color: white;
+  border-bottom: 1px solid #ddd;
+}
 
-  
-  .badge {
-    padding: 4px 8px;
-    border-radius: 12px;
-    font-size: 12px;
-    text-align: center;
-    display: inline-block;
+.badge {
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  text-align: center;
+  display: inline-block;
+}
+
+.badge-success {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.badge-danger {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.badge-primary {
+  background-color: #cce5ff;
+  color: #004085;
+}
+
+.badge-secondary {
+  background-color: #e2e3e5;
+  color: #383d41;
+}
+
+.datatable-scroll-container {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.datatable-scroll-inner {
+  min-width: 768px; // Adjust based on actual number of columns
+}
+
+@media (min-width: 768px) {
+  .datatable-scroll-container {
+    overflow-x: visible;
   }
-  
-  .badge-success {
-    background-color: #d4edda;
-    color: #155724;
+
+  .datatable-scroll-inner {
+    min-width: 100%;
   }
-  
-  .badge-danger {
-    background-color: #f8d7da;
-    color: #721c24;
-  }
-  
-  .badge-primary {
-    background-color: #cce5ff;
-    color: #004085;
-  }
-  
-  .badge-secondary {
-    background-color: #e2e3e5;
-    color: #383d41;
-  }
-  
+}

@@ -1,111 +1,133 @@
 <label class="fs-3">Notifications Creation</label>
 
 <div class="text-end m-3">
-    <button class="btn btn-primary" (click)="openModal()">Add New</button>
+  <button class="btn btn-primary" (click)="openModal()">Add New</button>
 </div>
 
 <div class="table-wrapper p-4 bg-white rounded shadow-sm">
-    <ngx-datatable class="material striped-table custom-table" [rows]="templates" [columnMode]="ColumnMode.force"
-        [headerHeight]="50" [footerHeight]="50" rowHeight="auto" [limit]="10">
-        <ngx-datatable-column name="Email Notification Name" prop="name">
-            <ng-template let-row="row" ngx-datatable-cell-template>
-                <div class="cell-text">{{ row.email_template_name }}</div>
-            </ng-template>
-        </ngx-datatable-column>
+  <div class="datatable-scroll-inner">
+    <ngx-datatable
+      class="material striped-table custom-table"
+      [rows]="templates"
+      [columnMode]="ColumnMode.force"
+      [headerHeight]="50"
+      [footerHeight]="50"
+      rowHeight="auto"
+      [limit]="10"
+    >
+      <ngx-datatable-column name="Email Notification Name" prop="name">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <div class="cell-text">{{ row.email_template_name }}</div>
+        </ng-template>
+      </ngx-datatable-column>
 
-        <ngx-datatable-column name="Actions" [sortable]="false">
-            <ng-template let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
-                <button class="btn btn-sm btn-warning" (click)="editRow(row, rowIndex)">Edit</button>
-            </ng-template>
-        </ngx-datatable-column>
+      <ngx-datatable-column name="Actions" [sortable]="false">
+        <ng-template let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+          <button class="btn btn-sm btn-warning" (click)="editRow(row, rowIndex)">Edit</button>
+        </ng-template>
+      </ngx-datatable-column>
     </ngx-datatable>
+  </div>
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="emailModal" tabindex="-1" aria-labelledby="emailModalLabel" aria-hidden="true"
-    [class.show]="showPopup" [style.display]="showPopup ? 'block' : 'none'">
-    <div class="modal-dialog modal-xl modal-dialog-scrollable">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="emailModalLabel">Customer Emails</h5>
-                <button type="button" class="btn-close" (click)="onTemplateModalClose()" aria-label="Close"></button>
+<div
+  class="modal fade"
+  id="emailModal"
+  tabindex="-1"
+  aria-labelledby="emailModalLabel"
+  aria-hidden="true"
+  [class.show]="showPopup"
+  [style.display]="showPopup ? 'block' : 'none'"
+>
+  <div class="modal-dialog modal-xl modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="emailModalLabel">Customer Emails</h5>
+        <button type="button" class="btn-close" (click)="onTemplateModalClose()" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body d-flex">
+        <form [formGroup]="emailForm" class="p-4 flex-grow-1" (ngSubmit)="saveEmail()">
+          <div class="mb-3 row">
+            <!-- Email Template Name -->
+            <div class="col-md-4">
+              <label class="form-label">
+                Email Template Name
+                <span class="error">*</span>
+              </label>
+              <input type="text" name="name" class="form-control" formControlName="email_template_name" required />
+              <div class="error" *ngIf="emailForm.get('email_template_name')?.invalid && emailForm.get('email_template_name')?.touched">
+                Required (Max Char: 100)
+              </div>
             </div>
 
-            <div class="modal-body d-flex">
-                <form [formGroup]="emailForm" class="p-4 flex-grow-1" (ngSubmit)="saveEmail()">
-                    <div class="mb-3 row">
-                        <!-- Email Template Name -->
-                        <div class="col-md-4">
-                            <label class="form-label">Email Template Name <span class="error">*</span></label>
-                            <input type="text" name="name" class="form-control" formControlName="email_template_name"
-                                required />
-                            <div class="error"
-                                *ngIf="emailForm.get('email_template_name')?.invalid && emailForm.get('email_template_name')?.touched">
-                                Required (Max Char: 100)
-                            </div>
-                        </div>
-
-                        <!-- WhatsApp Template Name -->
-                        <div class="col-md-4">
-                            <label class="form-label">WhatsApp Template Name <span class="error">*</span></label>
-                            <input type="text" name="whatsapp_name" class="form-control"
-                                formControlName="whatsapp_template_name" />
-                            <div class="error"
-                                *ngIf="emailForm.get('whatsapp_template_name')?.invalid && emailForm.get('whatsapp_template_name')?.touched">
-                                Required (Max Char: 100)
-                            </div>
-                        </div>
-
-                        <!-- Template Type -->
-                        <div class="col-md-4">
-                            <label class="form-label">Template Type <span class="error">*</span></label>
-                            <select name="template_type" class="form-select form-control" formControlName="template_type">
-                                <option [ngValue]="null" disabled>Select Type</option>
-
-                                <option *ngFor="let type of templateTypesList" [value]="type.key">
-                                    {{ type.label }}
-                                </option>
-                            </select>
-                            <div class="error"
-                                *ngIf="emailForm.get('template_type')?.invalid && emailForm.get('template_type')?.touched">
-                                Required
-                            </div>
-                            <div class="error" *ngIf="uniqueTemplateTypeError">
-                                This Template Type already Exists
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <div class="mb-3">
-                        <label class="form-label">Subject <span class="error">*</span></label>
-                        <input type="text" name="subject" class="form-control" formControlName="subject" required />
-                        <div class="error"
-                            *ngIf="emailForm.get('subject')?.invalid && emailForm.get('subject')?.touched">
-                            Required (Max Char: 250)
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="form-label">Email Body <span class="error">*</span></label>
-                        <div class="quill-wrapper w-100">
-                            <quill-editor name="body" formControlName="body" [modules]="quillConfig" theme="snow"
-                                class="w-100 full-width-editor form-control"></quill-editor>
-                        </div>
-                        <div class="error" *ngIf="emailForm.get('body')?.invalid && emailForm.get('body')?.touched">
-                            Required
-                        </div>
-                    </div>
-
-
-
-                    <div class="d-flex gap-2 my-2">
-                        <button class="btn btn-primary ms-auto" type="submit">Save</button>
-                    </div>
-                </form>
+            <!-- WhatsApp Template Name -->
+            <div class="col-md-4">
+              <label class="form-label">
+                WhatsApp Template Name
+                <span class="error">*</span>
+              </label>
+              <input type="text" name="whatsapp_name" class="form-control" formControlName="whatsapp_template_name" />
+              <div
+                class="error"
+                *ngIf="emailForm.get('whatsapp_template_name')?.invalid && emailForm.get('whatsapp_template_name')?.touched"
+              >
+                Required (Max Char: 100)
+              </div>
             </div>
-        </div>
+
+            <!-- Template Type -->
+            <div class="col-md-4">
+              <label class="form-label">
+                Template Type
+                <span class="error">*</span>
+              </label>
+              <select name="template_type" class="form-select form-control" formControlName="template_type">
+                <option [ngValue]="null" disabled>Select Type</option>
+
+                <option *ngFor="let type of templateTypesList" [value]="type.key">
+                  {{ type.label }}
+                </option>
+              </select>
+              <div class="error" *ngIf="emailForm.get('template_type')?.invalid && emailForm.get('template_type')?.touched">Required</div>
+              <div class="error" *ngIf="uniqueTemplateTypeError">This Template Type already Exists</div>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">
+              Subject
+              <span class="error">*</span>
+            </label>
+            <input type="text" name="subject" class="form-control" formControlName="subject" required />
+            <div class="error" *ngIf="emailForm.get('subject')?.invalid && emailForm.get('subject')?.touched">Required (Max Char: 250)</div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">
+              Email Body
+              <span class="error">*</span>
+            </label>
+            <div class="quill-wrapper w-100">
+              <quill-editor
+                name="body"
+                formControlName="body"
+                [modules]="quillConfig"
+                theme="snow"
+                class="w-100 full-width-editor form-control"
+              ></quill-editor>
+            </div>
+            <div class="error" *ngIf="emailForm.get('body')?.invalid && emailForm.get('body')?.touched">Required</div>
+          </div>
+
+          <div class="d-flex gap-2 my-2">
+            <button class="btn btn-primary ms-auto" type="submit">Save</button>
+          </div>
+        </form>
+      </div>
     </div>
+  </div>
 </div>
 
 <!-- Optional: Modal backdrop -->

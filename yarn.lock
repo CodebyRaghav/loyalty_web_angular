@@ -293,9 +293,9 @@
     tslib "^2.3.0"
 
 "@angular/material-moment-adapter@^19.2.14":
-  version "19.2.14"
-  resolved "https://registry.npmjs.org/@angular/material-moment-adapter/-/material-moment-adapter-19.2.14.tgz"
-  integrity sha512-owEmZc4vMZJ/V06WRIk3texMikhNqTbJTNiiqvBQAiBOTc0lNXytlHpLhz9Kf+TnlwS+7Hb0+L2SHe8PflOpsQ==
+  version "19.2.15"
+  resolved "https://registry.npmjs.org/@angular/material-moment-adapter/-/material-moment-adapter-19.2.15.tgz"
+  integrity sha512-9aCTGNLUrzHqXT8+SnoYO/ciJJKAXMbcPUY78vCqdTcetixLQTqNUxtikwLOOPwZOzf9haEov+ucf1AIWmZtkA==
   dependencies:
     tslib "^2.3.0"
 

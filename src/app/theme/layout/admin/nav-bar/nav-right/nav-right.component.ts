@@ -12,13 +12,15 @@ import { SharedModule } from 'src/app/theme/shared/shared.module';
   styleUrls: ['./nav-right.component.scss']
 })
 export class NavRightComponent {
-  username = localStorage.getItem('username');
+  username = localStorage.getItem('username') ? localStorage.getItem('username') : localStorage.getItem('hcode');
 
-  constructor(private router: Router){}
+  constructor(private router: Router) {}
 
-  onLogoutButton(){
+  onLogoutButton() {
     localStorage.removeItem('access_token');
     localStorage.removeItem('username');
-    this.router.navigate(['/guest/login']);
+    localStorage.removeItem('role');
+    localStorage.removeItem('hcode');
+    this.router.navigate(['/login']);
   }
 }

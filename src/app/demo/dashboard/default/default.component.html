@@ -1,32 +1,26 @@
 <div class="container my-4">
   <form [formGroup]="SearchDashboardForm">
-
-      <div class="row justify-content-end">
-        
-          <!-- Date From -->
-          <div class="form-group my-2 col-3 ">
-              <label for="start_date" class="fw-bold">Date From</label>
-              <input type="date" class="form-control" id="start_date" formControlName="start_date">
-          </div>
-
-          <!-- Date To -->
-          <div class="form-group my-2 col-3 ">
-              <label for="end_date" class="fw-bold">Date To</label>
-              <input type="date" class="form-control" id="end_date" formControlName="end_date">
-          </div>
-
+    <div class="row justify-content-end">
+      <!-- Date From -->
+      <div class="form-group my-2 col-3">
+        <label for="start_date" class="fw-bold">Date From</label>
+        <input type="date" class="form-control" id="start_date" formControlName="start_date" />
       </div>
 
-      <div class="error row justify-content-end " *ngIf="datesError">
-        <div class="error col-6">
-          "Date From" field must be smaller than "Date To" field
-        </div>
+      <!-- Date To -->
+      <div class="form-group my-2 col-3">
+        <label for="end_date" class="fw-bold">Date To</label>
+        <input type="date" class="form-control" id="end_date" formControlName="end_date" />
       </div>
+    </div>
 
-      <div class="mt-4 d-flex ">
-          <button class="btn btn-primary ms-auto" (click)="onSearchButton()" type="submit">Search</button>
-      </div>
+    <div class="error row justify-content-end" *ngIf="datesError">
+      <div class="error col-6">"Date From" field must be smaller than "Date To" field</div>
+    </div>
 
+    <div class="mt-4 d-flex">
+      <button class="btn btn-primary ms-auto" (click)="onSearchButton()" type="submit">Search</button>
+    </div>
   </form>
 </div>
 <div class="row">
@@ -53,9 +47,7 @@
             </div>
           </div> -->
         </div>
-        <span class="text-white d-block f-34 f-w-500 my-2">
-          د.إ &nbsp;{{ total_redemption }}
-        </span>
+        <span class="text-white d-block f-34 f-w-500 my-2">د.إ &nbsp;{{ total_redemption }}</span>
         <p class="mb-0 opacity-50">Total Redemption</p>
       </div>
     </div>
@@ -83,9 +75,7 @@
             </div>
           </div> -->
         </div>
-        <span class="text-white d-block f-34 f-w-500 my-2">
-          د.إ &nbsp;{{total_earning}}
-        </span>
+        <span class="text-white d-block f-34 f-w-500 my-2">د.إ &nbsp;{{ total_earning }}</span>
         <p class="mb-0 opacity-50">Total Earning</p>
         <!-- <app-chart-data-month /> -->
       </div>
@@ -102,10 +92,8 @@
               <i class="text-white ti ti-credit-card f-24"></i>
             </div>
           </div>
-          <span class="text-dark d-block f-34 f-w-500 my-2">
-            {{totalRedeemed}} / {{totalEarned}}
-          </span>
-        <p class="mb-0 opacity-50">Total Redemption Points / Total Earned Points</p>
+          <span class="text-dark d-block f-34 f-w-500 my-2">{{ totalRedeemed }} / {{ totalEarned }}</span>
+          <p class="mb-0 opacity-50">Total Redemption Points / Total Earned Points</p>
         </div>
       </div>
     </div>
@@ -125,12 +113,7 @@
   </div>
 
   <div class="col-xl-8 col-md-12">
-    <app-bar-chart
-      [earnedList]="earnedList"
-      [redeemedList]="redeemedList"
-      [monthsList]="monthsList">
-    </app-bar-chart>
-
+    <app-bar-chart [earnedList]="earnedList" [redeemedList]="redeemedList" [monthsList]="monthsList"></app-bar-chart>
   </div>
   <div class="col-xl-4 col-md-12">
     <div class="card">
@@ -165,14 +148,14 @@
             <li class="list-group-item px-0">
               <div class="row align-items-start">
                 <div class="col">
-                  <h5 class="mb-0">{{ list.user_name != null ? list.user_name: list.user_hcode }}</h5>
+                  <h5 class="mb-0">{{ list.user_name != null ? list.user_name : list.user_hcode }}</h5>
                   <!-- <small class="{{ list.color }}">{{ list.profit }}</small> -->
                 </div>
                 <div class="col-auto">
                   <h4 class="mb-0">
                     {{ list.total_points }}
                     <!-- <span class="ms-2 align-top avatar avatar-xxs {{ list.bgColor }}"> -->
-                      <!-- <i class="{{ list.icon }} {{ list.color }}"></i> -->
+                    <!-- <i class="{{ list.icon }} {{ list.color }}"></i> -->
                     <!-- </span> -->
                   </h4>
                 </div>
@@ -181,7 +164,7 @@
           }
         </ul>
         <div class="text-center">
-          <a (click)="onUserHistory()" class="b-b-primary text-primary f-w-500">
+          <a (click)="onUserHistory()" class="b-b-primary text-primary f-w-500" style="cursor: pointer">
             User History
             <i class="ti ti-chevron-right"></i>
           </a>

@@ -1,123 +1,125 @@
 <label class="fs-3 fw-normal" *ngIf="!isMasterUser">User History</label>
- 
+
 <div *ngIf="!isMasterUser" class="container my-4">
-    <form [formGroup]="SearchHistoryForm">
- 
-        <div class="row">
- 
-            <!-- Transaction Type -->
-            <div class="form-group my-2 col-2">
-                <label for="tran_type" class="fw-bold">Transaction Type</label>
-                <select class="form-select" id="tran_type" formControlName="tran_type">
-                    <option [ngValue]="null" selected>-- No Selection --</option>
-                    <option *ngFor="let type of tranTypesList" [value]="type.key">{{ type.label }}</option>
-                </select>
-            </div>
- 
-            <!-- Reference ID -->
-            <div class="form-group my-2 col-2">
-                <label for="referenceId" class="fw-bold">Reference ID</label>
-                <input type="text" class="form-control" id="referenceId" formControlName="reference_id"
-                    placeholder="Enter Reference ID">
-                    <div class="error" *ngIf="SearchHistoryForm.get('reference_id')?.invalid && SearchHistoryForm.get('reference_id')?.touched">Max Length(20)</div>
-            </div>
- 
-            <!-- Source -->
-            <div class="form-group my-2 col-2">
-                <label for="source" class="fw-bold">Source</label>
-                <select class="form-select" id="source" formControlName="source">
-                    <option [ngValue]="null" >-- No Selection --</option>
-                    <option *ngFor="let src of sourceList" [value]="src.key">{{ src.label }}</option>
-                </select>
-            </div>
- 
-            <!-- Status -->
-            <div class="form-group my-2 col-2">
-                <label for="status" class="fw-bold">Status</label>
-                <select class="form-select" id="status" formControlName="status">
-                    <option [ngValue]="null">-- No Selection --</option>
-                    <option *ngFor="let stat of statusList" [value]="stat.key">{{ stat.label }}</option>
-                </select>
-            </div>
- 
-            <!-- Date From -->
-            <div class="form-group my-2 col-4">
-                <label for="date_from" class="fw-bold">Date From</label>
-                <input type="date" class="form-control" id="date_from" formControlName="date_from">
-            </div>
- 
-            <!-- Date To -->
-            <div class="form-group my-2 col-4">
-                <label for="date_to" class="fw-bold">Date To</label>
-                <input type="date" class="form-control" id="date_to" formControlName="date_to">
-            </div>
- 
-            <!-- Search -->
-            <!-- <div class="form-group my-2 col-3">
+  <form [formGroup]="SearchHistoryForm">
+    <div class="row">
+      <!-- Transaction Type -->
+      <div class="form-group my-2 col-2">
+        <label for="tran_type" class="fw-bold">Transaction Type</label>
+        <select class="form-select" id="tran_type" formControlName="tran_type">
+          <option [ngValue]="null" selected>-- No Selection --</option>
+          <option *ngFor="let type of tranTypesList" [value]="type.key">{{ type.label }}</option>
+        </select>
+      </div>
+
+      <!-- Reference ID -->
+      <div class="form-group my-2 col-2">
+        <label for="referenceId" class="fw-bold">Reference ID</label>
+        <input type="text" class="form-control" id="referenceId" formControlName="reference_id" placeholder="Enter Reference ID" />
+        <div class="error" *ngIf="SearchHistoryForm.get('reference_id')?.invalid && SearchHistoryForm.get('reference_id')?.touched">
+          Max Length(20)
+        </div>
+      </div>
+
+      <!-- Source -->
+      <div class="form-group my-2 col-2">
+        <label for="source" class="fw-bold">Source</label>
+        <select class="form-select" id="source" formControlName="source">
+          <option [ngValue]="null">-- No Selection --</option>
+          <option *ngFor="let src of sourceList" [value]="src.key">{{ src.label }}</option>
+        </select>
+      </div>
+
+      <!-- Status -->
+      <div class="form-group my-2 col-2">
+        <label for="status" class="fw-bold">Status</label>
+        <select class="form-select" id="status" formControlName="status">
+          <option [ngValue]="null">-- No Selection --</option>
+          <option *ngFor="let stat of statusList" [value]="stat.key">{{ stat.label }}</option>
+        </select>
+      </div>
+
+      <!-- Date From -->
+      <div class="form-group my-2 col-4">
+        <label for="date_from" class="fw-bold">Date From</label>
+        <input type="date" class="form-control" id="date_from" formControlName="date_from" />
+      </div>
+
+      <!-- Date To -->
+      <div class="form-group my-2 col-4">
+        <label for="date_to" class="fw-bold">Date To</label>
+        <input type="date" class="form-control" id="date_to" formControlName="date_to" />
+      </div>
+
+      <!-- Search -->
+      <!-- <div class="form-group my-2 col-3">
           <label for="search" class="fw-bold">Search</label>
           <input type="text" class="form-control" id="search" formControlName="search" placeholder="Search...">
         </div> -->
- 
-            <!-- Sort By -->
-            <div class="form-group my-2 col-2">
-                <label for="sort_by" class="fw-bold">Sort By</label>
-                <select class="form-select" id="sort_by" formControlName="sort_by">
-                    <option [ngValue]="null">-- No Selection --</option>
-                    <option *ngFor="let sort of sortByList" [value]="sort.key">{{ sort.label }}</option>
-                </select>
-            </div>
- 
-            <!-- Sort Direction -->
-            <div class="form-group my-2 col-2">
-                <label for="sort_dir" class="fw-bold">Sort Direction</label>
-                <select class="form-select" id="sort_dir" formControlName="sort_dir">
-                    <option [ngValue]="null">-- No Selection --</option>
-                    <option *ngFor="let dir of sortDirectionList" [value]="dir.key">{{ dir.label }}</option>
-                </select>
-            </div>
- 
-            <!-- User Hcode -->
-            <div class="form-group my-2 col-2">
-                <label for="user_hcode" class="fw-bold">User Hcode</label>
-                <input type="number" class="form-control" id="user_hcode" formControlName="user_hcode"
-                    placeholder="Enter User Hcode">
-                    <div class="error" *ngIf="SearchHistoryForm.get('user_hcode')?.invalid && SearchHistoryForm.get('user_hcode')?.touched">Max Length(11)</div>
-            </div>
 
-            <div class="error row col-6" *ngIf="datesError">"Date From" field must be smaller than "Date To" field</div>
- 
+      <!-- Sort By -->
+      <div class="form-group my-2 col-2">
+        <label for="sort_by" class="fw-bold">Sort By</label>
+        <select class="form-select" id="sort_by" formControlName="sort_by">
+          <option [ngValue]="null">-- No Selection --</option>
+          <option *ngFor="let sort of sortByList" [value]="sort.key">{{ sort.label }}</option>
+        </select>
+      </div>
+
+      <!-- Sort Direction -->
+      <div class="form-group my-2 col-2">
+        <label for="sort_dir" class="fw-bold">Sort Direction</label>
+        <select class="form-select" id="sort_dir" formControlName="sort_dir">
+          <option [ngValue]="null">-- No Selection --</option>
+          <option *ngFor="let dir of sortDirectionList" [value]="dir.key">{{ dir.label }}</option>
+        </select>
+      </div>
+
+      <!-- User Hcode -->
+      <div class="form-group my-2 col-2">
+        <label for="user_hcode" class="fw-bold">User Hcode</label>
+        <input type="number" class="form-control" id="user_hcode" formControlName="user_hcode" placeholder="Enter User Hcode" />
+        <div class="error" *ngIf="SearchHistoryForm.get('user_hcode')?.invalid && SearchHistoryForm.get('user_hcode')?.touched">
+          Max Length(11)
         </div>
- 
-        <div class="mt-4 d-flex ">
-            <button class="btn btn-primary ms-auto" (click)="onSearchButton()" type="submit">Search</button>
-        </div>
- 
-    </form>
+      </div>
+
+      <div class="error row col-6" *ngIf="datesError">"Date From" field must be smaller than "Date To" field</div>
+    </div>
+
+    <div class="mt-4 d-flex">
+      <button class="btn btn-primary ms-auto" (click)="onSearchButton()" type="submit">Search</button>
+    </div>
+  </form>
 </div>
- 
- 
+
 <div class="table-wrapper p-4 bg-white rounded shadow-sm">
-    <ngx-datatable class="material striped-table custom-table" [rows]="searchHistoryList"
-        [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50" rowHeight="auto" [limit]="10"
-       
-       
-        >
-        <ngx-datatable-column name="Transaction Type" prop="name">
-            <ng-template let-row="row" ngx-datatable-cell-template>
-                <div class="cell-text">{{ row.tran_type }}</div>
-            </ng-template>
-        </ngx-datatable-column>
-        <ngx-datatable-column name="Source">
-            <ng-template let-row="row" ngx-datatable-cell-template>
-                <div class="cell-text">{{ row.source }}</div>
-            </ng-template>
-        </ngx-datatable-column>
-        <ngx-datatable-column name="Status">
-            <ng-template let-row="row" ngx-datatable-cell-template>
-                <div class="cell-text">{{ row.status }}</div>
-            </ng-template>
-        </ngx-datatable-column>
-        <!-- <ngx-datatable-column name="Date From" prop="name">
+  <div class="datatable-scroll-inner">
+    <ngx-datatable
+      class="material striped-table custom-table"
+      [rows]="searchHistoryList"
+      [columnMode]="ColumnMode.force"
+      [headerHeight]="50"
+      [footerHeight]="50"
+      rowHeight="auto"
+      [limit]="10"
+    >
+      <ngx-datatable-column name="Transaction Type" prop="name">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <div class="cell-text">{{ row.tran_type }}</div>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Source">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <div class="cell-text">{{ row.source }}</div>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Status">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <div class="cell-text">{{ row.status }}</div>
+        </ng-template>
+      </ngx-datatable-column>
+      <!-- <ngx-datatable-column name="Date From" prop="name">
             <ng-template let-row="row" ngx-datatable-cell-template>
                 <div class="cell-text">{{ row.created_at | date:'MMM d, y' }}</div>
             </ng-template>
@@ -127,14 +129,14 @@
                 <div class="cell-text">{{ row.expires_at | date:'MMM d, y' }}</div>
             </ng-template>
         </ngx-datatable-column> -->
- 
-        <ngx-datatable-column name="Actions" [sortable]="false">
-            <ng-template let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
-                <button class="btn btn-sm btn-warning" (click)="openPopup(row)">View</button>
-            </ng-template>
-        </ngx-datatable-column>
+
+      <ngx-datatable-column name="Actions" [sortable]="false">
+        <ng-template let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+          <button class="btn btn-sm btn-warning" (click)="openPopup(row)">View</button>
+        </ng-template>
+      </ngx-datatable-column>
     </ngx-datatable>
- 
+
     <!-- <div class="pagination-controls d-flex justify-content-between mt-3">
         <span>
           Rows per page:
@@ -146,34 +148,72 @@
           Page {{ currentPage }} of {{ totalPages }}
         </span>
       </div> -->
-   
-</div>
-  
-<div class="modal-backdrop" *ngIf="showPopup">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h5 class="mb-3">User History Details</h5>
-            <button class="btn-close ms-auto" (click)="closePopup()"></button>
-        </div>
-      
-      <table class="table table-bordered" [formGroup]="viewSummaryForm">
-        <tr><th>ID</th><td>{{ viewSummaryForm.value.id }}</td></tr>
-        <tr><th>User Hcode</th><td>{{ viewSummaryForm.value.user_hcode }}</td></tr>
-        <tr><th>Transaction Type</th><td>{{ viewSummaryForm.value.tran_type }}</td></tr>
-        <tr><th>Points</th><td>{{ viewSummaryForm.value.points }}</td></tr>
-        <tr><th>Source</th><td>{{ viewSummaryForm.value.source }}</td></tr>
-        <tr><th>Reference Id</th><td>{{ viewSummaryForm.value.reference_id }}</td></tr>
-        <tr><th>Description</th><td>{{ viewSummaryForm.value.description }}</td></tr>
- 
-        <tr><th>Creation Date</th><td>{{ viewSummaryForm.value.created_at }}</td></tr>
-        <!-- <tr><th>Date To</th><td>{{ viewSummaryForm.value.expires_at }}</td></tr> -->
-        <tr><th>Status</th><td>{{ viewSummaryForm.value.status }}</td></tr>
-        <!-- <tr><th>Expired</th><td>{{ viewSummaryForm.value.is_expired === '1' ? 'Yes' : 'No' }}</td></tr> -->
-        <tr><th>Reference Amount</th><td>{{ viewSummaryForm.value.reference_amount }}</td></tr>
-
-        <tr><th>Expiry Date</th><td> <input type="date" class="form-control" formControlName="expires_at"><div class="error" *ngIf="viewSummaryForm.get('expires_at')?.invalid && viewSummaryForm.get('expires_at')?.touched">This field is required</div></td></tr>
-      </table>
-      <div class="error" *ngIf="!isFutureDate">Date must be in the future and cannot be today or a past date.</div>
-      <button class="btn btn-primary mt-2 ms-auto" (click)="onUpdateButton()">Update</button>
-    </div>
   </div>
+</div>
+
+<div class="modal-backdrop" *ngIf="showPopup">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="mb-3">User History Details</h5>
+      <button class="btn-close ms-auto" (click)="closePopup()"></button>
+    </div>
+
+    <table class="table table-bordered" [formGroup]="viewSummaryForm">
+      <tr>
+        <th>ID</th>
+        <td>{{ viewSummaryForm.value.id }}</td>
+      </tr>
+      <tr>
+        <th>User Hcode</th>
+        <td>{{ viewSummaryForm.value.user_hcode }}</td>
+      </tr>
+      <tr>
+        <th>Transaction Type</th>
+        <td>{{ viewSummaryForm.value.tran_type }}</td>
+      </tr>
+      <tr>
+        <th>Points</th>
+        <td>{{ viewSummaryForm.value.points }}</td>
+      </tr>
+      <tr>
+        <th>Source</th>
+        <td>{{ viewSummaryForm.value.source }}</td>
+      </tr>
+      <tr>
+        <th>Reference Id</th>
+        <td>{{ viewSummaryForm.value.reference_id }}</td>
+      </tr>
+      <tr>
+        <th>Description</th>
+        <td>{{ viewSummaryForm.value.description }}</td>
+      </tr>
+
+      <tr>
+        <th>Creation Date</th>
+        <td>{{ viewSummaryForm.value.created_at }}</td>
+      </tr>
+      <!-- <tr><th>Date To</th><td>{{ viewSummaryForm.value.expires_at }}</td></tr> -->
+      <tr>
+        <th>Status</th>
+        <td>{{ viewSummaryForm.value.status }}</td>
+      </tr>
+      <!-- <tr><th>Expired</th><td>{{ viewSummaryForm.value.is_expired === '1' ? 'Yes' : 'No' }}</td></tr> -->
+      <tr>
+        <th>Reference Amount</th>
+        <td>{{ viewSummaryForm.value.reference_amount }}</td>
+      </tr>
+
+      <tr>
+        <th>Expiry Date</th>
+        <td>
+          <input type="date" class="form-control" formControlName="expires_at" />
+          <div class="error" *ngIf="viewSummaryForm.get('expires_at')?.invalid && viewSummaryForm.get('expires_at')?.touched">
+            This field is required
+          </div>
+        </td>
+      </tr>
+    </table>
+    <div class="error" *ngIf="!isFutureDate">Date must be in the future and cannot be today or a past date.</div>
+    <button class="btn btn-primary mt-2 ms-auto" (click)="onUpdateButton()">Update</button>
+  </div>
+</div>

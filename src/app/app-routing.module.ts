@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { authGuard } from './authguard/auth.guard';
 import { AdminComponent } from './theme/layout/admin/admin.component';
 import { GuestComponent } from './theme/layout/guest/guest.component';
-import { authGuard } from './authguard/auth.guard';
 
 const routes: Routes = [
   {
@@ -19,6 +19,7 @@ const routes: Routes = [
         loadComponent: () => import('./demo/dashboard/default/default.component').then((c) => c.DefaultComponent),
         canActivate: [authGuard]
       },
+
       {
         path: 'typography',
         loadComponent: () => import('./demo/elements/typography/typography.component'),
@@ -26,27 +27,23 @@ const routes: Routes = [
       },
       {
         path: 'tiers',
-        loadComponent: () =>
-          import('./demo/elements/tiers/tiers.component'),
+        loadComponent: () => import('./demo/elements/tiers/tiers.component'),
         canActivate: [authGuard]
       },
       {
         path: 'template',
-        loadComponent: () =>
-          import('./demo/elements/template/template.component'),
+        loadComponent: () => import('./demo/elements/template/template.component'),
         canActivate: [authGuard]
       },
       {
         path: 'master-user',
-        loadComponent: () =>
-          import('./demo/elements/master-user/master-user.component').then(m => m.MasterUserComponent),
+        loadComponent: () => import('./demo/elements/master-user/master-user.component').then((m) => m.MasterUserComponent),
         canActivate: [authGuard]
       },
- 
+
       {
         path: 'user-history',
-        loadComponent: () =>
-          import('./demo/elements/user-history/user-history.component').then(m => m.UserHistoryComponent),
+        loadComponent: () => import('./demo/elements/user-history/user-history.component').then((m) => m.UserHistoryComponent),
         canActivate: [authGuard]
       },
       {
@@ -56,8 +53,7 @@ const routes: Routes = [
       {
         path: 'sample-page',
         loadComponent: () => import('./demo/other/sample-page/sample-page.component')
-      },
-     
+      }
     ]
   },
   {
@@ -65,7 +61,7 @@ const routes: Routes = [
     component: GuestComponent,
     children: [
       {
-        path: 'guest',
+        path: '',
         loadChildren: () => import('./demo/pages/authentication/authentication.module').then((m) => m.AuthenticationModule)
       }
     ]

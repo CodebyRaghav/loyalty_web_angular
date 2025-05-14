@@ -102,7 +102,7 @@ export const NavigationItems: NavigationItem[] = [
         classes: 'nav-item',
         url: '/master-user',
         icon: 'ti ti-user'
-      },
+      }
       // {
       //   id: 'color',
       //   title: 'Colors',
@@ -122,7 +122,7 @@ export const NavigationItems: NavigationItem[] = [
       //   external: true
       // }
     ]
-  },
+  }
   // {
   //   id: 'other',
   //   title: 'Other',

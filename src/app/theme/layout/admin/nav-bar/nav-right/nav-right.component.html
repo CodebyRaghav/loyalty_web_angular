@@ -3,12 +3,13 @@
     <li>
       <div class="dropdown pc-h-item header-user-profile" ngbDropdown>
         <a
-          class="pc-head-link head-link-primary dropdown-toggle arrow-none me-0" style="width: 145px; display: flex; justify-content: space-evenly;"
+          class="pc-head-link head-link-primary dropdown-toggle arrow-none me-0"
+          style="width: 145px; display: flex; justify-content: space-evenly"
           data-bs-toggle="dropdown"
           href="javascript:"
           ngbDropdownToggle
         >
-           {{username}}
+          {{ username }}
           <span>
             <i class="ti ti-chevron-down"></i>
           </span>
@@ -19,12 +20,11 @@
               {{username}}
             </h4> -->
             <!-- <ng-scrollbar style="height: calc(100vh - 280px)" visibility="hover"> -->
-              
-              
-              <a (click)="onLogoutButton()" class="dropdown-item">
-                <i class="ti ti-logout"></i>
-                <span>Logout</span>
-              </a>
+
+            <a (click)="onLogoutButton()" class="dropdown-item" style="cursor: pointer">
+              <i class="ti ti-logout"></i>
+              <span>Logout</span>
+            </a>
             <!-- </ng-scrollbar> -->
           </div>
         </div>

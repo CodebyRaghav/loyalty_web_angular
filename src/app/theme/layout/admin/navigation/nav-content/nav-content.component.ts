@@ -1,6 +1,6 @@
 // Angular import
-import { Component, OnInit, output, inject } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
+import { Component, inject, OnInit, output } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 //theme version
@@ -39,7 +39,29 @@ export class NavContentComponent implements OnInit {
 
   // Constructor
   constructor() {
-    this.navigations = NavigationItems;
+    if (localStorage.getItem('role') == 'user') {
+      this.navigations = [
+        {
+          id: 'dashboard',
+          title: 'Dashboard',
+          type: 'group',
+          icon: 'icon-navigation',
+          children: [
+            {
+              id: 'default',
+              title: 'Dashboard',
+              type: 'item',
+              classes: 'nav-item',
+              url: '/dashboard',
+              icon: 'ti ti-dashboard',
+              breadcrumbs: false
+            }
+          ]
+        }
+      ];
+    } else {
+      this.navigations = NavigationItems;
+    }
     this.windowWidth = window.innerWidth;
   }
 

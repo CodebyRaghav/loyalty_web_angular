@@ -12,6 +12,11 @@ const routes: Routes = [
       {
         path: 'register',
         loadComponent: () => import('./register/register.component')
+      },
+      {
+        path: 'prelogin/:user_hcode',
+        loadComponent: () => import('./prelogin/prelogin.component')
+        // canActivate: [authGuard]
       }
     ]
   }

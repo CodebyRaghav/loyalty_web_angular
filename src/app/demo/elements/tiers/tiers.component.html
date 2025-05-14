@@ -1,210 +1,228 @@
 <label class="fs-3">Tiers Creation</label>
 <div class="text-end m-3">
-    <button class="btn btn-primary " (click)="showPopup = true">Add Tier</button>
-
+  <button class="btn btn-primary" (click)="showPopup = true">Add Tier</button>
 </div>
 
-<div class="modal modal-lg fade show d-block rounded" tabindex="-1" *ngIf="showPopup"
-    style="background-color: rgba(0,0,0,0.5);">
-    <div class="modal-dialog">
-        <div class="modal-content">
+<div class="modal modal-lg fade show d-block rounded" tabindex="-1" *ngIf="showPopup" style="background-color: rgba(0, 0, 0, 0.5)">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title fw-bold">Add Tier</h5>
+        <button type="button" class="btn-close" aria-label="Close" (click)="onTierModalClose()"></button>
+      </div>
 
-            <div class="modal-header">
-                <h5 class="modal-title fw-bold">Add Tier</h5>
-                <button type="button" class="btn-close" aria-label="Close" (click)="onTierModalClose()"></button>
+      <div class="modal-body rounded">
+        <form [formGroup]="tierDataForm" (ngSubmit)="onSubmit()" class="row">
+          <div class="mb-3 col-6">
+            <label class="form-label">
+              Tier Name
+              <span class="error">*</span>
+            </label>
+            <input type="text" class="form-control" formControlName="tier_name" />
+            <div class="error" *ngIf="tierDataForm.get('tier_name')?.invalid && tierDataForm.get('tier_name')?.touched">
+              Required (Max Char: 40)
             </div>
-
-            <div class="modal-body rounded ">
-                <form [formGroup]="tierDataForm" (ngSubmit)="onSubmit()" class="row">
-                    <div class="mb-3 col-6">
-                        <label class="form-label">Tier Name <span class="error">*</span></label>
-                        <input type="text" class="form-control" formControlName="tier_name">
-                        <div class="error" *ngIf="tierDataForm.get('tier_name')?.invalid && tierDataForm.get('tier_name')?.touched">
-                            Required (Max Char: 40)
-                          </div>
-                    </div>
-                    <div class="mb-3 col-6">
-                        <label class="form-label">Number of Rentals for Qualification <span class="error">*</span></label>
-                        <input type="number" class="form-control" formControlName="rental_qual">
-                        <div class="error" *ngIf="tierDataForm.get('rental_qual')?.invalid && tierDataForm.get('rental_qual')?.touched">
-                            Required (Min: 0, Max-Length: 11 and decimals not allowed)
-                          </div>
-                    </div>
-
-                    <!-- </div> -->
-
-
-                    <div class="mb-3 col-6">
-                        <label class="form-label">Upgrades</label>
-                        <input type="text" class="form-control" formControlName="upgrades">
-                        <div class="error" *ngIf="tierDataForm.get('upgrades')?.invalid && tierDataForm.get('upgrades')?.touched">
-                            Max Char(250)
-                          </div>
-                    </div>
-                    <div class="mb-3 col-6">
-                        <label class="form-label">Sequence <span class="error">*</span></label>
-                        <input type="number" class="form-control" formControlName="sequence">
-                        <div class="error" *ngIf="tierDataForm.get('sequence')?.invalid && tierDataForm.get('sequence')?.touched">
-                          Required (Min: 0, Max-Length: 11 and decimals not allowed)
-                          </div>
-                          <div class="error" *ngIf="uniqueSequenceError">
-                            Sequence is not unique
-                          </div>
-                    </div>
-
-                    <div class="mb-3 col-6">
-                        <label class="form-label">Perks (Free Rental Day)</label>
-                        <input type="number" class="form-control" formControlName="notable_perks">
-                        <div class="error" *ngIf="tierDataForm.get('notable_perks')?.invalid && tierDataForm.get('notable_perks')?.touched">
-                          (Min: 0, Max-Length: 11 and decimals not allowed)
-                          </div>
-                    </div>
-
-                    <div class="mb-3 col-6">
-                        <label class="form-label">Perks</label>
-                        <div class="input-group">
-
-                            <input type="number" class="form-control rounded" formControlName="perks_pts_val">
-                            <span class="input-group-text">Point</span>
-                        </div>
-                        <div class="error" *ngIf="tierDataForm.get('perks_pts_val')?.invalid && tierDataForm.get('perks_pts_val')?.touched">
-                          (Min: 0, Max-Length: 11 and decimals not allowed)
-                          </div>
-                    </div>
-                    <div class="mb-3 col-6">
-                        <label class="form-label">Earning Rental Point Value <span class="error">*</span></label>
-                        <div class="input-group">
-                            <span class="input-group-text">1 Point =</span>
-                            <input type="number" class="form-control rounded" formControlName="rental_earn_pts_val">
-                            <span class="input-group-text">AED</span>
-                        </div>
-                        <div class="error" *ngIf="tierDataForm.get('rental_earn_pts_val')?.invalid && tierDataForm.get('rental_earn_pts_val')?.touched">
-                          Required (Min: 0, Max-Length: 11 and decimals not allowed)
-                          </div>
-                    </div>
-
-                    <div class="mb-3 col-6">
-                        <label class="form-label">Earning Non-Rental point value <span class="error">*</span></label>
-                        <div class="input-group">
-                            <span class="input-group-text">1 Point =</span>
-                            <input type="number" class="form-control rounded" formControlName="access_earn_pts_val">
-                            <span class="input-group-text">AED</span>
-                        </div>
-                        <div class="error" *ngIf="tierDataForm.get('access_earn_pts_val')?.invalid && tierDataForm.get('access_earn_pts_val')?.touched">
-                          Required (Min: 0, Max-Length: 11 and decimals not allowed)
-                          </div>
-                    </div>
-                    <div class="mb-3 col-6">
-                        <label class="form-label">Rental Redeem Point Value <span class="error">*</span> </label>
-                        <div class="input-group">
-                            <span class="input-group-text">1 Point =</span>
-                            <input type="number" class="form-control rounded" formControlName="rental_redeem_pts_val">
-                            <span class="input-group-text">AED</span>
-                        </div>
-                        <div class="error" *ngIf="tierDataForm.get('rental_redeem_pts_val')?.invalid && tierDataForm.get('rental_redeem_pts_val')?.touched">
-                          Required (Min: 0, Max-Length: 11 and decimals not allowed)
-                          </div>
-
-                    </div>
-                    <div class="mb-3 col-6">
-                        <label class="form-label"> Non-Rental Redeem Point Value <span class="error">*</span></label>
-                        <div class="input-group">
-                            <span class="input-group-text">1 Point =</span>
-                            <input type="number" class="form-control rounded"
-                                formControlName="access_redeem_pts_val">
-                            <span class="input-group-text">AED</span>
-                        </div>
-                        <div class="error" *ngIf="tierDataForm.get('access_redeem_pts_val')?.invalid && tierDataForm.get('access_redeem_pts_val')?.touched">
-                          Required (Min: 0, Max-Length: 11 and decimals not allowed)
-                          </div>
-                    </div>
-
-                    <div class="mb-3 col-3 ms-2">
-                        <label class="form-label d-block">Status</label>
-                      
-                        <ui-switch 
-                          size="small" 
-                          (change)="onStatusSwitch($event)" 
-                          [checked]="tierDataForm.value.status == 1"
-                          color="#0d6efd" 
-                        ></ui-switch>
-                      
-                        <span class="ms-2" [ngClass]="tierDataForm.value.status == 1 ? 'text-success' : 'text-danger'">
-                          {{ tierDataForm.value.status == 1 ? 'Active' : 'Inactive' }}
-                        </span>
-                      </div>
-
-                    <div class="mb-3 col-3 ms-2">
-                        <label class="form-label d-block">Default Loyalty</label>
-                        
-                        <ui-switch 
-                          size="small" 
-                          (change)="onDefaultLoyaltySwitch($event)" 
-                          [checked]="tierDataForm.value.default_loyalty == 1"
-                          color="#0d6efd" 
-                        ></ui-switch>
-                      
-                        <span class="ms-2"  [ngClass]="tierDataForm.value.default_loyalty == 1 ? 'text-success' : 'text-danger'">
-                          {{ tierDataForm.value.default_loyalty == 1 ? 'Active' : 'Inactive' }}
-                        </span>
-                      </div>
-
-                    <div class="text-end border-top p-0 m-0">
-                        <button type="submit" class="btn btn-primary" >Submit</button>
-                    </div>
-                </form>
+          </div>
+          <div class="mb-3 col-6">
+            <label class="form-label">
+              Number of Rentals for Qualification
+              <span class="error">*</span>
+            </label>
+            <input type="number" class="form-control" formControlName="rental_qual" />
+            <div class="error" *ngIf="tierDataForm.get('rental_qual')?.invalid && tierDataForm.get('rental_qual')?.touched">
+              Required (Min: 0, Max-Length: 11 and decimals not allowed)
             </div>
+          </div>
 
-        </div>
+          <!-- </div> -->
+
+          <div class="mb-3 col-6">
+            <label class="form-label">Upgrades</label>
+            <input type="text" class="form-control" formControlName="upgrades" />
+            <div class="error" *ngIf="tierDataForm.get('upgrades')?.invalid && tierDataForm.get('upgrades')?.touched">Max Char(250)</div>
+          </div>
+          <div class="mb-3 col-6">
+            <label class="form-label">
+              Sequence
+              <span class="error">*</span>
+            </label>
+            <input type="number" class="form-control" formControlName="sequence" />
+            <div class="error" *ngIf="tierDataForm.get('sequence')?.invalid && tierDataForm.get('sequence')?.touched">
+              Required (Min: 0, Max-Length: 11 and decimals not allowed)
+            </div>
+            <div class="error" *ngIf="uniqueSequenceError">Sequence is not unique</div>
+          </div>
+
+          <div class="mb-3 col-6">
+            <label class="form-label">Perks (Free Rental Day)</label>
+            <input type="number" class="form-control" formControlName="notable_perks" />
+            <div class="error" *ngIf="tierDataForm.get('notable_perks')?.invalid && tierDataForm.get('notable_perks')?.touched">
+              (Min: 0, Max-Length: 11 and decimals not allowed)
+            </div>
+          </div>
+
+          <div class="mb-3 col-6">
+            <label class="form-label">Perks</label>
+            <div class="input-group">
+              <input type="number" class="form-control rounded" formControlName="perks_pts_val" />
+              <span class="input-group-text">Point</span>
+            </div>
+            <div class="error" *ngIf="tierDataForm.get('perks_pts_val')?.invalid && tierDataForm.get('perks_pts_val')?.touched">
+              (Min: 0, Max-Length: 11 and decimals not allowed)
+            </div>
+          </div>
+          <div class="mb-3 col-6">
+            <label class="form-label">
+              Earning Rental Point Value
+              <span class="error">*</span>
+            </label>
+            <div class="input-group">
+              <span class="input-group-text">1 Point =</span>
+              <input type="number" class="form-control rounded" formControlName="rental_earn_pts_val" />
+              <span class="input-group-text">AED</span>
+            </div>
+            <div class="error" *ngIf="tierDataForm.get('rental_earn_pts_val')?.invalid && tierDataForm.get('rental_earn_pts_val')?.touched">
+              Required (Min: 0, Max-Length: 11 and decimals not allowed)
+            </div>
+          </div>
+
+          <div class="mb-3 col-6">
+            <label class="form-label">
+              Earning Non-Rental point value
+              <span class="error">*</span>
+            </label>
+            <div class="input-group">
+              <span class="input-group-text">1 Point =</span>
+              <input type="number" class="form-control rounded" formControlName="access_earn_pts_val" />
+              <span class="input-group-text">AED</span>
+            </div>
+            <div class="error" *ngIf="tierDataForm.get('access_earn_pts_val')?.invalid && tierDataForm.get('access_earn_pts_val')?.touched">
+              Required (Min: 0, Max-Length: 11 and decimals not allowed)
+            </div>
+          </div>
+          <div class="mb-3 col-6">
+            <label class="form-label">
+              Rental Redeem Point Value
+              <span class="error">*</span>
+            </label>
+            <div class="input-group">
+              <span class="input-group-text">1 Point =</span>
+              <input type="number" class="form-control rounded" formControlName="rental_redeem_pts_val" />
+              <span class="input-group-text">AED</span>
+            </div>
+            <div
+              class="error"
+              *ngIf="tierDataForm.get('rental_redeem_pts_val')?.invalid && tierDataForm.get('rental_redeem_pts_val')?.touched"
+            >
+              Required (Min: 0, Max-Length: 11 and decimals not allowed)
+            </div>
+          </div>
+          <div class="mb-3 col-6">
+            <label class="form-label">
+              Non-Rental Redeem Point Value
+              <span class="error">*</span>
+            </label>
+            <div class="input-group">
+              <span class="input-group-text">1 Point =</span>
+              <input type="number" class="form-control rounded" formControlName="access_redeem_pts_val" />
+              <span class="input-group-text">AED</span>
+            </div>
+            <div
+              class="error"
+              *ngIf="tierDataForm.get('access_redeem_pts_val')?.invalid && tierDataForm.get('access_redeem_pts_val')?.touched"
+            >
+              Required (Min: 0, Max-Length: 11 and decimals not allowed)
+            </div>
+          </div>
+
+          <div class="mb-3 col-3 ms-2">
+            <label class="form-label d-block">Status</label>
+
+            <ui-switch
+              size="small"
+              (change)="onStatusSwitch($event)"
+              [checked]="tierDataForm.value.status == 1"
+              color="#0d6efd"
+            ></ui-switch>
+
+            <span class="ms-2" [ngClass]="tierDataForm.value.status == 1 ? 'text-success' : 'text-danger'">
+              {{ tierDataForm.value.status == 1 ? 'Active' : 'Inactive' }}
+            </span>
+          </div>
+
+          <div class="mb-3 col-3 ms-2">
+            <label class="form-label d-block">Default Loyalty</label>
+
+            <ui-switch
+              size="small"
+              (change)="onDefaultLoyaltySwitch($event)"
+              [checked]="tierDataForm.value.default_loyalty == 1"
+              color="#0d6efd"
+            ></ui-switch>
+
+            <span class="ms-2" [ngClass]="tierDataForm.value.default_loyalty == 1 ? 'text-success' : 'text-danger'">
+              {{ tierDataForm.value.default_loyalty == 1 ? 'Active' : 'Inactive' }}
+            </span>
+          </div>
+
+          <div class="text-end border-top p-0 m-0">
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+        </form>
+      </div>
     </div>
+  </div>
 </div>
-  <div class="table-wrapper p-4 bg-white rounded shadow-sm" >
-    <ngx-datatable class="material striped-table custom-table" [rows]="tierDataList" [columnMode]="ColumnMode.force" [headerHeight]="50"
-        [footerHeight]="50" rowHeight="auto" [limit]="10">
+<div class="table-wrapper p-4 bg-white rounded shadow-sm">
+  <div class="datatable-scroll-inner">
+    <ngx-datatable
+      class="material striped-table custom-table"
+      [rows]="tierDataList"
+      [columnMode]="'force'"
+      [headerHeight]="50"
+      [footerHeight]="50"
+      rowHeight="auto"
+      [limit]="10"
+    >
+      <ngx-datatable-column class="border-top center-align" name="Tier Name" prop="tier_name">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <div class="cell-text">{{ row.tier_name }}</div>
+        </ng-template>
+      </ngx-datatable-column>
 
-        <ngx-datatable-column class="border-top center-align" name="Tier Name" prop="tier_name">
-            <ng-template let-row="row" ngx-datatable-cell-template>
-                <div class="cell-text">{{ row.tier_name }}</div>
-            </ng-template>
-        </ngx-datatable-column>
-    
-            <ngx-datatable-column name="Rentals Qualification" prop="rental_qual">
-                <ng-template let-row="row" ngx-datatable-cell-template>
-                <div class="cell-text">{{ row.rental_qual }}</div>
-                </ng-template>
-            </ngx-datatable-column>
-        
-        <ngx-datatable-column name="Sequence">
-            <ng-template let-row="row" ngx-datatable-cell-template>
-               <div class="cell-text">{{ row.sequence }}</div>
-            </ng-template>
-        </ngx-datatable-column>
-        <ngx-datatable-column name="Status">
-            <ng-template let-row="row" ngx-datatable-cell-template>
+      <ngx-datatable-column name="Rentals Qualification" prop="rental_qual">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <div class="cell-text">{{ row.rental_qual }}</div>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Sequence">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <div class="cell-text">{{ row.sequence }}</div>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Status">
+        <ng-template let-row="row" ngx-datatable-cell-template>
           <div class="badge" [ngClass]="row.status == 1 ? 'badge-success' : 'badge-danger'">
             {{ row.status == 1 ? 'Active' : 'Inactive' }}
           </div>
         </ng-template>
-        </ngx-datatable-column>
-        
-        <ngx-datatable-column name="Default Loyalty" prop="default_loyalty">
-           <ng-template let-row="row" ngx-datatable-cell-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Default Loyalty" prop="default_loyalty">
+        <ng-template let-row="row" ngx-datatable-cell-template>
           <div class="badge" [ngClass]="row.default_loyalty == 1 ? 'badge-primary' : 'badge-secondary'">
             {{ row.default_loyalty == 1 ? 'Yes' : 'No' }}
           </div>
         </ng-template>
-        </ngx-datatable-column>
+      </ngx-datatable-column>
 
-        <ngx-datatable-column name="Actions" [sortable]="false">
-            <ng-template let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
-                                <button class="btn btn-sm btn-warning" (click)="editRow(row, rowIndex)">Edit</button>
-            </ng-template>
-            <ng-template let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
-
-            </ng-template>
-        </ngx-datatable-column>
-
+      <ngx-datatable-column name="Actions" [sortable]="false">
+        <ng-template let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+          <button class="btn btn-sm btn-warning" (click)="editRow(row, rowIndex)">Edit</button>
+        </ng-template>
+        <ng-template let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template></ng-template>
+      </ngx-datatable-column>
     </ngx-datatable>
-
-
+  </div>
 </div>

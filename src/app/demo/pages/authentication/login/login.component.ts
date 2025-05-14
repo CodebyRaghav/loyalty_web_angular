@@ -13,8 +13,12 @@ import { LoginService } from 'src/app/services/login-service/login.service';
 })
 export default class LoginComponent {
   loginForm: FormGroup;
-  constructor(private navRoute: Router, private fb: FormBuilder
-    , private loginSvc: LoginService, private toastr: ToastrService, private loaderService: LoaderService
+  constructor(
+    private navRoute: Router,
+    private fb: FormBuilder,
+    private loginSvc: LoginService,
+    private toastr: ToastrService,
+    private loaderService: LoaderService
   ) {
     this.loginForm = this.fb.group({
       username: ['', Validators.required],
@@ -27,26 +31,28 @@ export default class LoginComponent {
   }
   onSubmitButton() {
     this.loginForm.markAllAsTouched();
-    if(this.loginForm.valid){
+    if (this.loginForm.valid) {
       let formVal = this.loginForm.value;
       this.loginSvc.AuthenticateUser(formVal).subscribe({
-        next: (resp)=>{
+        next: (resp) => {
           this.loaderService.hide();
-          if(resp.status){
+          if (resp.status) {
             const accessToken = resp.token;
+            const role = resp.role;
             localStorage.setItem('access_token', accessToken);
             localStorage.setItem('username', formVal.username);
+            localStorage.setItem('role', role);
             this.toastr.success('User Logged In Successfully!', 'Success');
             this.navRoute.navigate(['/dashboard']);
-          }else{
+          } else {
             this.toastr.error(resp.message, 'Error');
           }
         },
-        error: (err)=>{
+        error: (err) => {
           this.loaderService.hide();
           this.toastr.error(err.error.message, 'Error');
         }
-      })
+      });
     }
   }
 }
