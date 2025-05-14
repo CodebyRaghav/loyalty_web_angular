@@ -1,9 +1,4 @@
-// angular import
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
-
-// project import
-
-// third party
+import { Component, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
 import { NgApexchartsModule, ChartComponent, ApexOptions } from 'ng-apexcharts';
 
 @Component({
@@ -12,7 +7,7 @@ import { NgApexchartsModule, ChartComponent, ApexOptions } from 'ng-apexcharts';
   templateUrl: './bar-chart.component.html',
   styleUrl: './bar-chart.component.scss'
 })
-export class BarChartComponent implements OnInit {
+export class BarChartComponent implements OnChanges {
   // public props
   @ViewChild('chart') chart!: ChartComponent;
   chartOptions!: Partial<ApexOptions>;
@@ -24,12 +19,18 @@ export class BarChartComponent implements OnInit {
   // Constructor
   constructor() {
   }
-  
-  ngOnInit(): void {
-    
-    console.log("Earned List: ", this.earnedList);
-    console.log("Redeemed List: ", this.redeemedList);
-    console.log("Months List: ", this.monthsList);
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (
+      changes['earnedList'] || 
+      changes['redeemedList'] || 
+      changes['monthsList']
+    ) {
+      this.updateChart(); // ← Redraw the chart when input data changes
+    }
+  }
+
+  updateChart() {
     this.chartOptions = {
       series: [
         {
@@ -80,6 +81,5 @@ export class BarChartComponent implements OnInit {
         theme: 'light'
       }
     };
-    
   }
 }

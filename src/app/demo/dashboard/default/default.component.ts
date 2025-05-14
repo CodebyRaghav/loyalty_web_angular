@@ -12,6 +12,7 @@ import { UserHistoryService } from 'src/app/services/user-history-service/user-h
 import { FormBuilder } from '@angular/forms';
 import * as moment from 'moment';
 import { LoaderService } from 'src/app/services/loader-service/loader.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-default',
@@ -29,7 +30,7 @@ export class DefaultComponent implements OnInit {
   total_earning: number;
   total_redemption: number;
   datesError: boolean= false;
-  constructor(private fb: FormBuilder, private navRoute: Router, private analyticsSvc: UserHistoryService, private loaderService: LoaderService){}
+  constructor(private fb: FormBuilder, private navRoute: Router, private analyticsSvc: UserHistoryService, private loaderService: LoaderService, private toastr: ToastrService){}
 
   SearchDashboardForm = this.fb.group({
     start_date: [''],
@@ -61,6 +62,10 @@ export class DefaultComponent implements OnInit {
           });
           
         }
+      },
+      error: (err)=>{
+        this.loaderService.hide();
+        this.toastr.error(err.error.message, 'Error');
       }
     })
   }
@@ -85,82 +90,35 @@ export class DefaultComponent implements OnInit {
     if(!this.datesError){
       formVal.start_date = moment(formVal.start_date).format('YYYY-MM-DD');
       formVal.end_date = moment(formVal.end_date).format('YYYY-MM-DD');
-      console.log("FormVal: ", formVal);
       this.analyticsSvc.GetAnalytics(formVal).subscribe({
         next: (resp)=>{
           this.loaderService.hide();
           if(resp.status){
-            this.topUsersList = resp.data.top_users
+            this.totalEarned = resp.data.summary.total_earned;
+            this.totalRedeemed = resp.data.summary.total_redeemed;
+            this.total_earning = resp.data.summary.total_earning;
+            this.total_redemption = resp.data.summary.total_redemption;
+            this.topUsersList = resp.data.top_users;
+            resp.data.monthly_trend.forEach((element: any) => {
+              // this.earnedList.push(Number(element.earned));
+              // this.redeemedList.push(Number(element.redeemed));
+              // const formattedMonth = moment(element.month, 'YYYY-MM').format('MMM YY').toUpperCase();
+              // this.monthsList.push(formattedMonth);
+              this.earnedList = resp.data.monthly_trend.map((element: any) =>
+                Number(element.earned)
+              );
+              this.redeemedList = resp.data.monthly_trend.map((element: any) =>
+                Number(element.redeemed)
+              );
+              this.monthsList = resp.data.monthly_trend.map((element: any) =>
+                moment(element.month, 'YYYY-MM').format('MMM YY').toUpperCase()
+              );
+            });
           }
         }
       })
-    }
-
-    
+    } 
   }
-
-  // public method
-  // ListGroup = [
-  //   {
-  //     name: 'Bajaj Finery',
-  //     profit: '10% Profit',
-  //     invest: '$1839.00',
-  //     bgColor: 'bg-light-success',
-  //     icon: 'ti ti-chevron-up',
-  //     color: 'text-success'
-  //   },
-  //   {
-  //     name: 'TTML',
-  //     profit: '10% Loss',
-  //     invest: '$100.00',
-  //     bgColor: 'bg-light-danger',
-  //     icon: 'ti ti-chevron-down',
-  //     color: 'text-danger'
-  //   },
-  //   {
-  //     name: 'Reliance',
-  //     profit: '10% Profit',
-  //     invest: '$200.00',
-  //     bgColor: 'bg-light-success',
-  //     icon: 'ti ti-chevron-up',
-  //     color: 'text-success'
-  //   },
-  //   {
-  //     name: 'ATGL',
-  //     profit: '10% Loss',
-  //     invest: '$189.00',
-  //     bgColor: 'bg-light-danger',
-  //     icon: 'ti ti-chevron-down',
-  //     color: 'text-danger'
-  //   },
-  //   {
-  //     name: 'Stolon',
-  //     profit: '10% Profit',
-  //     invest: '$210.00',
-  //     bgColor: 'bg-light-success',
-  //     icon: 'ti ti-chevron-up',
-  //     color: 'text-success',
-  //     space: 'pb-0'
-  //   }
-  // ];
-
-  profileCard = [
-    {
-      style: 'bg-primary-dark text-white',
-      background: 'bg-primary',
-      value: '$203k',
-      text: 'Net Profit',
-      color: 'text-white',
-      value_color: 'text-white'
-    },
-    {
-      background: 'bg-warning',
-      avatar_background: 'bg-light-warning',
-      value: '$550K',
-      text: 'Total Revenue',
-      color: 'text-warning'
-    }
-  ];
 
   onUserHistory(){
     this.navRoute.navigate(['/user-history']);
