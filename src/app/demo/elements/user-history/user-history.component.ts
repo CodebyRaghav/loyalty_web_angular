@@ -47,7 +47,11 @@ export class UserHistoryComponent implements OnInit {
     private toastr: ToastrService,
     private searchSvc: UserHistoryService,
     private loaderService: LoaderService
-  ) {}
+  ) {
+    if (localStorage.getItem('role') == 'user') {
+      this.isMasterUser = true;
+    }
+  }
 
   SearchHistoryForm = this.fb.group({
     tran_type: [null],
@@ -78,15 +82,14 @@ export class UserHistoryComponent implements OnInit {
   });
 
   ngOnInit(): void {
-    if (localStorage.getItem('role') == 'user') {
-      this.isMasterUser = true;
-      let formVal = { user_hcode: localStorage.getItem('hcode') };
-      this.getUserHistory(formVal);
-    }
     if (this.isMasterUser) {
-      let formVal = { user_hcode: this.userHcode };
-      // formVal.;
-      this.getUserHistory(formVal);
+      if (localStorage.getItem('role') == 'user') {
+        let formVal = { user_hcode: localStorage.getItem('hcode') };
+        this.getUserHistory(formVal);
+      } else {
+        let formVal = { user_hcode: this.userHcode };
+        this.getUserHistory(formVal);
+      }
     } else {
       this.getUserHistory(this.SearchHistoryForm.value);
     }
@@ -146,6 +149,17 @@ export class UserHistoryComponent implements OnInit {
   closePopup(): void {
     this.showPopup = false;
     this.viewSummaryForm.reset();
+    if (this.isMasterUser) {
+      if (localStorage.getItem('role') == 'user') {
+        let formVal = { user_hcode: localStorage.getItem('hcode') };
+        this.getUserHistory(formVal);
+      } else {
+        let formVal = { user_hcode: this.userHcode };
+        this.getUserHistory(formVal);
+      }
+    } else {
+      this.getUserHistory(this.SearchHistoryForm.value);
+    }
     // this.selectedRow = null;
   }
 

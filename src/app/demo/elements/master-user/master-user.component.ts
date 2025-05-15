@@ -115,8 +115,6 @@ export class MasterUserComponent implements OnInit {
   }
 
   openPopup(row: any): void {
-    // this.selectedRow = row;
-    this.getTierList();
     this.editUserForm.patchValue({
       id: row.id,
       current_tier_name: row.current_tier_name,
@@ -156,6 +154,7 @@ export class MasterUserComponent implements OnInit {
           if (resp.status) {
             this.toastr.success(resp.message, 'Success');
             this.closePopup();
+            this.getHistoryList(this.filterUsersForm.value);
           } else {
             this.toastr.error(resp.message, 'Error');
           }
